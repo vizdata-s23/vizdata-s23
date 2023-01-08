@@ -1,0 +1,4 @@
+- source: project
+  netlify:
+    - id: c4603230-bf22-492f-a51a-02cca66b3a8f
+      url: 'https://vizdata.org'
