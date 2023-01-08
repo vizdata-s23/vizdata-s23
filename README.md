@@ -1,16 +1,15 @@
-# sta199-f22-1.github.io
+# Advanced Data Visualization
 
-Source code for the course website for STA 199 - Section 1 taught by Dr. Mine Çetinkaya-Rundel in Fall 2022 at Duke University.
+[![Netlify Status](https://api.netlify.com/api/v1/badges/c4603230-bf22-492f-a51a-02cca66b3a8f/deploy-status)](https://app.netlify.com/sites/vizdata-s23/deploys)
 
-## Website notes
+Course website for STA 313 - Advanced Data Visualization at Duke University, taught by Dr. Mine Çetinkaya-Rundel.
 
--   Process for updating schedule:
-    -   Add component to relevant directory (`slides`, `hw`, `labs`, etc.), render site and push.
-    -   Add link to component to <https://docs.google.com/spreadsheets/d/1GCwNNWDK0yJPBraWtfZ-tmtXJsgvkLhYTCVtk6c_6js/edit?usp=sharing>.
-    -   Render site again and push.
--   Primary color: `#325b74` (Pantone Midnight - Fall 2022)
+The website is live at [vizdata.org](http://www.vizdata.org/).
 
-## Attribution
+## Colors
 
--   This website design is based on [ESPM-157 by Carl Boettinger](https://espm-157.carlboettiger.info/), [STA 112 by Lucy D'Agostino McGowan](https://sta-112-f22.github.io/website/), and [PMAP 8521 by Andrew Heiss](https://evalf22.classes.andrewheiss.com/).
--   Materials are based on [Data Science in a Box](https://datasciencebox.org/) as well as on previous STA 199s taught by [Maria Tackett](https://maria-tackett.netlify.app/) and [Alex Fisher](https://stat.duke.edu/alexander-fisher).
+-   `#a493ba` - Glossy Grape
+-   `#f1de67` - Arylide Yellow
+-   `#464a53` - Charcoal
+-   `#ffffff` - White
+-   `#2A9BB7` - Blue Green
