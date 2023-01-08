@@ -1,0 +1,95 @@
+project:
+  type: website
+  output-dir: docs
+  resources:
+    - sta313-s23-syllabus.pdf
+
+website:
+  page-navigation: true
+  title: "STA 313"
+  description: "Homepage for STA 313 - Advanced Data Visualization at Duke University, Spring 2023."
+  site-url: "https://sta199-f22-1.github.io/"
+
+  repo-url: https://github.com/sta199-f22-1/sta199-f22-1.github.io/
+  repo-actions: [edit, issue]
+
+  open-graph: true
+  twitter-card:
+    creator: "@minebocek"
+    image: "images/twitter-card.png"
+
+  sidebar:
+    background: "#325b74" # Pantone Midnight - Fall 2022
+    logo: "images/logo.png"
+    pinned: true
+    align: center
+    tools:
+      - icon: github
+        href: https://github.com/sta199-f22-1/sta199-f22-1.github.io
+        text: "GitHub organization"
+      - icon: code-square
+        href: https://cmgr.oit.duke.edu/containers
+        text: "RStudio Containers"
+      - icon: person-fill
+        text: "Sakai"
+        menu:
+          - text: Gradescope
+            url: https://sakai.duke.edu/portal/site/d55dc1df-28e1-4637-be6f-6ba7c848fabf/page/e6e5b35b-ae85-4d98-8c56-ec6c559db637
+          - text: Gradebook
+            url: https://sakai.duke.edu/portal/site/d55dc1df-28e1-4637-be6f-6ba7c848fabf/tool/1d0ca2ac-6304-46b2-a6ac-de5a93f677b2/
+
+    style: docked
+    search: true
+    collapse-level: 1
+    contents:
+      - section: "Course information"
+        contents:
+          - href: course-overview.qmd
+            text: Overview
+          - href: course-syllabus.qmd
+            text: Syllabus
+          - href: course-support.qmd
+            text: Support
+          - href: course-team.qmd
+            text: Teaching team
+          - href: index.qmd
+            text: Schedule
+          - href: course-links.qmd
+            text: Useful links
+          - href: course-faq.qmd
+            text: FAQ
+      - section: "Computing"
+        contents:
+          - href: computing-access.qmd
+            text: Access
+          - href: computing-troubleshooting.qmd
+            text: Troubleshooting
+          - href: computing-cheatsheets.qmd
+            text: Cheatsheets
+      - section: "Project"
+        contents:
+          - href: project-description.qmd
+            text: Description
+          - href: project-tips-resources.qmd
+            text: Tips + resources
+
+  page-footer:
+    right: "This page is built with ❤️ and [Quarto](https://quarto.org/)."
+    left: "&copy; Copyright 2022, Mine Çetinkaya-Rundel"
+    background: "#325b74" # Pantone Midnight - Fall 2022
+
+format:
+  html:
+    theme:
+      light: [cosmo, style/sta199.scss]
+      dark: [cosmo, style/sta199.scss, style/dark.scss]
+    linkcolor: "#325b74" # Pantone Midnight - Fall 2022
+    toc: true
+    code-copy: true
+    code-overflow: wrap
+    mainfont: "Atkinson Hyperlegible"
+
+execute:
+  freeze: auto
+
+editor: visual

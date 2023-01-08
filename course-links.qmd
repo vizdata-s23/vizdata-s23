@@ -1,0 +1,37 @@
+---
+title: "Useful links"
+---
+
++------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
+| RStudio containers           | 🔗 on [Duke Container Manager](https://cmgr.oit.duke.edu/containers)                                                                                   |
++==============================+========================================================================================================================================================+
+| Course GitHub organization   | 🔗 on [GitHub](https://github.com/sta199-f22-1)                                                                                                        |
++------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Gradescope                   | 🔗 on [Sakai](https://sakai.duke.edu/portal/site/d55dc1df-28e1-4637-be6f-6ba7c848fabf/page/e6e5b35b-ae85-4d98-8c56-ec6c559db637)                       |
++------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Gradebook                    | 🔗 on [Sakai](https://sakai.duke.edu/portal/site/d55dc1df-28e1-4637-be6f-6ba7c848fabf/tool/1d0ca2ac-6304-46b2-a6ac-de5a93f677b2/)                      |
++------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Office hours                 | 🔗 on [Google docs](https://docs.google.com/spreadsheets/d/1Jgujcf6xor-63a_qfltwfMkHQtaBJHtUetd-rEpXljw/edit?usp=drive_web&ouid=113269240218009175773) |
++------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Class recording request form | 🔗 on [Google forms](https://forms.gle/1ckJVZU9unoxkaJ39)                                                                                              |
++------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Texbooks                     | 🔗 [R for Data Science](https://r4ds.hadley.nz/)                                                                                                       |
+|                              |                                                                                                                                                        |
+|                              | 🔗 [Introduction to Modern Statistics](https://openintro-ims.netlify.app/)                                                                             |
++------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Package documentation        | 🔗 ggplot2: [ggplot2.tidyverse.org](https://ggplot2.tidyverse.org/)                                                                                    |
+|                              |                                                                                                                                                        |
+|                              | 🔗 dplyr: [dplyr.tidyverse.org](https://dplyr.tidyverse.org/)                                                                                          |
+|                              |                                                                                                                                                        |
+|                              | 🔗 tidyr: [tidyr.tidyverse.org](https://tidyr.tidyverse.org/)                                                                                          |
+|                              |                                                                                                                                                        |
+|                              | 🔗 forcats: [forcats.tidyverse.org](https://forcats.tidyverse.org/)                                                                                    |
+|                              |                                                                                                                                                        |
+|                              | 🔗 stringr: [stringr.tidyverse.org](https://stringr.tidyverse.org/)                                                                                    |
+|                              |                                                                                                                                                        |
+|                              | 🔗 lubridate: [lubridate.tidyverse.org](https://lubridate.tidyverse.org/)                                                                              |
+|                              |                                                                                                                                                        |
+|                              | 🔗 readr: [readr.tidyverse.org](https://readr.tidyverse.org/)                                                                                          |
+|                              |                                                                                                                                                        |
+|                              | 🔗 readxl: [readxl.tidyverse.org](https://readxl.tidyverse.org/)                                                                                       |
++------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+

@@ -1,0 +1,14 @@
+institute: "Duke University <br> STA 199 - Fall 2022"
+author: "Dr. Mine Çetinkaya-Rundel"
+footer: "[🔗 sta199-f22-1.github.io](https://sta199-f22-1.github.io/)"
+logo: "images/logo.png"
+format:
+  revealjs:
+    theme: slides.scss
+    transition: fade
+    slide-number: true
+    chalkboard: true
+editor: visual
+execute:
+  freeze: auto
+  echo: true

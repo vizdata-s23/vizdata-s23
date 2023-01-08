@@ -1,0 +1,118 @@
+---
+title: "STA 199: Introduction to Data Science"
+subtitle: "Section 1 - Dr. Mine Çetinkaya-Rundel"
+execute:
+  freeze: false
+---
+
+This page contains an outline of the topics, content, and assignments for the semester.
+Note that this schedule will be updated as the semester progresses and the timeline of topics and assignments might be updated throughout the semester.
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+library(googlesheets4)
+library(gt)
+library(tidyverse)
+gs4_deauth()
+d <- read_sheet("https://docs.google.com/spreadsheets/d/1GCwNNWDK0yJPBraWtfZ-tmtXJsgvkLhYTCVtk6c_6js/edit?usp=sharing", sheet = "sec1-mine")
+```
+
+::: column-screen-right
+```{r, echo = FALSE}
+d |>
+  mutate(
+    date = as.Date(date),
+    week = ifelse(is.na(week), "", week)
+  ) |>
+  gt() |>
+  text_transform(cells_body(columns = c(prepare)),
+    fn = function(x) {
+      ifelse(is.na(x), fontawesome::fa("book", fill_opacity = 0.1),
+        glue::glue("<a href = {x}>{fontawesome::fa('book')}</a>")
+      )
+    }
+  ) |>
+  text_transform(cells_body(columns = c(slides)),
+    fn = function(x) {
+      ifelse(is.na(x), fontawesome::fa("laptop", fill_opacity = 0.1),
+        glue::glue("<a href = {x}>{fontawesome::fa('laptop')}</a>")
+      )
+    }
+  ) |>
+  text_transform(cells_body(columns = c(ae)),
+    fn = function(x) {
+      ifelse(is.na(x), fontawesome::fa("users", fill_opacity = 0.1),
+        glue::glue("<a href = {x}>{fontawesome::fa('users')}</a>")
+      )
+    }
+  ) |>
+  text_transform(cells_body(columns = c(ae_sa)),
+    fn = function(x) {
+      ifelse(is.na(x), fontawesome::fa("key", fill_opacity = 0.1),
+        glue::glue("<a href = {x}>{fontawesome::fa('key')}</a>")
+      )
+    }
+  ) |>
+  text_transform(cells_body(columns = c(hw)),
+    fn = function(x) {
+      ifelse(is.na(x), fontawesome::fa("keyboard", fill_opacity = 0.1),
+        glue::glue("<a href = {x}>{fontawesome::fa('keyboard')}</a>")
+      )
+    }
+  ) |>
+  text_transform(cells_body(columns = c(hw_sa)),
+    fn = function(x) {
+      ifelse(is.na(x), fontawesome::fa("key", fill_opacity = 0.1),
+        glue::glue("<a href = {x}>{fontawesome::fa('key')}</a>")
+      )
+    }
+  ) |>
+  text_transform(cells_body(columns = c(lab)),
+    fn = function(x) {
+      ifelse(is.na(x), fontawesome::fa("users-rectangle", fill_opacity = 0.1),
+        glue::glue("<a href = {x}>{fontawesome::fa('users-rectangle')}</a>")
+      )
+    }
+  ) |>
+  text_transform(cells_body(columns = c(lab_sa)),
+    fn = function(x) {
+      ifelse(is.na(x), fontawesome::fa("key", fill_opacity = 0.1),
+        glue::glue("<a href = {x}>{fontawesome::fa('key')}</a>")
+      )
+    }
+  ) |>
+  text_transform(cells_body(columns = c(exam)),
+    fn = function(x) {
+      ifelse(is.na(x), fontawesome::fa("file-circle-check", fill_opacity = 0.1),
+        glue::glue("<a href = {x}>{fontawesome::fa('file-circle-check')}</a>")
+      )
+    }
+  ) |>
+  text_transform(cells_body(columns = c(project)),
+    fn = function(x) {
+      ifelse(is.na(x), fontawesome::fa("users", fill_opacity = 0.1),
+        glue::glue("<a href = {x}>{fontawesome::fa('users')}</a>")
+      )
+    }
+  ) |>
+  fmt_date(date, date_style = 30) |>
+  sub_missing(columns = c(date, what, topic, notes), missing_text = "") |>
+  cols_align(
+    align = "center", 
+    columns = c(week, dow, prepare, slides, ae, ae_sa, hw, hw_sa, lab, lab_sa, exam, project)
+    ) |>
+  cols_align(
+    align = "left", 
+    columns = c(date, what, topic, notes)
+    ) |>
+  tab_style(
+    style = cell_borders(
+      sides = "right",
+      color = "#D3D3D3",
+      style = "solid"
+    ),
+    locations = cells_body(
+      columns = c(date, topic, prepare, ae_sa, hw_sa, lab_sa, exam, project)
+    )
+  )
+```
+:::

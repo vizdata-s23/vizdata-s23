@@ -1,0 +1,373 @@
+[
+  {
+    "objectID": "course-links.html",
+    "href": "course-links.html",
+    "title": "Useful links",
+    "section": "",
+    "text": "RStudio containers\n🔗 on Duke Container Manager\n\n\n\n\nCourse GitHub organization\n🔗 on GitHub\n\n\nGradescope\n🔗 on Sakai\n\n\nGradebook\n🔗 on Sakai\n\n\nOffice hours\n🔗 on Google docs\n\n\nClass recording request form\n🔗 on Google forms\n\n\nTexbooks\n🔗 R for Data Science\n🔗 Introduction to Modern Statistics\n\n\nPackage documentation\n🔗 ggplot2: ggplot2.tidyverse.org\n🔗 dplyr: dplyr.tidyverse.org\n🔗 tidyr: tidyr.tidyverse.org\n🔗 forcats: forcats.tidyverse.org\n🔗 stringr: stringr.tidyverse.org\n🔗 lubridate: lubridate.tidyverse.org\n🔗 readr: readr.tidyverse.org\n🔗 readxl: readxl.tidyverse.org"
+  },
+  {
+    "objectID": "prepare/08-30.html",
+    "href": "prepare/08-30.html",
+    "title": "Prepare",
+    "section": "",
+    "text": "Join the course Slack using the invitation link in your email.\nReserve a STA 198-199 container at https://cmgr.oit.duke.edu/containers."
+  },
+  {
+    "objectID": "project-tips-resources.html",
+    "href": "project-tips-resources.html",
+    "title": "Project tips + resources",
+    "section": "",
+    "text": "The project is very open ended. For instance, in creating a compelling visualization(s) of your data in R, there is no limit on what tools or packages you may use. You do not need to visualize all of the data at once. A single high quality visualization will receive a much higher grade than a large number of poor quality visualizations.\nBefore you finalize your write up, make sure the printing of code chunks is turned off with the option echo: false. In addition to code chunks, ensure all messages are turned off with the options warning: false and message: false.\nFinally, pay attention to details in your write-up and presentation. Neatness, coherency, and clarity will count."
+  },
+  {
+    "objectID": "project-tips-resources.html#suppress-code-and-warnings",
+    "href": "project-tips-resources.html#suppress-code-and-warnings",
+    "title": "Project tips + resources",
+    "section": "Suppress code and warnings",
+    "text": "Suppress code and warnings\n\nInclude the following in the YAML of your report.qmd to suppress all code, warnings, and other messages.\n\nexecute:\n  echo: false\n  warning: false"
+  },
+  {
+    "objectID": "project-tips-resources.html#headers",
+    "href": "project-tips-resources.html#headers",
+    "title": "Project tips + resources",
+    "section": "Headers",
+    "text": "Headers\nUse headers to clearly label each section. Make sure there is a space between the previous line and the header. Use appropriate header levels."
+  },
+  {
+    "objectID": "project-tips-resources.html#references",
+    "href": "project-tips-resources.html#references",
+    "title": "Project tips + resources",
+    "section": "References",
+    "text": "References\nInclude all references in a section called “References” at the end of the report. This course does not have specific requirements for formatting citations and references. Optional: Use Quarto’s citation support for generating your reference. See Citations & Footnotes on the Quarto documentation for more on that."
+  },
+  {
+    "objectID": "project-tips-resources.html#appendix",
+    "href": "project-tips-resources.html#appendix",
+    "title": "Project tips + resources",
+    "section": "Appendix",
+    "text": "Appendix\nIf you have additional work that does not fit or does not belong in the body of the report, you may put it at the end of the document in section called “Appendix”. The items in the appendix should be properly labeled. The appendix should only be for additional material. The reader should be able to fully understand your report without viewing content in the appendix. We will not grade your appendix."
+  },
+  {
+    "objectID": "project-tips-resources.html#resize-figures",
+    "href": "project-tips-resources.html#resize-figures",
+    "title": "Project tips + resources",
+    "section": "Resize figures",
+    "text": "Resize figures\nResize plots and figures, so you have more space for the narrative. Resize individual figures: Set fig-width and fig-height in chunk options, e.g.,\n#| echo: fenced\n#| label: plot1\n#| fig-height: 3\n#| fig-width: 5\nreplacing plot1 with a meaningful label and the height and width with values appropriate for your write up.\nResize all figures: Include the fig-height and fig-width options in the YAML header as shown below:\nexecute:\n  fig-height: 3\n  fig-width: 5\nReplace the height and width values with values appropriate for your write up."
+  },
+  {
+    "objectID": "project-tips-resources.html#arranging-plots",
+    "href": "project-tips-resources.html#arranging-plots",
+    "title": "Project tips + resources",
+    "section": "Arranging plots",
+    "text": "Arranging plots\nArrange plots in a grid, instead of one after the other. This is especially useful when displaying plots for exploratory data analysis and to check assumptions.\nIf you’re using ggplot2 functions, the patchwork package makes it easy to arrange plots in a grid.\nMore to be added soon…"
+  },
+  {
+    "objectID": "computing-access.html",
+    "href": "computing-access.html",
+    "title": "Computing access",
+    "section": "",
+    "text": "To access computing resources for the introductory data science courses offered by the Duke University Department of Statistical Science, go to the Duke Container Manager website, cmgr.oit.duke.edu/containers.\nIf this is your first time accessing the containers, click on reserve STA198-199 on the Reservations available menu on the right. You only need to do this once, and when you do, you’ll see this container moved to the My reservations menu on the left.\nNext, click on STA198-199 under My reservations to access the RStudio instance you’ll use for the course."
+  },
+  {
+    "objectID": "course-overview.html",
+    "href": "course-overview.html",
+    "title": "Course overview",
+    "section": "",
+    "text": "Intro to data science and statistical thinking. Learn to explore, visualize, and analyze data to understand natural phenomena, investigate patterns, model outcomes, and make predictions, and do so in a reproducible and shareable manner. Gain experience in data wrangling and munging, exploratory data analysis, predictive modeling, and data visualization, and effective communication of results. Work on problems and case studies inspired by and based on real-world questions and data. The course will focus on the R statistical computing language. No statistical or computing background is necessary. Not open to students who have taken a 100-level Statistical Science course, Statistical Science 210, or a Statistical Science course numbered 300 or above."
+  },
+  {
+    "objectID": "course-overview.html#class-meetings",
+    "href": "course-overview.html#class-meetings",
+    "title": "Course overview",
+    "section": "Class meetings",
+    "text": "Class meetings\n\n\n\n\n\n\n\n\nMeeting\nLocation\nTime\n\n\n\n\nLecture\nFrench Science 2231\nTue & Thur 10:15 - 11:30 am\n\n\nLab 01\nPerkins Link 087 (Classroom 3)\nMon 10:15 - 11:30 am\n\n\nLab 02\nPerkins Link 087 (Classroom 3)\nMon 1:45 - 3:00 pm\n\n\nLab 03\nPerkins Link 087 (Classroom 3)\nMon 3:30 - 4:45 pm\n\n\nLab 04\nPerkins Link 087 (Classroom 3)\nMon 5:15 - 6:30 pm\n\n\nLab 05\nPerkins Link 087 (Classroom 3)\nMon 12:00 - 1:15 pm"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "STA 199: Introduction to Data Science",
+    "section": "",
+    "text": "This page contains an outline of the topics, content, and assignments for the semester. Note that this schedule will be updated as the semester progresses and the timeline of topics and assignments might be updated throughout the semester.\n\n\n\n\n\n\n\n\n\n\n  \n  \n    \n      week\n      dow\n      date\n      what\n      topic\n      prepare\n      slides\n      ae\n      ae_sa\n      hw\n      hw_sa\n      lab\n      lab_sa\n      exam\n      project\n      notes\n    \n  \n  \n    1\nM\nAug 29\nLab\nNo lab\n\n\n\n\n\n\n\n\n\n\n\n    \nT\nAug 30\nLec 1\nWelcome to STA 199\n\n\n\n\n\n\n\n\n\n\n\n    \nTh\nSep 1\nLec 2\nMeet the toolkit\n\n\n\n\n\n\n\n\n\n\n\n    2\nM\nSep 5\nLab 0\nHello R!\n\n\n\n\n\n\n\n\n\n\nRelease: Lab 0\n    \nT\nSep 6\nLec 3\nGrammar of graphics\n\n\n\n\n\n\n\n\n\n\n\n    \nTh\nSep 8\nLec 4\nVisualizing various types of data\n\n\n\n\n\n\n\n\n\n\nRelease: HW 1\n    \nF\nSep 9\n\n\n\n\n\n\n\n\n\n\n\n\nDue: Lab 0 + AE 1\n    \nSu\nSep 11\n\n\n\n\n\n\n\n\n\n\n\n\nDue: AE 2\n    3\nM\nSep 12\nLab 1\nData visualization\n\n\n\n\n\n\n\n\n\n\nRelease: Lab 1\n    \nT\nSep 13\nLec 5\nGrammar of data wrangling\n\n\n\n\n\n\n\n\n\n\n\n    \nTh\nSep 15\nLec 6\nWorking with multiple data frames\n\n\n\n\n\n\n\n\n\n\nDue: HW 1 / Release: HW 2\n    \nF\nSep 16\n\n\n\n\n\n\n\n\n\n\n\n\nDue: Lab 1\n    4\nM\nSep 19\nLab 2\nData wrangling\n\n\n\n\n\n\n\n\n\n\nRelease: Lab 2\n    \nT\nSep 20\nLec 7\nTidying data\n\n\n\n\n\n\n\n\n\n\n\n    \nTh\nSep 22\nLec 8\nData types and classes\n\n\n\n\n\n\n\n\n\n\nDue HW 2\n    \nF\nSep 23\n\n\n\n\n\n\n\n\n\n\n\n\nDue: Lab 2\n    5\nM\nSep 26\nLab 3\nData tidying\n\n\n\n\n\n\n\n\n\n\nRelease: Lab 3\n    \nT\nSep 27\nLec 9\nImporting and recoding data\n\n\n\n\n\n\n\n\n\n\n\n    \nTh\nSep 29\nLec 10\nExam 1 Review\n\n\n\n\n\n\n\n\n\n\nRelease: Exam 1 at 12pm\n    \nF\nSep 30\n\n\n\n\n\n\n\n\n\n\n\n\nDue: Lab 3\n    6\nM\nOct 3\nLab\nNo lab - Work on Exam 1\n\n\n\n\n\n\n\n\n\n\nDue: Exam 1 at 2pm\n    \nT\nOct 4\nLec 11\nData science ethics - Misrepresentation\n\n\n\n\n\n\n\n\n\n\n\n    \nTh\nOct 6\nLec 12\nData science ethics - Algorithmic bias + data privacy\n\n\n\n\n\n\n\n\n\n\nRelease: HW 3\n    7\nM\nOct 10\nLab\nNo lab - Fall break\n\n\n\n\n\n\n\n\n\n\n\n    \nT\nOct 11\nLecture\nNo Lec - Fall break\n\n\n\n\n\n\n\n\n\n\n\n    \nTh\nOct 13\nLec 13\nWeb scraping\n\n\n\n\n\n\n\n\n\n\nDue: HW 3\n    8\nM\nOct 17\nLab\nWork on project proposal\n\n\n\n\n\n\n\n\n\n\n\n    \nT\nOct 18\nLec 14\nFunctions + iteration\n\n\n\n\n\n\n\n\n\n\n\n    \nTh\nOct 20\nLec 15\nThe language of models\n\n\n\n\n\n\n\n\n\n\n\n    \nF\nOct 21\n\n\n\n\n\n\n\n\n\n\n\n\nDue: Project proposal\n    9\nM\nOct 24\nLab 4\nProbability + Simpson's Paradox\n\n\n\n\n\n\n\n\n\n\nRelease: Lab 4\n    \nT\nOct 25\nLec 16\nModels with a single predictor\n\n\n\n\n\n\n\n\n\n\n\n    \nTh\nOct 27\nLec 17\nModels with multiple predictors\n\n\n\n\n\n\n\n\n\n\nRelease: HW 4\n    \nF\nOct 28\n\n\n\n\n\n\n\n\n\n\n\n\nDue: Lab 4\n    10\nM\nOct 31\nLab 5\nPredicting a numerical outcome\n\n\n\n\n\n\n\n\n\n\nRelease: Lab 5\n    \nT\nNov 1\nLec 18\nModels with multiple predictors + Overfitting\n\n\n\n\n\n\n\n\n\n\n\n    \nTh\nNov 3\nLec 19\nLogistic regression\n\n\n\n\n\n\n\n\n\n\nDue: HW 4 / Release: HW 5\n    \nF\nNov 4\n\n\n\n\n\n\n\n\n\n\n\n\nDue: Lab 5 / Release: HW 6\n    \nS\nNov 5\n\n\n\n\n\n\n\n\n\n\n\n\nDue: Team peer evaluations 1\n    11\nM\nNov 7\nLab\nWork on project draft\n\n\n\n\n\n\n\n\n\n\n\n    \nT\nNov 8\nLec 20\nQuantifying uncertainty with bootstrap intervals\n\n\n\n\n\n\n\n\n\n\n\n    \nTh\nNov 10\nLec 21\nHypothesis testing via simulation\n\n\n\n\n\n\n\n\n\n\nDue: HW 5\n    \nF\nNov 11\n\n\n\n\n\n\n\n\n\n\n\n\nDue: Project draft 1\n    12\nM\nNov 14\nLab 6\nPrediction + Bootstrapping\n\n\n\n\n\n\n\n\n\n\nRelease: Lab 6\n    \nT\nNov 15\nLec 22\nInference overview\n\n\n\n\n\n\n\n\n\n\n\n    \nTh\nNov 17\nLec 23\nExam 2 Review\n\n\n\n\n\n\n\n\n\n\nRelease: Exam 2 at 12pm\n    \nF\nNov 18\n\n\n\n\n\n\n\n\n\n\n\n\nDue: Lab 6\n    13\nM\nNov 21\nLab\nNo lab - Work on Exam 2\n\n\n\n\n\n\n\n\n\n\nDue: Exam 2 at 2pm\n    \nT\nNov 22\nLec 24\nNo lecture - Work on projects\n\n\n\n\n\n\n\n\n\n\n\n    \nTh\nNov 24\nLecture\nNo lecture - Thanksgiving\n\n\n\n\n\n\n\n\n\n\n\n    \nF\nNov 25\n\n\n\n\n\n\n\n\n\n\n\n\nRelease: Exam retake (optional)\n    \nSu\nNov 27\n\n\n\n\n\n\n\n\n\n\n\n\nDue: Project draft 2 (optional)\n    14\nM\nNov 28\nLab\nWork on project peer review\n\n\n\n\n\n\n\n\n\n\nDue: Project peer review\n    \nT\nNov 29\nLec 25\nCommunicating data science results effectively\n\n\n\n\n\n\n\n\n\n\nDue: Team peer evaluations 2\n    \nTh\nDec 1\nLec 26\nCustomizing Quarto reports and presentations\n\n\n\n\n\n\n\n\n\n\n\n    15\nM\nDec 5\nLab\nProject presentations\n\n\n\n\n\n\n\n\n\n\n\n    \nT\nDec 6\nLec 25\nLooking further: Text analysis\n\n\n\n\n\n\n\n\n\n\n\n    \nTh\nDec 8\nLec 26\nLooking further: Interactive web applications with Shiny\n\n\n\n\n\n\n\n\n\n\nDue: Project everything\n    \nF\nDec 9\n\n\n\n\n\n\n\n\n\n\n\n\nDue: HW 6 / Statistics experience\n    16\nTh\nDec 15\n\n\n\n\n\n\n\n\n\n\n\n\nDue: Exam retake (optional)"
+  },
+  {
+    "objectID": "course-team.html",
+    "href": "course-team.html",
+    "title": "Teaching team",
+    "section": "",
+    "text": "Dr. Mine Çetinkaya-Rundel (she/her) is Professor of the Practice and Director of Undergraduate Studies at the Department of Statistical Science at Duke University. Mine’s work focuses on innovation in statistics and data science pedagogy, with an emphasis on computing, reproducible research, student-centered learning, and open-source education as well as pedagogical approaches for enhancing retention of women and under-represented minorities in STEM. Mine also works with RStudio as a Developer Educator.\n\n\n\nOffice hours\nLocation\n\n\n\n\nTue 2 pm - 4 pm\nOld Chem 213"
+  },
+  {
+    "objectID": "course-team.html#teaching-assistants",
+    "href": "course-team.html#teaching-assistants",
+    "title": "Teaching team",
+    "section": "Teaching assistants",
+    "text": "Teaching assistants\n\n\n\n\n\n\n\n\nName\nRole\nLab section\n\n\n\n\nBora Jin\nTA / Course organizer\nM 10:15AM - 11:30AM\n\n\nJordan Bryan\nHead TA\nM 1:45PM - 3:00PM\n\n\nRichard Fremgen\nTA\nM 3:30PM - 4:45PM\n\n\nLeah Johnson\nTA\nM 5:15PM - 6:30PM\n\n\nAlison Reynolds\nTA\nM 12:00PM - 1:15PM\n\n\nFoxx Hart\nTA\n\n\n\nAlonso Guerrero Castaneda\nTA\n\n\n\nJasmine Wen\nTA\n\n\n\nBrooke Harmon\nTA\n\n\n\nAmber Potter\nTA\n\n\n\nOne Chowdhury\nTA\n\n\n\n\nFor office hours, please see STA 199 - Ultimate Office Hours sheet."
+  },
+  {
+    "objectID": "course-faq.html",
+    "href": "course-faq.html",
+    "title": "FAQ",
+    "section": "",
+    "text": "Go to your Files tab, check the box next to the file you want to download, then click on the blue gear icon on the Files tab to reveal the drop down menu, and select Export… If you have selected multiple files to export, RStudio will zip them up into a single zip file for you. If you’ve selected just a single file, it will only download that. The downloaded file will go to wherever files you download off the internet goes on your computer (usually your Downloads folder)."
+  },
+  {
+    "objectID": "course-faq.html#how-can-i-submit-my-assignment-to-gradescope",
+    "href": "course-faq.html#how-can-i-submit-my-assignment-to-gradescope",
+    "title": "FAQ",
+    "section": "How can I submit my assignment to Gradescope?",
+    "text": "How can I submit my assignment to Gradescope?\nThe instructions for submitting your assignment to Gradescope can be found here. In a nutshell, you’ll upload your PDF and them mark the page(s) where each question can be found. It’s OK if a question spans multiple pages, just mark them all. It’s also OK if a page includes multiple questions."
+  },
+  {
+    "objectID": "course-faq.html#can-i-use-a-local-install-of-r-and-rstudio-instead-of-using-the-rstudio-containers",
+    "href": "course-faq.html#can-i-use-a-local-install-of-r-and-rstudio-instead-of-using-the-rstudio-containers",
+    "title": "FAQ",
+    "section": "Can I use a local install of R and RStudio instead of using the RStudio containers?",
+    "text": "Can I use a local install of R and RStudio instead of using the RStudio containers?\nThe short answer is, I’d rather you didn’t, to save yourself some headache. But, the long answer is, sure! But you will need to install a specific versions of R and RStudio for everything to work as expected. You will also need to install the R packages we’re using as well as have Git installed on your computer. These are not extremely challenging things to get right, but they are not trivial either, particularly on certain operating systems. Myself and the TAs are always happy to provide help with any computational questions when you’re working in the containers we have provided for you. If you’re working on your local setup, we can’t guarantee being able to resolve your issues, though we’re happy to try.\nIf you want to take this path, here is what you need to do:\n\nDownload and install R 4.2.1: https://cran.r-project.org/\nDownload and install the preview build of RStudio: https://www.rstudio.com/products/rstudio/download/preview/\nInstall Git: https://happygitwithr.com/install-git.html\nInstall any necessary packages with install.packages(\"___\")\n\nAnd I’d like to reiterate again that successful installation of these software is not a learning goal of this course. So if any of this seems tedious or intimidating in any way, just use the computing environment we have set up for you. More on that here."
+  },
+  {
+    "objectID": "computing-cheatsheets.html",
+    "href": "computing-cheatsheets.html",
+    "title": "R cheatsheets",
+    "section": "",
+    "text": "The following cheatsheets come from https://www.rstudio.com/resources/cheatsheets. We haven’t covered every function and functionality listed on them, but you might still find them useful as references."
+  },
+  {
+    "objectID": "course-support.html",
+    "href": "course-support.html",
+    "title": "Course support",
+    "section": "",
+    "text": "Most of you will need help at some point and we want to make sure you can identify when that is without getting too frustrated and feel comfortable seeking help."
+  },
+  {
+    "objectID": "course-support.html#lectures-and-labs",
+    "href": "course-support.html#lectures-and-labs",
+    "title": "Course support",
+    "section": "Lectures and labs",
+    "text": "Lectures and labs\nIf you have a question during lecture or lab, feel free to ask it! There are likely other students with the same question, so by asking you will create a learning opportunity for everyone."
+  },
+  {
+    "objectID": "course-support.html#office-hours",
+    "href": "course-support.html#office-hours",
+    "title": "Course support",
+    "section": "Office hours",
+    "text": "Office hours\nThe teaching team is here to help you be successful in the course. You are encouraged to attend office hours during the times posted on the home page to ask questions about the course content and assignments. A lot of questions are most effectively answered in-person, so office hours are a valuable resource. I encourage each and every one of you to take advantage of this resource! Make a pledge to stop by office hours at least once during the first three weeks of class. If you truly have no questions to ask, just stop by and say hi and introduce yourself. You can find a list of everyone’s office hours here."
+  },
+  {
+    "objectID": "course-support.html#slack",
+    "href": "course-support.html#slack",
+    "title": "Course support",
+    "section": "Slack",
+    "text": "Slack\nHave a question that can’t wait for office hours? Prefer to write out your question in detail rather than asking in person? The course Slack is the best venue for these! There is a chance another student has already asked a similar question, so please check the other posts on Slack before asking a new question. If you know the answer to a question that is posted, I encourage you to respond!"
+  },
+  {
+    "objectID": "course-support.html#email",
+    "href": "course-support.html#email",
+    "title": "Course support",
+    "section": "Email",
+    "text": "Email\nPlease refrain from emailing any course content questions (those should go to Slack), and only use email for questions about personal matters that may not be appropriate for the public course forum (e.g., illness, accommodations, etc.). For such matters, you may email Dr. Mine Çetinkaya-Rundel at mc301@duke.edu.\nIf there is a question that’s not appropriate for the public forum, you are welcome to email me directly. If you email me, please include “STA 199” in the subject line. Barring extenuating circumstances, I will respond to STA 199 emails within 48 hours Monday - Friday. Response time may be slower for emails sent Friday evening - Sunday."
+  },
+  {
+    "objectID": "course-support.html#academic-support",
+    "href": "course-support.html#academic-support",
+    "title": "Course support",
+    "section": "Academic support",
+    "text": "Academic support\nThere are times may need help with the class that is beyond what can be provided by the teaching team. In those instances, I encourage you to visit the Academic Resource Center. The Academic Resource Center (ARC) offers free services to all students during their undergraduate careers at Duke. Services include Learning Consultations, Peer Tutoring and Study Groups, ADHD/LD Coaching, Outreach Workshops, and more. Because learning is a process unique to every individual, they work with each student to discover and develop their own academic strategy for success at Duke. Contact the ARC to schedule an appointment. Undergraduates in any year, studying any discipline can benefit! Contact ARC@duke.edu, 919-684-5917."
+  },
+  {
+    "objectID": "course-support.html#mental-health-and-wellness",
+    "href": "course-support.html#mental-health-and-wellness",
+    "title": "Course support",
+    "section": "Mental health and wellness",
+    "text": "Mental health and wellness\nIf your mental health concerns and/or stressful events negatively affect your daily emotional state, academic performance, or ability to participate in your daily activities, many resources are available to help you through difficult times.  Duke encourages all students to access these resources.\n\nCAPS: Duke Counseling & Pyschological Services (CAPS) helps Duke Students enhance strengths and develop abilities to successfully live, grow and learn in their personal and academic lives. CAPS recognizes that we are living in unprecedented times and that the changes, challenges and stressors brought on by the COVID-19 pandemic have impacted everyone, often in ways that are tax our well-being. CAPS offers many services to Duke undergraduate students, including brief individual and group counseling, couples counseling and more. CAPS staff also provides outreach to student groups, particularly programs supportive of at-risk populations, on a wide range of issues impacting them in various aspects of campus life. CAPS provides services to students via Telehealth. To initiate services, you can contact their front desk at 919-660-1000.\nDuWell: (919) 681-8421, provides Moments of Mindfulness (stress management and resilience building) and meditation programming to assist students in developing a daily emotional well-being practice. To see schedules for programs please see https://studentaffairs.duke.edu/duwell. All are welcome and no experience necessary.\nDukeReach: Provides comprehensive outreach services to identify and support students in managing all aspects of well-being. If you have concerns about a student’s behavior or health visit the website for resources and assistance: http://studentaffairs.duke.edu/dukereach.\nTimelyCare: (formerly known as Blue Devils Care) An online platform that is a convenient, confidential, and free way for Duke students to receive 24/7 mental health support through TalkNow and scheduled counseling: https://bluedevilscare.duke.edu.\nTwo-Click Support: Duke Student Government and DukeReach partnership that connects students to help in just two clicks: https://bit.ly/TwoClickSupport."
+  },
+  {
+    "objectID": "course-support.html#course-costs",
+    "href": "course-support.html#course-costs",
+    "title": "Course support",
+    "section": "Course costs",
+    "text": "Course costs\n\nTextbooks: The textbooks for this course are freely available on the web.\nLaptops: Each student is expected to have a laptop they can bring to each lecture and lab.\n\nIf you are having difficulty with costs associated with this course, here are some resources:\n\nContact the financial aid office (whether or not you are on aid). They have loans and resources for connecting students with programs on campus that might be able to help alleviate these costs.\nDukeLIFE offers course materials assistance for eligible students. Please note that students who are eligible for DukeLIFE benefits are notified prior to the start of the semester; program resources are limited."
+  },
+  {
+    "objectID": "course-support.html#assistance-with-zoom-or-sakai",
+    "href": "course-support.html#assistance-with-zoom-or-sakai",
+    "title": "Course support",
+    "section": "Assistance with Zoom or Sakai",
+    "text": "Assistance with Zoom or Sakai\nFor technical help with Sakai or Zoom, contact the Duke OIT Service Desk at oit.duke.edu/help. You can also access the self-service help documentation for Zoom here and for Sakai here.\nNote that we will be making minimal use of Sakai in this course (primarily for announcements and grade book). All assignment submission will take place on GitHub and conversation on Slack.\nZoom will be used for online office hours as well as as a backup option should we need to hold the course online instead of in person."
+  },
+  {
+    "objectID": "project-description.html",
+    "href": "project-description.html",
+    "title": "Project description",
+    "section": "",
+    "text": "Proposal due Fri, Oct 21\nDraft 1 due Fri, Nov 11\nDraft 2 due Sun, Nov 27 (optional)\nPeer review due Mon, Nov 28\nPresentation + slides due Mon, Dec 5\nFinal report and final GitHub repo due Thu, Dec 8"
+  },
+  {
+    "objectID": "project-description.html#criteria-for-datasets",
+    "href": "project-description.html#criteria-for-datasets",
+    "title": "Project description",
+    "section": "Criteria for datasets",
+    "text": "Criteria for datasets\nThe data sets should meet the following criteria:\n\nAt least 500 observations\nAt least 8 columns\nAt least 6 of the columns must be useful and unique explanatory variables.\n\nIdentifier variables such as “name”, “social security number”, etc. are not useful explanatory variables.\nIf you have multiple columns with the same information (e.g. “state abbreviation” and “state name”), then they are not unique explanatory variables.\n\nYou may not use data that has previously been used in any course materials, or any derivation of data that has been used in course materials.\nWe strongly recommend curating at least one of your datasets via web scraping.\n\nPlease ask a member of the teaching team if you’re unsure whether your data set meets the criteria.\nIf you set your hearts on a dataset that has fewer observations or variables than what’s suggested here, that might still be ok; use these numbers as guidance for a successful proposal, not as minimum requirements."
+  },
+  {
+    "objectID": "project-description.html#resources-for-datasets",
+    "href": "project-description.html#resources-for-datasets",
+    "title": "Project description",
+    "section": "Resources for datasets",
+    "text": "Resources for datasets\nYou can find data wherever you like, but here are some recommendations to get you started. You shouldn’t feel constrained to datasets that are already in a tidy format, you can start with data that needs cleaning and tidying, scrape data off the web, or collect your own data.\n\nAwesome public datasets\nBikeshare data portal\nCDC\nData.gov\nData is Plural\nDurham Open Data Portal\nEdinburgh Open Data\nElection Studies\nEuropean Statistics\nCORGIS: The Collection of Really Great, Interesting, Situated Datasets\nGeneral Social Survey\nGoogle Dataset Search\nHarvard Dataverse\nInternational Monetary Fund\nIPUMS survey data from around the world\nLos Angeles Open Data\nNHS Scotland Open Data\nNYC OpenData\nOpen access to Scotland’s official statistics\nPew Research\nPRISM Data Archive Project\nStatistics Canada\nThe National Bureau of Economic Research\nUCI Machine Learning Repository\nUK Government Data\nUNICEF Data\nUnited Nations Data\nUnited Nations Statistics Division\nUS Census Data\nUS Government Data\nWorld Bank Data\nYouth Risk Behavior Surveillance System (YRBSS)"
+  },
+  {
+    "objectID": "project-description.html#proposal-components",
+    "href": "project-description.html#proposal-components",
+    "title": "Project description",
+    "section": "Proposal components",
+    "text": "Proposal components\nFor each data set, include the following:\n\nIntroduction and data\nFor each data set:\n\nIdentify the source of the data.\nState when and how it was originally collected (by the original data curator, not necessarily how you found the data).\nWrite a brief description of the observations.\nAddress ethical concerns about the data, if any.\n\n\n\nResearch question\nYour research question should contain at least three variables, and should be a mix of categorical and quantitative variables. When writing a research question, please think about the following:\n\nWhat is your target population?\nIs the question original?\nCan the question be answered?\n\nFor each data set, include the following:\n\nA well formulated research question. (You may include more than one research question if you want to receive feedback on different ideas for your project. However, one per data set is required.)\nStatement on why this question is important.\nA description of the research topic along with a concise statement of your hypotheses on this topic.\nIdentify the types of variables in your research question. Categorical? Quantitative?\n\n\n\nGlimpse of data\nFor each data set:\n\nPlace the file containing your data in the data folder of the project repo.\nUse the glimpse() function to provide a glimpse of the data set."
+  },
+  {
+    "objectID": "project-description.html#proposal-grading",
+    "href": "project-description.html#proposal-grading",
+    "title": "Project description",
+    "section": "Proposal grading",
+    "text": "Proposal grading\n\n\n\nTotal\n10 pts\n\n\n\n\nIntroduction and data\n3\n\n\nResearch question\n3\n\n\nGlimpse of data\n3\n\n\nWorkflow and formatting\n1\n\n\n\nEach component will be graded as follows:\n\nMeets expectations (full credit): All required elements are completed and are accurate. The narrative is written clearly, all tables and visualizations are nicely formatted, and the work would be presentable in a professional setting.\nClose to expectations (half credit): There are some elements missing and/or inaccurate. There are some issues with formatting.\nDoes not meet expectations (no credit): Major elements missing. Work is not neatly formatted and would not be presentable in a professional setting.\n\nIt is critical to check feedback on your project proposal. Even if you earn full credit, it may not mean that your proposal is perfect."
+  },
+  {
+    "objectID": "project-description.html#draft-components",
+    "href": "project-description.html#draft-components",
+    "title": "Project description",
+    "section": "Draft components",
+    "text": "Draft components\n\nIntroduction and data\nThe introduction provides motivation and context for your research. Describe your topic (citing sources) and provide a concise, clear statement of your research question and hypotheses.\nThen identify the source of the data, when and how it was collected, the cases, a general description of relevant variables.\n\n\nMethodology\nThe methodology section should include visualizations and summary statistics relevant to your research question. You should also justify the choice of statistical method(s) used to answer your research question.\n\n\nResults\nShowcase how you arrived at answers to your research question using the techniques we have learned in class (and beyond, if you’re feeling adventurous).\nProvide only the main results from your analysis. The goal is not to do an exhaustive data analysis (calculate every possible statistic and perform every possible procedure for all variables). Rather, you should demonstrate that you are proficient at asking meaningful questions and answering them using data, that you are skilled in interpreting and presenting results, and that you can accomplish these tasks using R. More is not better."
+  },
+  {
+    "objectID": "project-description.html#draft-grading",
+    "href": "project-description.html#draft-grading",
+    "title": "Project description",
+    "section": "Draft grading",
+    "text": "Draft grading\nYour first draft will be reviewed and graded by your TAs. We recommend you incorporate their suggestions into your second (optional) draft before the second round of feedback by your peers."
+  },
+  {
+    "objectID": "project-description.html#report-components",
+    "href": "project-description.html#report-components",
+    "title": "Project description",
+    "section": "Report components",
+    "text": "Report components\n\nIntroduction and data\nThis section includes an introduction to the project motivation, data, and research question. Describe the data and definitions of key variables. It should also include some exploratory data analysis. All of the EDA won’t fit in the paper, so focus on the EDA for the response variable and a few other interesting variables and relationships.\n\nGrading criteria\nThe research question and motivation are clearly stated in the introduction, including citations for the data source and any external research. The data are clearly described, including a description about how the data were originally collected and a concise definition of the variables relevant to understanding the report. The data cleaning process is clearly described, including any decisions made in the process (e.g., creating new variables, removing observations, etc.) The explanatory data analysis helps the reader better understand the observations in the data along with interesting and relevant relationships between the variables. It incorporates appropriate visualizations and summary statistics.\n\n\n\nMethodology\nThis section includes a brief description of your analysis process. Explain the reasoning for the types of analyses you do, exploratory, inferential, or modeling. If you’ve chosen to do inference, make sure to include a justification for why that inferential approach is appropriate. If you’ve chosen to do modeling, describe the model(s) you’re fitting, predictor variables considered for the model including any interactions. Additionally, show how you arrived at the final model by describing the model selection process, interactions considered, variable transformations (if needed), assessment of conditions and diagnostics, and any other relevant considerations that were part of the model fitting process.\n\nGrading criteria\nThe analysis steps are appropriate for the data and research question. The group used a thorough and careful approach to determine analyses types and addressed any concerns over appropriateness of analyses chosen.\n\n\n\nResults\nThis is where you will discuss your overall finding and describe the key results from your analysis. The goal is not to interpret every single element of an output shown, but instead to address the research questions, using the interpretations to support your conclusions. Focus on the variables that help you answer the research question and that provide relevant context for the reader.\n\nGrading criteria\nThe analysis results are clearly assesses and interesting findings from the analysis are described. Interpretations are used to to support the key findings and conclusions, rather than merely listing, e.g., the interpretation of every model coefficient.\n\n\n\nDiscussion\nIn this section you’ll include a summary of what you have learned about your research question along with statistical arguments supporting your conclusions. In addition, discuss the limitations of your analysis and provide suggestions on ways the analysis could be improved. Any potential issues pertaining to the reliability and validity of your data and appropriateness of the statistical analysis should also be discussed here. Lastly, this section will include ideas for future work.\n\nGrading criteria\nOverall conclusions from analysis are clearly described, and the analysis results are put into the larger context of the subject matter and original research question. There is thoughtful consideration of potential limitations of the data and/or analysis, and ideas for future work are clearly described.\n\n\n\nOrganization + formatting\nThis is an assessment of the overall presentation and formatting of the written report.\n\nGrading criteria\nThe report neatly written and organized with clear section headers and appropriately sized figures with informative labels. Numerical results are displayed with a reasonable number of digits, and all visualizations are neatly formatted. All citations and links are properly formatted. If there is an appendix, it is reasonably organized and easy for the reader to find relevant information. All code, warnings, and messages are suppressed. The main body of the written report (not including the appendix) is no longer than 10 pages."
+  },
+  {
+    "objectID": "project-description.html#report-grading",
+    "href": "project-description.html#report-grading",
+    "title": "Project description",
+    "section": "Report grading",
+    "text": "Report grading\nThe written report is worth 40 points, broken down as follows\n\n\n\nTotal\n40 pts\n\n\n\n\nIntroduction/data\n6 pts\n\n\nMethodology\n10 pts\n\n\nResults\n14 pts\n\n\nDiscussion\n6 pts\n\n\nOrganization + formatting\n4 pts"
+  },
+  {
+    "objectID": "project-description.html#slides",
+    "href": "project-description.html#slides",
+    "title": "Project description",
+    "section": "Slides",
+    "text": "Slides\nIn addition to the written report, your team will also create presentation slides and deliver presentation that summarize and showcase your project. Introduce your research question and data set, showcase visualizations, and discuss the primary conclusions. These slides should serve as a brief visual addition to your written report and will be graded for content and quality.\nYou can create your slides with any software you like (Keynote, PowerPoint, Google Slides, etc.). We recommend choosing an option that’s easy to collaborate with, e.g., Google Slides.\n\n\n\n\n\n\nNote\n\n\n\nYou can also use Quarto to make your slides! While we won’t be covering making slides with Quarto in the class, we would be happy to help you with it in office hours. It’s no different than writing other documents with Quarto, so the learning curve will not be steep!\n\n\nThe slide deck should have no more than 6 content slides + 1 title slide. Here is a suggested outline as you think through the slides; you do not have to use this exact format for the 6 slides.\n\nTitle Slide\nSlide 1: Introduce the topic and motivation\nSlide 2: Introduce the data\nSlide 3: Highlights from EDA\nSlide 4-5: Inference/modeling/other analysis\nSlide 6: Conclusions + future work"
+  },
+  {
+    "objectID": "project-description.html#presentation",
+    "href": "project-description.html#presentation",
+    "title": "Project description",
+    "section": "Presentation",
+    "text": "Presentation\nPresentations will take place in class during the last lab of the semester. The presentation must be no longer than 5 minutes. You can choose to present live in class (recommended) or pre-record a video to be shown in class. Either way you must attend the lab session for the Q&A following your presentation.\nIf you choose to pre-record your presentation, you may use can use any platform that works best for your group to record your presentation. Below are a few resources on recording videos:\n\nRecording presentations in Zoom\nApple Quicktime for screen recording\nWindows 10 built-in screen recording functionality\nKap for screen recording\n\nOnce your video is ready, upload the video to Warpwire or another video platform (e.g., YouTube), then add a link to your video in your repo README.\nTo upload your video to Warpwire:\n\nClick the Warpwire tab in the course Sakai site.\nClick the “+” and select “Upload files”.\nLocate the video on your computer and click to upload.\nOnce you’ve uploaded the video to Warpwire, click to share the video and copy the video’s URL. You will need this when you post the video in the discussion forum."
+  },
+  {
+    "objectID": "project-description.html#reproducibility-organization",
+    "href": "project-description.html#reproducibility-organization",
+    "title": "Project description",
+    "section": "Reproducibility + organization",
+    "text": "Reproducibility + organization\nAll written work (with exception of presentation slides) should be reproducible, and the GitHub repo should be neatly organized.\nPoints for reproducibility + organization will be based on the reproducibility of the written report and the organization of the project GitHub repo. The repo should be neatly organized as described above, there should be no extraneous files, all text in the README should be easily readable."
+  },
+  {
+    "objectID": "project-description.html#teamwork",
+    "href": "project-description.html#teamwork",
+    "title": "Project description",
+    "section": "Teamwork",
+    "text": "Teamwork\nYou will be asked to fill out a survey where you rate the contribution and teamwork of each team member by assigning a contribution percentage for each team member. Filling out the survey is a prerequisite for getting credit on the team member evaluation. If you are suggesting that an individual did less than half the expected contribution given your team size (e.g., for a team of four students, if a student contributed less than 12.5% of the total effort), please provide some explanation. If any individual gets an average peer score indicating that this was the case, their grade will be assessed accordingly and penalties may apply beyond the teamwork component of the grade.\nIf you have concerns with the teamwork and/or contribution from any team members, please email me by the project presentation deadline. You only need to email me if you have concerns. Otherwise, I will assume everyone on the team equally contributed and will receive full credit for the teamwork portion of the grade."
+  },
+  {
+    "objectID": "project-description.html#grading-summary",
+    "href": "project-description.html#grading-summary",
+    "title": "Project description",
+    "section": "Grading summary",
+    "text": "Grading summary\nGrading of the project will take into account the following:\n\nContent - What is the quality of research and/or policy question and relevancy of data to those questions?\nCorrectness - Are statistical procedures carried out and explained correctly?\nWriting and Presentation - What is the quality of the statistical presentation, writing, and explanations?\nCreativity and Critical Thought - Is the project carefully thought out? Are the limitations carefully considered? Does it appear that time and effort went into the planning and implementation of the project?\n\nA general breakdown of scoring is as follows:\n\n90%-100%: Outstanding effort. Student understands how to apply all statistical concepts, can put the results into a cogent argument, can identify weaknesses in the argument, and can clearly communicate the results to others.\n80%-89%: Good effort. Student understands most of the concepts, puts together an adequate argument, identifies some weaknesses of their argument, and communicates most results clearly to others.\n70%-79%: Passing effort. Student has misunderstanding of concepts in several areas, has some trouble putting results together in a cogent argument, and communication of results is sometimes unclear.\n60%-69%: Struggling effort. Student is making some effort, but has misunderstanding of many concepts and is unable to put together a cogent argument. Communication of results is unclear.\nBelow 60%: Student is not making a sufficient effort."
+  },
+  {
+    "objectID": "project-description.html#late-work-policy",
+    "href": "project-description.html#late-work-policy",
+    "title": "Project description",
+    "section": "Late work policy",
+    "text": "Late work policy\nThere is no late work accepted on this project. Be sure to turn in your work early to avoid any technological mishaps."
+  },
+  {
+    "objectID": "course-syllabus.html",
+    "href": "course-syllabus.html",
+    "title": "Syllabus",
+    "section": "",
+    "text": "Click here to download a PDF copy of the syllabus."
+  },
+  {
+    "objectID": "course-syllabus.html#office-hours",
+    "href": "course-syllabus.html#office-hours",
+    "title": "Syllabus",
+    "section": "Office hours",
+    "text": "Office hours\nClick here for the instructor and TA office hours locations and Zoom links. You are welcomed to attend the office hours for any STA 199 TA, regardless of section."
+  },
+  {
+    "objectID": "course-syllabus.html#textbooks",
+    "href": "course-syllabus.html#textbooks",
+    "title": "Syllabus",
+    "section": "Textbooks",
+    "text": "Textbooks\nAll books are freely available online.\n\n\n\nR for Data Science, 2e\nGrolemund, Wickham\nO’Reilly, 2nd edition, 2022\nHard copy only available of 1st edition\n\n\nIntroduction to Modern Statistics\nÇetinkaya-Rundel, Hardin\nOpenIntro Inc., 1st Edition, 2021\nHard copy available on Amazon"
+  },
+  {
+    "objectID": "course-syllabus.html#course-learning-objectives",
+    "href": "course-syllabus.html#course-learning-objectives",
+    "title": "Syllabus",
+    "section": "Course learning objectives",
+    "text": "Course learning objectives\nBy the end of the semester, you will…\n\nlearn to explore, visualize, and analyze data in a reproducible and shareable manner\ngain experience in data wrangling and munging, exploratory data analysis, predictive modeling, and data visualization\nwork on problems and case studies inspired by and based on real-world questions and data\nlearn to effectively communicate results through written assignments and project presentation"
+  },
+  {
+    "objectID": "course-syllabus.html#course-community",
+    "href": "course-syllabus.html#course-community",
+    "title": "Syllabus",
+    "section": "Course community",
+    "text": "Course community\n\nDuke Community Standard\nAs a student in this course, you have agreed to uphold the Duke Community Standard as well as the practices specific to this course.\n\n\n\n\nInclusive community\nIt is my intent that students from all diverse backgrounds and perspectives be well-served by this course, that students’ learning needs be addressed both in and out of class, and that the diversity that the students bring to this class be viewed as a resource, strength, and benefit. It is my intent to present materials and activities that are respectful of diversity and in alignment with Duke’s Commitment to Diversity and Inclusion. Your suggestions are encouraged and appreciated. Please let me know ways to improve the effectiveness of the course for you personally, or for other students or student groups.\nFurthermore, I would like to create a learning environment for my students that supports a diversity of thoughts, perspectives and experiences, and honors your identities. To help accomplish this:\n\nIf you feel like your performance in the class is being impacted by your experiences outside of class, please don’t hesitate to come and talk with me. If you prefer to speak with someone outside of the course, your academic dean is an excellent resource.\nI (like many people) am still in the process of learning about diverse perspectives and identities. If something was said in class (by anyone) that made you feel uncomfortable, please let me or a member of the teaching team know.\n\n\n\nPronouns\nPronouns are meaningful tools to communicate identities and experiences, and using pronouns supports a campus environment where all community members can thrive. Please update your gender pronouns in Duke Hub. You can learn more at the Center for Sexual and Gender Diversity’s website.\n\n\nAccessibility\nIf there is any portion of the course that is not accessible to you due to challenges with technology or the course format, please let me know so we can make appropriate accommodations.\nThe Student Disability Access Office (SDAO) is available to ensure that students are able to engage with their courses and related assignments. Students should be in touch with the Student Disability Access Office to request or update accommodations under these circumstances.\n\n\nCommunication\nAll lecture notes, assignment instructions, an up-to-date schedule, and other course materials may be found on the course website: sta199-f22-1.github.io.\nAnnouncements will be emailed through Sakai Announcements periodically. Please check your email regularly to ensure you have the latest announcements for the course.\n\n\nWhere to get help\n\nIf you have a question during lecture or lab, feel free to ask it! There are likely other students with the same question, so by asking you will create a learning opportunity for everyone.\nThe teaching team is here to help you be successful in the course. You are encouraged to attend office hours to ask questions about the course content and assignments. Many questions are most effectively answered as you discuss them with others, so office hours are a valuable resource. Please use them!\nOutside of class and office hours, any general questions about course content or assignments should be posted on the course Slack. There is a chance another student has already asked a similar question, so please check the other posts on Slack before adding a new question. If you know the answer to a question posted on Slack, I encourage you to respond!\n\nCheck out the Help tab for more resources.\n\n\nEmail\nIf there is a question that’s not appropriate for the public forum, you are welcome to email me directly. If you email me, please include “STA 199” in the subject line. Barring extenuating circumstances, I will respond to STA 199 emails within 48 hours Monday - Friday. Response time may be slower for emails sent Friday evening - Sunday."
+  },
+  {
+    "objectID": "course-syllabus.html#activities-assessment",
+    "href": "course-syllabus.html#activities-assessment",
+    "title": "Syllabus",
+    "section": "Activities & Assessment",
+    "text": "Activities & Assessment\nThe activities and assessments in this course are designed to help you successfully achieve the course learning objectives. They are designed to follow the Prepare, Practice, Perform format.\n\nPrepare: Includes short videos, reading assignments, and lectures to introduce new concepts and ensure a basic comprehension of the material. The goal is to help you prepare for the in-class activities during lecture.\nPractice: Includes in-class application exercises where you will begin to the concepts and methods introduced in the prepare assignment. the activities will graded for completion, as they are designed for you to gain experience with the statistical and computing techniques before working on graded assignments.\nPerform: Includes labs, homework, exams, and the project. These assignments build upon the prepare and practice assignments and are the opportunity for you to demonstrate your understanding of the course material and how it is applied to analyze real-world data.\n\n\nLectures (Prepare)\nPart of the class time will be lectures that introduce new concepts or review topics from the preparation videos. Lectures will not repeat everything in the videos, they will instead highlight important and known to be complex concepts and will be supplemented with live coding activities. You are expected to attend every lecture. Lectures will be recorded and made available to students with an excused absence upon request.\n\n\nApplication exercises (Practice)\nA majority of the in-class lectures will be dedicated to working on Application Exercises (AEs). These exercises which give you an opportunity to practice apply the statistical concepts and code introduced in the prepare assignment. These AEs are due within three days of the corresponding lecture period. Specifically, AEs from Tuesday lectures are due Friday by 11:59p ET, and AEs from Thursday lectures are due Sunday by 11:59p ET.\nBecause these AEs are for practice, they will be graded based on completion, i.e., a good-faith effort has been made in attempting all parts. Successful on-time completion of at least 80% of AEs will result in full credit for AEs in the final course grade.\nIn addition to AEs will be periodic activities help build a learning community. These will be short, fun activities that will help everyone in the class connect throughout the semester.\n\n\nLabs (Perform)\nIn labs, you will apply the concepts discussed in lecture to various data analysis scenarios, with a focus on the computation. Most lab assignments will be completed in teams, and all team members are expected to contribute equally to the completion of each assignment. You are expected to use the team’s Git repository on the course’s GitHub page as the central platform for collaboration. Commits to this repository will be used as a metric of each team member’s relative contribution for each lab, and there will be periodic peer evaluation on the team collaboration. Lab assignments will be completed using Quarto, correspond to an appropriate GitHub repository, and submitted for grading in Gradescope.\nLabs are due 11:59p ET on the indicated due date.\nThe lowest lab grade will be dropped at the end of the semester.\n\n\nHomework (Perform)\nIn homework, you will apply what you’ve learned during lecture and lab to complete data analysis tasks. You may discuss homework assignments with other students; however, homework should be completed and submitted individually. Similar to lab assignments, homework must be typed up using Quarto and GitHub and submitted as a PDF in Gradescope.\nHomework assignments are due 11:59p ET on the indicated due date.\nOne homework assignment will be dedicated to a statistics experience. The statistics experience is an opportunity to engage with statistics and data science outside of the classroom through podcasts, books, seminars, data analysis competitions, and other activities. As you complete these experiences, the goal is to consider how the material you’re learning in the course connects with society more broadly.\nThe lowest homework grade will be dropped at the end of the semester.\n\n\nExams (Perform)\nThere will be two, take-home, open-note exams. Through these exams you have the opportunity to demonstrate what you’ve learned in the course thus far. Each exam will include small analysis and computational tasks related to the content in the prepare, practice, and perform assignments. More details about the content and structure of the exams will be discussed during the semester.\n\n\nProject (Perform)\nThe purpose of the project is to apply what you’ve learned throughout the semester to analyze an interesting data-driven research question. The project will be completed with your lab teams, and each team will present their work in video and in writing during the final exam period. More information about the project will be provided during the semester."
+  },
+  {
+    "objectID": "course-syllabus.html#grading",
+    "href": "course-syllabus.html#grading",
+    "title": "Syllabus",
+    "section": "Grading",
+    "text": "Grading\nThe final course grade will be calculated as follows:\n\n\n\nCategory\nPercentage\n\n\n\n\nHomework\n30% (5% x 6)\n\n\nLabs\n14% (2% x 7)\n\n\nProject\n15%\n\n\nExam 01\n18%\n\n\nExam 02\n18%\n\n\nApplication Exercises\n2.5%\n\n\nTeamwork\n2.5%\n\n\n\nThe final letter grade will be determined based on the following thresholds:\n\n\n\nLetter Grade\nFinal Course Grade\n\n\n\n\nA\n>= 93\n\n\nA-\n90 - 92.99\n\n\nB+\n87 - 89.99\n\n\nB\n83 - 86.99\n\n\nB-\n80 - 82.99\n\n\nC+\n77 - 79.99\n\n\nC\n73 - 76.99\n\n\nC-\n70 - 72.99\n\n\nD+\n67 - 69.99\n\n\nD\n63 - 66.99\n\n\nD-\n60 - 62.99\n\n\nF\n< 60"
+  },
+  {
+    "objectID": "course-syllabus.html#course-policies",
+    "href": "course-syllabus.html#course-policies",
+    "title": "Syllabus",
+    "section": "Course policies",
+    "text": "Course policies\n\nAcademic honesty\nTL;DR: Don’t cheat!\nPlease abide by the following as you work on assignments in this course:\n\nYou may discuss individual homework and lab assignments with other students; however, you may not directly share (or copy) code or write up with other students. For team assignments, you may collaborate freely within your team. You may discuss the assignment with other teams; however, you may not directly share (or copy) code or write up with another team. Unauthorized sharing (or copying) of the code or write up will be considered a violation for all students involved.\nYou may not discuss or otherwise work with others on the exams. Unauthorized collaboration or using unauthorized materials will be considered a violation for all students involved. More details will be given closer to the exam date.\nReusing code: Unless explicitly stated otherwise, you may make use of online resources (e.g. StackOverflow) for coding examples on assignments. If you directly use code from an outside source (or use it as inspiration), you must explicitly cite where you obtained the code. Any recycled code that is discovered and is not explicitly cited will be treated as plagiarism.\n\nAny violations in academic honesty standards as outlined in the Duke Community Standard and those specific to this course will automatically result in a 0 for the assignment and will be reported to the Office of Student Conduct for further action.\n\n\nLate work & extensions\nThe due dates for assignments are there to help you keep up with the course material and to ensure the teaching team can provide feedback within a timely manner. We understand that things come up periodically that could make it difficult to submit an assignment by the deadline. Note that the lowest homework and lab assignment will be dropped to accommodate such circumstances.\n\n\nLate work\n\nHomework and labs may be submitted up to 3 days late. There will be a 5% deduction for each 24-hour period the assignment is late.\nThere is no late work accepted for application exercises, since these are designed to help you prepare for labs and homework.\nThe late work policy for exams will be provided with the exam instructions.\nThe late work policy for the project will be provided with the project instructions.\n\n\n\nWaiver for extenuating circumstances\nIf there are circumstances that prevent you from completing a lab or homework assignment by the stated due date, you may email the head TA before the deadline to waive the late penalty. In your email, you only need to request the waiver; you do not need to provide explanation. This waiver may only be used for once in the semester, so only use it for a truly extenuating circumstance.\nIf there are circumstances that are having a longer-term impact on your academic performance, please let your academic dean know, as they can be a resource. Please let Dr. Çetinkaya-Rundel know if you need help contacting your academic dean.\n\n\nRegrade requests\nRegrade requests must be submitted on Gradescope within a week of when an assignment is returned. Regrade requests will be considered if there was an error in the grade calculation or if you feel a correct answer was mistakenly marked as incorrect. Requests to dispute the number of points deducted for an incorrect response will not be considered. Note that by submitting a regrade request, the entire question will be graded which could potentially result in losing points.\nNo grades will be changed after the project presentations.\n\n\nClass recording requests\nLectures will be recorded on Panopto and will be made available to students with an excused absence upon request. Videos shared with such students will be available for a week. To request a particular lecture’s video, please fill out the form. Please also make sure that any official documentation, such as incapacitation forms, Dean’s excuses, NOVAPs, and quarantine/removal from class notices from student health are also uploaded to the form.\n\n\nAttendance policy\n\nCOVID Symptoms, Exposure, or Infection: Student health, safety, and well-being are the university’s top priorities. To help ensure your well-being and the well-being of those around you, please do not come to class if you have tested positive for COVID-19 or have possible symptoms and have not yet been tested. If any of these situations apply to you, you must follow university guidance related to the ongoing COVID-19 pandemic and current health and safety protocols. If you are experiencing any COVID-19 symptoms, contact student health (dshcheckin@duke.edu, 919-681-9355). Learn more about current university policy related to COVID-19 at https://coronavirus.duke.edu. To keep the university community’s safe and healthy as possible, you will be expected to follow these guidelines. Please reach out to me and your academic dean as soon as possible if you need to quarantine or isolate so that we can discuss arrangements for your continued participation in class.\nInclement weather: In the event of inclement weather or other connectivity-related events that prohibit class attendance, I will notify you how we will make up missed course content and work.  Asynchronous catch-up methods may apply.\nReligious accommodations: Students are permitted by university policy to be absent from class to observe a religious holiday. Accordingly, Trinity College of Arts & Sciences and the Pratt School of Engineering have established procedures to be followed by students for notifying their instructors of an absence necessitated by the observance of a religious holiday. Please submit requests for religious accommodations at the beginning of the semester so that we can work to make suitable arrangements well ahead of time. You can find the policy and relevant notification form here: https://trinity.duke.edu/undergraduate/academic-policies/religious-holidays.\n\nNote: If you’ve read this far in the syllabus, email me a picture of your pet if you have one or your favourite meme!"
+  },
+  {
+    "objectID": "course-syllabus.html#important-dates",
+    "href": "course-syllabus.html#important-dates",
+    "title": "Syllabus",
+    "section": "Important dates",
+    "text": "Important dates\n\nAug 29: Classes begin\nSep 9: Drop/add ends\nSep 29: Exam 1 released\nOct 3: Exam 1 due (at 2pm)\nOct 10-11: Fall break\nNov 11: Last day to withdraw with W\nNov 17: Exam 2 released\nNov 21: Exam 2 due (at 2pm)\nNov 23-25: Thanksgiving recess\nDec 9: Classes end\nDec 10-13: Reading period\nDec 14-19: Final exams\n\nFor more important dates, see the full Duke Academic Calendar."
+  },
+  {
+    "objectID": "computing-troubleshooting.html",
+    "href": "computing-troubleshooting.html",
+    "title": "Computing troubleshooting",
+    "section": "",
+    "text": "If you’re having difficulty launching an RStudio session from your reserved container, go to status.oit.duke.edu and scroll down to Teaching and Learning Tools. Under this heading you’ll find an entry called Container Manager (CMGR Coursework Containers).\n\nIf the status shows something other than Operational, this means there is a known incident with the containers. Check back later to see if it’s been resolved. If there’s a deadline coming up soon, post on the course Slack to let us know that there’s an issue. We can look into how quickly it might get resolved and decide on what to do about the deadline accordingly. Note: We don’t anticipate this to happen regularly, the systems are Operational a huge majority of the time!\nIf the status shows Operational, this means the system is expected to be working. Check your internet connection, if need be, restart your computer to ensure a fresh new connection. If your issue persists, post on the course forum with details on what you’ve tried and the errors you see (including verbatim errors and/or screenshots).\n\nAnother approach is to request a restart of your container. To do so, select your container as you usually do and then, instead of Login, click on Request Restart. Read the warning in the next page, and then click once more to restart your container."
+  }
+]

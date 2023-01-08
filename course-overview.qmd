@@ -1,0 +1,22 @@
+---
+title: "Course overview"
+---
+
+Intro to data science and statistical thinking.
+Learn to explore, visualize, and analyze data to understand natural phenomena, investigate patterns, model outcomes, and make predictions, and do so in a reproducible and shareable manner.
+Gain experience in data wrangling and munging, exploratory data analysis, predictive modeling, and data visualization, and effective communication of results.
+Work on problems and case studies inspired by and based on real-world questions and data.
+The course will focus on the R statistical computing language.
+No statistical or computing background is necessary.
+Not open to students who have taken a 100-level Statistical Science course, Statistical Science 210, or a Statistical Science course numbered 300 or above.
+
+## Class meetings
+
+| Meeting | Location                       | Time                        |
+|---------|--------------------------------|-----------------------------|
+| Lecture | French Science 2231            | Tue & Thur 10:15 - 11:30 am |
+| Lab 01  | Perkins Link 087 (Classroom 3) | Mon 10:15 - 11:30 am        |
+| Lab 02  | Perkins Link 087 (Classroom 3) | Mon 1:45 - 3:00 pm          |
+| Lab 03  | Perkins Link 087 (Classroom 3) | Mon 3:30 - 4:45 pm          |
+| Lab 04  | Perkins Link 087 (Classroom 3) | Mon 5:15 - 6:30 pm          |
+| Lab 05  | Perkins Link 087 (Classroom 3) | Mon 12:00 - 1:15 pm         |
