@@ -8,9 +8,9 @@ website:
   page-navigation: true
   title: "STA 313"
   description: "Homepage for STA 313 - Advanced Data Visualization at Duke University, Spring 2023."
-  site-url: "https://sta199-f22-1.github.io/"
+  site-url: "http://vizdata.org/"
 
-  repo-url: https://github.com/sta199-f22-1/sta199-f22-1.github.io/
+  repo-url: https://github.com/vizdata-s23/vizdata-s23
   repo-actions: [edit, issue]
 
   open-graph: true
@@ -19,7 +19,7 @@ website:
     image: "images/twitter-card.png"
 
   sidebar:
-    background: "#325b74" # Pantone Midnight - Fall 2022
+    background: "#f1de67" # Arylide Yellow
     logo: "images/logo.png"
     pinned: true
     align: center
@@ -76,14 +76,14 @@ website:
   page-footer:
     right: "This page is built with ❤️ and [Quarto](https://quarto.org/)."
     left: "&copy; Copyright 2022, Mine Çetinkaya-Rundel"
-    background: "#325b74" # Pantone Midnight - Fall 2022
+    background: "#f1de67" # Arylide Yellow
 
 format:
   html:
     theme:
-      light: [cosmo, style/sta199.scss]
-      dark: [cosmo, style/sta199.scss, style/dark.scss]
-    linkcolor: "#325b74" # Pantone Midnight - Fall 2022
+      light: [cosmo, style/sta313.scss]
+      dark: [cosmo, style/sta313.scss, style/dark.scss]
+    linkcolor: "#a493ba" # Glossy Grape
     toc: true
     code-copy: true
     code-overflow: wrap
