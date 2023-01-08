@@ -6,28 +6,19 @@ title: "Teaching team"
 
 ![](images/team/mine.png){style="float:right;padding: 0 0 0 10px;" fig-alt="Headshot of Dr. Mine Çetinkaya-Rundel" width="200"}
 
-[**Dr. Mine Çetinkaya-Rundel**](http://mine-cr.com/) (she/her) is Professor of the Practice and Director of Undergraduate Studies at the Department of Statistical Science at Duke University.
-Mine's work focuses on innovation in statistics and data science pedagogy, with an emphasis on computing, reproducible research, student-centered learning, and open-source education as well as pedagogical approaches for enhancing retention of women and under-represented minorities in STEM.
-Mine also works with RStudio as a Developer Educator.
+[**Dr. Mine Çetinkaya-Rundel**](http://mine-cr.com/) (she/her) is Professor of the Practice and Director of Undergraduate Studies at the Department of Statistical Science at Duke University. Mine's work focuses on innovation in statistics and data science pedagogy, with an emphasis on computing, reproducible research, student-centered learning, and open-source education as well as pedagogical approaches for enhancing retention of women and under-represented minorities in STEM.
 
-| Office hours    | Location     |
-|-----------------|--------------|
-| Tue 2 pm - 4 pm | Old Chem 213 |
+| Office hours    | Location             |
+|-----------------|----------------------|
+| Tue 2 pm - 3 pm | Old Chem 213         |
+| By appointment  | Old Chem 213 or Zoom |
 
 ## Teaching assistants
 
-| Name                      | Role                  | Lab section         |
-|---------------------------|-----------------------|---------------------|
-| Bora Jin                  | TA / Course organizer | M 10:15AM - 11:30AM |
-| Jordan Bryan              | Head TA               | M 1:45PM - 3:00PM   |
-| Richard Fremgen           | TA                    | M 3:30PM - 4:45PM   |
-| Leah Johnson              | TA                    | M 5:15PM - 6:30PM   |
-| Alison Reynolds           | TA                    | M 12:00PM - 1:15PM  |
-| Foxx Hart                 | TA                    |                     |
-| Alonso Guerrero Castaneda | TA                    |                     |
-| Jasmine Wen               | TA                    |                     |
-| Brooke Harmon             | TA                    |                     |
-| Amber Potter              | TA                    |                     |
-| One Chowdhury             | TA                    |                     |
-
-For office hours, please see [STA 199 - Ultimate Office Hours](https://docs.google.com/spreadsheets/d/1Jgujcf6xor-63a_qfltwfMkHQtaBJHtUetd-rEpXljw/edit#gid=0) sheet.
+| Name          | Role    | Lab section       | Office hours |
+|---------------|---------|-------------------|--------------|
+| Jackie Du     | Head TA |                   | TBA          |
+| Lorenzo Mauri | TA      | W 1:45PM - 3:00PM | TBA          |
+| Sam Rosen     | TA      | W 3:30PM - 4:45PM | TBA          |
+| Holly Cui     | TA      |                   | TBA          |
+| Evan Dragich  | TA      |                   | TBA          |

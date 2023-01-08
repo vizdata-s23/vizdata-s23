@@ -74,7 +74,7 @@ website:
             text: Tips + resources
 
   page-footer:
-    right: "This page is built with ❤️ and [Quarto](https://quarto.org/)."
+    right: "This page is built with 💛 and [Quarto](https://quarto.org/)."
     left: "&copy; Copyright 2022, Mine Çetinkaya-Rundel"
     background: "#f1de67" # Arylide Yellow
 

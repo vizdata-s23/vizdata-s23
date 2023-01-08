@@ -1,12 +1,11 @@
 ---
-title: "STA 199: Introduction to Data Science"
-subtitle: "Section 1 - Dr. Mine Çetinkaya-Rundel"
+title: "STA 313: Advanced Data Visualization"
+subtitle: "Dr. Mine Çetinkaya-Rundel"
 execute:
   freeze: false
 ---
 
-This page contains an outline of the topics, content, and assignments for the semester.
-Note that this schedule will be updated as the semester progresses and the timeline of topics and assignments might be updated throughout the semester.
+This page contains an outline of the topics, content, and assignments for the semester. Note that this schedule will be updated as the semester progresses and the timeline of topics and assignments might be updated throughout the semester.
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 library(googlesheets4)
