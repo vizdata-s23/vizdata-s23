@@ -2,7 +2,7 @@
 title: "Course overview"
 ---
 
-<img src="images/logo.png" class="cover" width="240" height="240"/>This is the homepage for STA 313 - Advanced Data Visualization taught by [Dr. Mine Çetinkaya-Rundel](http://mine-cr.com/) in Spring 2023 at Duke University. All course materials will be posted on this site.
+This is the homepage for STA 313 - Advanced Data Visualization taught by [Dr. Mine Çetinkaya-Rundel](http://mine-cr.com/) in Spring 2023 at Duke University. All course materials will be posted on this site.
 
 You can find the course syllabus [here](/syllabus) and the course schedule [here](/).
 
