@@ -6,57 +6,39 @@ Most of you will need help at some point and we want to make sure you can identi
 
 ## Lectures and labs
 
-If you have a question during lecture or lab, feel free to ask it!
-There are likely other students with the same question, so by asking you will create a learning opportunity for everyone.
+If you have a question during lecture or lab, feel free to ask it! There are likely other students with the same question, so by asking you will create a learning opportunity for everyone.
 
 ## Office hours
 
-The teaching team is here to help you be successful in the course.
-You are encouraged to attend office hours during the times posted on the home page to ask questions about the course content and assignments.
-A lot of questions are most effectively answered in-person, so office hours are a valuable resource.
-I encourage each and every one of you to take advantage of this resource!
-Make a pledge to stop by office hours at least once during the first three weeks of class.
-If you truly have no questions to ask, just stop by and say hi and introduce yourself.
-You can find a list of everyone's office hours [here](/course-team.html).
+The teaching team is here to help you be successful in the course. You are encouraged to attend office hours during the times posted on the home page to ask questions about the course content and assignments. A lot of questions are most effectively answered in-person, so office hours are a valuable resource. I encourage each and every one of you to take advantage of this resource! Make a pledge to stop by office hours at least once during the first three weeks of class. If you truly have no questions to ask, just stop by and say hi and introduce yourself. You can find a list of everyone's office hours [here](/course-team.html).
 
 ## Slack
 
-Have a question that can't wait for office hours?
-Prefer to write out your question in detail rather than asking in person?
-The course Slack is the best venue for these!
-There is a chance another student has already asked a similar question, so please check the other posts on Slack before asking a new question.
-If you know the answer to a question that is posted, I encourage you to respond!
+Have a question that can't wait for office hours? Prefer to write out your question in detail rather than asking in person? The course Slack is the best venue for these! There is a chance another student has already asked a similar question, so please check the other posts on Slack before asking a new question. If you know the answer to a question that is posted, I encourage you to respond!
 
 ## Email
 
-Please refrain from emailing any course content questions (those should go to Slack), and only use email for questions about personal matters that may not be appropriate for the public course forum (e.g., illness, accommodations, etc.).
-For such matters, you may email Dr. Mine Çetinkaya-Rundel at [mc301\@duke.edu](mailto:mc301@duke.edu).
+Please refrain from emailing any course content questions (those should go to Slack), and only use email for questions about personal matters that may not be appropriate for the public course forum (e.g., illness, accommodations, etc.). For such matters, you may email Dr. Mine Çetinkaya-Rundel at [mc301\@duke.edu](mailto:mc301@duke.edu).
 
-If there is a question that's not appropriate for the public forum, you are welcome to email me directly.
-**If you email me, please include "STA 199" in the subject line.** Barring extenuating circumstances, I will respond to STA 199 emails within 48 hours Monday - Friday.
-Response time may be slower for emails sent Friday evening - Sunday.
+If there is a question that's not appropriate for the public forum, you are welcome to email me directly. **If you email me, please include "STA 313" in the subject line.** Barring extenuating circumstances, I will respond to STA 313 emails within 48 hours Monday - Friday. Response time may be slower for emails sent Friday evening - Sunday.
 
 ## Academic support
 
-There are times may need help with the class that is beyond what can be provided by the teaching team.
-In those instances, I encourage you to visit the Academic Resource Center.
-The [Academic Resource Center (ARC)](https://arc.duke.edu) offers free services to all students during their undergraduate careers at Duke.
-Services include Learning Consultations, Peer Tutoring and Study Groups, ADHD/LD Coaching, Outreach Workshops, and more.
-Because learning is a process unique to every individual, they work with each student to discover and develop their own academic strategy for success at Duke.
-Contact the ARC to schedule an appointment.
-Undergraduates in any year, studying any discipline can benefit!
-Contact [ARC\@duke.edu](mailto:arc@duke.edu), 919-684-5917.
+There are times may need help with the class that is beyond what can be provided by the teaching team. In those instances, I encourage you to visit the Academic Resource Center. The [Academic Resource Center (ARC)](https://arc.duke.edu) offers free services to all students during their undergraduate careers at Duke. Services include Learning Consultations, Peer Tutoring and Study Groups, ADHD/LD Coaching, Outreach Workshops, and more. Because learning is a process unique to every individual, they work with each student to discover and develop their own academic strategy for success at Duke. Contact the ARC to schedule an appointment. Undergraduates in any year, studying any discipline can benefit! Contact [ARC\@duke.edu](mailto:arc@duke.edu), 919-684-5917.
 
 ## Mental health and wellness
 
-If your mental health concerns and/or stressful events negatively affect your daily emotional state, academic performance, or ability to participate in your daily activities, many resources are available to help you through difficult times. 
-Duke encourages all students to access these resources.
+Student mental health and wellness are of primary importance at Duke, and the university offers resources to support students in managing daily stress and self-care. Duke offers several resources for students to seek assistance on coursework and to nurture daily habits that support overall well-being, some of which are listed below.
 
--   **CAPS:** [Duke Counseling & Pyschological Services (CAPS)](https://studentaffairs.duke.edu/caps) helps Duke Students enhance strengths and develop abilities to successfully live, grow and learn in their personal and academic lives. CAPS recognizes that we are living in unprecedented times and that the changes, challenges and stressors brought on by the COVID-19 pandemic have impacted everyone, often in ways that are tax our well-being. CAPS offers many services to Duke undergraduate students, including brief individual and group counseling, couples counseling and more. CAPS staff also provides outreach to student groups, particularly programs supportive of at-risk populations, on a wide range of issues impacting them in various aspects of campus life. CAPS provides services to students via Telehealth. To initiate services, you can contact their front desk at 919-660-1000.
+-   **The Academic Resource Center:** (919) 684-5917, [theARC\@duke.edu](mailto:theARC@duke.edu), or [arc.duke.edu](https://arc.duke.edu).
+
 -   **DuWell:** (919) 681-8421, provides Moments of Mindfulness (stress management and resilience building) and meditation programming to assist students in developing a daily emotional well-being practice. To see schedules for programs please see <https://studentaffairs.duke.edu/duwell>. All are welcome and no experience necessary.
+
+If your mental health concerns and/or stressful events negatively affect your daily emotional state, academic performance, or ability to participate in your daily activities, many resources are available to help you through difficult times. Duke encourages all students to access these resources.
+
 -   **DukeReach:** Provides comprehensive outreach services to identify and support students in managing all aspects of well-being. If you have concerns about a student's behavior or health visit the website for resources and assistance: <http://studentaffairs.duke.edu/dukereach>.
+-   **Counseling and Psychological Services (CAPS):** CAPS services include individual and group counseling services, psychiatric services, and workshops. To initiate services, walk-in/call-in 9-4 M,W,Th,F and 9-6 Tuesdays. CAPS also provides referral to off-campus resources for specialized care. (919) 660-1000 or [https://students.duke.edu/wellness/caps](https://students.duke.edu/wellness/caps/).
 -   **TimelyCare:** (formerly known as Blue Devils Care) An online platform that is a convenient, confidential, and free way for Duke students to receive 24/7 mental health support through TalkNow and scheduled counseling: <https://bluedevilscare.duke.edu>.
--   **Two-Click Support:** Duke Student Government and DukeReach partnership that connects students to help in just two clicks: <https://bit.ly/TwoClickSupport>.
 
 ## Course costs
 
@@ -65,18 +47,18 @@ Duke encourages all students to access these resources.
 
 If you are having difficulty with costs associated with this course, here are some resources:
 
--   [Contact the financial aid office](https://financialaid.duke.edu/contact "https://financialaid.duke.edu/contact") (whether or not you are on aid).
-    They have loans and resources for connecting students with programs on campus that might be able to help alleviate these costs.
+-   [Contact the financial aid office](https://financialaid.duke.edu/contact "https://financialaid.duke.edu/contact") (whether or not you are on aid). They have loans and resources for connecting students with programs on campus that might be able to help alleviate these costs.
 
--   DukeLIFE offers [course materials assistance](https://dukelife.duke.edu/programs/course-materials-assistance/ "https://dukelife.duke.edu/programs/course-materials-assistance/") for eligible students.
-    Please note that students who are eligible for DukeLIFE benefits are notified prior to the start of the semester; program resources are limited.
+-   DukeLIFE offers [course materials assistance](https://dukelife.duke.edu/programs/course-materials-assistance/ "https://dukelife.duke.edu/programs/course-materials-assistance/") for eligible students. Please note that students who are eligible for DukeLIFE benefits are notified prior to the start of the semester; program resources are limited.
+
+-   Duke Libraries offers textbook rentals through the [Top Textbook Program](https://library.duke.edu/course-support/course-reserves/textbooks/about), where you can rent out a textbook for 3 hours at a time.
+
+-   For course-specific technology needs such as Digital Voice Recorder, HD Video Camera, TI-84 Plus CE, DSLR camera kit, Tripod, Shotgun Mic, iPad Mini 4, a Handheld Projector, or a GoPro, [you can reserve rental equipment](https://library.duke.edu/using/technology-lending) from the Link.
 
 ## **Assistance with Zoom or Sakai**
 
-For technical help with Sakai or Zoom, contact the Duke OIT Service Desk at [oit.duke.edu/help](https://oit.duke.edu/help).
-You can also access the self-service help documentation for Zoom [here](https://oit.duke.edu/help/articles/kb0029318) and for Sakai [here](https://sakai-duke.screenstepslive.com/s/sakai_support).
+For technical help with Sakai or Zoom, contact the Duke OIT Service Desk at [oit.duke.edu/help](https://oit.duke.edu/help). You can also access the self-service help documentation for Zoom [here](https://oit.duke.edu/help/articles/kb0029318) and for Sakai [here](https://sakai-duke.screenstepslive.com/s/sakai_support).
 
-Note that we will be making minimal use of Sakai in this course (primarily for announcements and grade book).
-All assignment submission will take place on GitHub and conversation on Slack.
+Note that we will be making minimal use of Sakai in this course (primarily for announcements and grade book). All assignment submission will take place on GitHub and conversation on Slack.
 
 Zoom will be used for online office hours as well as as a backup option should we need to hold the course online instead of in person.

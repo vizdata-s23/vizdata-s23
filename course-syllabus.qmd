@@ -3,36 +3,49 @@ title: "Syllabus"
 ---
 
 ::: {.content-visible when-format="html"}
-[**Click here**](sta199-f22-1-syllabus.pdf) **to download a PDF copy of the syllabus.**
+[**Click here**](sta313-s23-syllabus.pdf) **to download a PDF copy of the syllabus.**
 :::
 
-## Office hours
+## Course description
 
-[Click here](https://docs.google.com/spreadsheets/d/1Jgujcf6xor-63a_qfltwfMkHQtaBJHtUetd-rEpXljw/edit?usp=sharing) for the instructor and TA office hours locations and Zoom links. You are welcomed to attend the office hours for **any** STA 199 TA, regardless of section.
+STA 313 - Advanced Data Visualization is all about the art and science of visualizing data. Three themes (what, why, and how) will run alongside each other as we cycle through the course topics. In "what" we focus on specific types of visualizations for a particular purpose (e.g. maps for spatial data, Sankey diagrams for proportions, etc.) as well as the tooling to produce them (e.g. specific R packages). In "how" we focus on the process -- each visualization starts with a design (which we'll often ask you to do with a rough sketch accompanied by pseudo code), then often needs pre-processing of the data (wrangling, reshaping, joining, etc. to get it into a tidy, rectangular format for visualization), then attributes of the data are mapped to plot aesthetics, then the creator of the visualization needs to make a series of strategic decisions about visual encoding (e.g. accessibility concerns), and finally creating effective visualizations requires post-processing for visual appeal as well as annotation. In "why" we discuss the theory that ties the "how" and the "what" together, often focusing on the grammar of graphics. Like any data analysis, data visualization is also an iterative process. We don't expect you to land on the perfect visualization on the first try, so we promote the iterative process via critical and constructive review of one's own and each others' work. Independent modules will also touch on topics such as using statistical graphics for visual inference, creating data-based art, and a review of the literature on non-visual approaches to representing data.
+
+The course will focus on the use of the R statistical programming language and introduce you to a variety of modern data visualization packages in R. In addition, you will continue to use hone their data science workflow skills that they acquired in pre-requisite courses by working with Git and GitHub for version control and collaboration.
+
+## Prerequisites
+
+This course assumes that this is not your first interaction with working with data in R, using RStudio, and along with version control with Git, and collaboration on GitHub. Any of the following courses meet the prerequisite for the course: STA 198, STA 199, or STA 210. The course will start with a quick review of the relevant technologies.
+
+## Learning goals
+
+-   Understand the principles of designing and creating effective data visualizations.
+-   Evaluate, critique, and improve upon one's own and others' data visualizations based on how good a job the visualization does for communicating a message clearly and correctly.
+-   Post-process and refine plots for effective communication.
+-   Use visualizations for evaluating statistical models and for statistical inference.
+-   Master using R and a variety of modern data visualization packages to create data visualizations.
+-   Work reproducibly individually and collaboratively using Git and GitHub.
 
 ## Textbooks
 
-All books are **freely available online**.
+Readings for the course will come from the following textbooks. All of them are **freely available online** and you do not need to purchase a physical copy of either book to succeed in this class.
 
-|                                                                         |                          |                                   |                                                                                                                                  |
-|-------------------------------------------------------------------------|--------------------------|-----------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
-| [R for Data Science, 2e](https://r4ds.hadley.nz/)                       | Grolemund, Wickham       | O'Reilly, 2nd edition, 2022       | Hard copy only available of 1st edition                                                                                          |
-| [Introduction to Modern Statistics](https://openintro-ims.netlify.app/) | Çetinkaya-Rundel, Hardin | OpenIntro Inc., 1st Edition, 2021 | Hard copy available [on Amazon](https://www.amazon.com/Introduction-Modern-Statistics-Mine-%C3%87etinkaya-Rundel/dp/1943450145/) |
-
-## Course learning objectives
-
-By the end of the semester, you will...
-
--   learn to explore, visualize, and analyze data in a reproducible and shareable manner
--   gain experience in data wrangling and munging, exploratory data analysis, predictive modeling, and data visualization
--   work on problems and case studies inspired by and based on real-world questions and data
--   learn to effectively communicate results through written assignments and project presentation
+1.  Hadley Wickham, Danielle Navarro, and Thomas Lin Pedersen. [ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/). (in progress) 3rd edition. Springer, 2021.
+2.  Claus O. Wilke. [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/). O'Reilly Media, 2019.
+3.  Kieran Healy. [Data Visualization: A Practical Introduction](https://socviz.co/). Princeton University Press, 2018.
 
 ## Course community
 
 ### Duke Community Standard
 
-As a student in this course, you have agreed to uphold the [Duke Community Standard](https://studentaffairs.duke.edu/conduct/about-us/duke-community-standard) as well as the practices specific to this course.
+All students must adhere to the [Duke Community Standard (DCS)](https://studentaffairs.duke.edu/conduct/about-us/duke-community-standard): Duke University is a community dedicated to scholarship, leadership, and service and to the principles of honesty, fairness, and accountability. Citizens of this community commit to reflect upon these principles in all academic and non-academic endeavors, and to protect and promote a culture of integrity.
+
+To uphold the Duke Community Standard, students agree:
+
+-   I will not lie, cheat, or steal in my academic endeavors;
+
+-   I will conduct myself honorably in all my endeavors; and
+
+-   I will act if the Standard is compromised.
 
 ```{=html}
 <iframe width="560" height="315" src="https://www.youtube.com/embed/_KN97j30ST4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
@@ -44,6 +57,7 @@ It is my intent that students from all diverse backgrounds and perspectives be w
 
 Furthermore, I would like to create a learning environment for my students that supports a diversity of thoughts, perspectives and experiences, and honors your identities. To help accomplish this:
 
+-   If you have a name that differs from those that appear in your official Duke records, please let me know! You'll be able to note this in the Getting to know you survey.
 -   If you feel like your performance in the class is being impacted by your experiences outside of class, please don't hesitate to come and talk with me. If you prefer to speak with someone outside of the course, your academic dean is an excellent resource.
 -   I (like many people) am still in the process of learning about diverse perspectives and identities. If something was said in class (by anyone) that made you feel uncomfortable, please let me or a member of the teaching team know.
 
@@ -59,9 +73,9 @@ The [Student Disability Access Office (SDAO)](https://access.duke.edu/students) 
 
 ### Communication
 
-All lecture notes, assignment instructions, an up-to-date schedule, and other course materials may be found on the course website: [sta199-f22-1.github.io](https://sta199-f22-1.github.io/ "STA 199 - Fall 2022 - Section 1 course website").
+All lecture notes, assignment instructions, an up-to-date schedule, and other course materials may be found on the course website: [vizdata.org](https://vizdata.org/ "STA 313 - Spring 2023 - Course website").
 
-Announcements will be emailed through Sakai Announcements periodically. Please check your email regularly to ensure you have the latest announcements for the course.
+I will regularly send course announcements via email and Sakai, make sure to check one or the other of these regularly. If an announcement is sent Monday through Thursday, I will assume that you have read the announcement by the next day. If an announcement is sent on a Friday or over the weekend, I will assume that you have read it by Monday.
 
 ### Where to get help
 
@@ -69,73 +83,61 @@ Announcements will be emailed through Sakai Announcements periodically. Please c
 -   The teaching team is here to help you be successful in the course. You are encouraged to attend office hours to ask questions about the course content and assignments. Many questions are most effectively answered as you discuss them with others, so office hours are a valuable resource. Please use them!
 -   Outside of class and office hours, any general questions about course content or assignments should be posted on the course Slack. There is a chance another student has already asked a similar question, so please check the other posts on Slack before adding a new question. If you know the answer to a question posted on Slack, I encourage you to respond!
 
-Check out the [Help](/help/) tab for more resources.
+Check out the [Support](/support/) page for more resources.
 
-### Email
+I want to make sure that you learn everything you were hoping to learn from this class. If this requires flexibility, please don't hesitate to ask.
 
-If there is a question that's not appropriate for the public forum, you are welcome to email me directly. **If you email me, please include "STA 199" in the subject line.** Barring extenuating circumstances, I will respond to STA 199 emails within 48 hours Monday - Friday. Response time may be slower for emails sent Friday evening - Sunday.
+-   You *never* owe me personal information about your health (mental or physical) but you're always welcome to talk to me. If I can't help, I likely know someone who can.
 
-## Activities & Assessment
+-   I want you to learn lots of things from this class, but I primarily want you to stay healthy, balanced, and grounded during this crisis.
 
-The activities and assessments in this course are designed to help you successfully achieve the course learning objectives. They are designed to follow the **Prepare, Practice, Perform** format.
+## Lectures and lab
 
--   **Prepare**: Includes short videos, reading assignments, and lectures to introduce new concepts and ensure a basic comprehension of the material. The goal is to help you prepare for the in-class activities during lecture.
+The goal of both the lectures and the labs is for them to be as interactive as possible. My role as instructor is to introduce you new tools and techniques, but it is up to you to take them and make use of them. A lot of what you do in this course will involve writing code, and coding is a skill that is best learned by doing. Therefore, as much as possible, you will be working on a variety of tasks and activities throughout each lecture and lab. Attendance will not be taken during class but you are expected to attend all lecture and lab sessions and meaningfully contribute to in-class exercises and discussion.
 
--   **Practice**: Includes in-class application exercises where you will begin to the concepts and methods introduced in the prepare assignment. the activities will graded for completion, as they are designed for you to gain experience with the statistical and computing techniques before working on graded assignments.
+You are expected to bring a laptop to each class so that you can take part in the in-class exercises. Please make sure your laptop is fully charged before you come to class as the number of outlets in the classroom will not be sufficient to accommodate everyone. See \[Technology accommodations\] if you need a loaner laptop.
 
--   **Perform**: Includes labs, homework, exams, and the project. These assignments build upon the prepare and practice assignments and are the opportunity for you to demonstrate your understanding of the course material and how it is applied to analyze real-world data.
+## Assessment
 
-### Lectures (Prepare)
+Assessment for the course is comprised of four components: attendance and participation, reading quizzes, homework assignments, and projects.
 
-Part of the class time will be lectures that introduce new concepts or review topics from the preparation videos. Lectures will **not** repeat everything in the videos, they will instead highlight important and known to be complex concepts and will be supplemented with live coding activities. You are expected to attend every lecture. Lectures will be recorded and made available to students with an excused absence upon request.
+-   **Attendance and participation** is required throughout the semester. Students who attend at least 80% of the lectures and participate regularly during lecture will receive full credit for this portion of their grade. Participation in labs as well as on Slack will also count towards this component.
 
-### Application exercises (Practice)
+```{=html}
+<!-- -->
+```
+-   **Reading quizzes** (6), due every other week (roughly), completed individually. Each quiz is worth 2% of the grade. Lowest quiz score is dropped.
 
-A majority of the in-class lectures will be dedicated to working on Application Exercises (AEs). These exercises which give you an opportunity to practice apply the statistical concepts and code introduced in the prepare assignment. These AEs are due within three days of the corresponding lecture period. Specifically, AEs from Tuesday lectures are due Friday by 11:59p ET, and AEs from Thursday lectures are due Sunday by 11:59p ET.
+    Reading quizzes will be linked from the [course schedule](https://www.vizdata.org/schedule.html). They always cover reading that is due since the previous quiz and up to and including the deadline for the given quiz. They're due by 12pm ET (beginning of class) on the indicated day on the [course schedule](https://www.vizdata.org/schedule.html).
 
-Because these AEs are for practice, they will be graded based on completion, i.e., a good-faith effort has been made in attempting all parts. Successful on-time completion of at least 80% of AEs will result in full credit for AEs in the final course grade.
+-   **Homework assignments** (6), due every other week (roughly), completed individually. Each homework assignment is worth 8% of the course grade. Lowest homework assignment score is dropped.
 
-In addition to AEs will be periodic activities help build a learning community. These will be short, fun activities that will help everyone in the class connect throughout the semester.
+    Homework assignments are due by 12pm ET (beginning of class) on the indicated day on the [course schedule](https://www.vizdata.org/schedule.html).
 
-### Labs (Perform)
+-   **Projects** (2), mid-semester and end of semester, completed in teams.
 
-In labs, you will apply the concepts discussed in lecture to various data analysis scenarios, with a focus on the computation. Most lab assignments will be completed in teams, and all team members are expected to contribute equally to the completion of each assignment. You are expected to use the team's Git repository on the course's GitHub page as the central platform for collaboration. Commits to this repository will be used as a metric of each team member's relative contribution for each lab, and there will be periodic peer evaluation on the team collaboration. Lab assignments will be completed using Quarto, correspond to an appropriate GitHub repository, and submitted for grading in Gradescope.
+    -   Project 1: Teams will be given a dataset to visualize. Project 1 is worth 15% of the course grade.
+    -   Project 2: Teams will pick a dataset of interest to them and/or build an R package that implements a new type of data visualization in R. Project 2 is worth 25% of the course grade.
 
-Labs are due 11:59p ET on the indicated due date.
+    The deliverables for each project will include a data visualization, a write up of the process and findings, and a presentation. For the second project, you will be encouraged to think beyond a traditional two-dimensional data visualization (e.g. interactive web apps/dashboards, data art, generative art, physical/tangible visualizations, **ggplot2** extensions, etc.).
 
-*The lowest lab grade will be dropped at the end of the semester.*
+    Each project will have a peer review component to provide at least one round of feedback during the process of development. Teams will provide periodic peer feedback to their teammates while working on the projects as well as upon completion. The scores from the peer evaluations, along with individual contributions tracked by commits on GitHub, will be used to ensure that each student has contributed to the teamwork.
 
-### Homework (Perform)
+    All team members must take part in the presentation. Presentations can be given in person in class, or via Zoom if the team prefers. My preference is that the team stick to one method of delivery (all presenters in person or all presenters on Zoom), but I realize a lot can change throughout this semester, and we'll adjust accordingly.
 
-In homework, you will apply what you've learned during lecture and lab to complete data analysis tasks. You may discuss homework assignments with other students; however, homework should be completed and submitted individually. Similar to lab assignments, homework must be typed up using Quarto and GitHub and submitted as a PDF in Gradescope.
-
-Homework assignments are due 11:59p ET on the indicated due date.
-
-One homework assignment will be dedicated to a *statistics experience*. The statistics experience is an opportunity to engage with statistics and data science outside of the classroom through podcasts, books, seminars, data analysis competitions, and other activities. As you complete these experiences, the goal is to consider how the material you're learning in the course connects with society more broadly.
-
-*The lowest homework grade will be dropped at the end of the semester.*
-
-### Exams (Perform)
-
-There will be two, take-home, open-note exams. Through these exams you have the opportunity to demonstrate what you've learned in the course thus far. Each exam will include small analysis and computational tasks related to the content in the prepare, practice, and perform assignments. More details about the content and structure of the exams will be discussed during the semester.
-
-### Project (Perform)
-
-The purpose of the [project](project-description.html) is to apply what you've learned throughout the semester to analyze an interesting data-driven research question. The project will be completed with your lab teams, and each team will present their work in video and in writing during the final exam period. More information about the project will be provided during the semester.
+All work is expected to be submitted by the deadline and there are no make ups for any missed assessments. See \[Late work policy\] for policies on late work.
 
 ## Grading
 
 The final course grade will be calculated as follows:
 
-| Category              | Percentage   |
-|-----------------------|--------------|
-| Homework              | 30% (5% x 6) |
-| Labs                  | 14% (2% x 7) |
-| Project               | 15%          |
-| Exam 01               | 18%          |
-| Exam 02               | 18%          |
-| Application Exercises | 2.5%         |
-| Teamwork              | 2.5%         |
+| Category                     | Percentage |
+|------------------------------|------------|
+| Attendance and participation | 5%         |
+| Reading quizzes              | 10%        |
+| Homework assignments         | 45%        |
+| Project 1                    | 15%        |
+| Project 2                    | 25%        |
 
 The final letter grade will be determined based on the following thresholds:
 
@@ -154,6 +156,14 @@ The final letter grade will be determined based on the following thresholds:
 | D-           | 60 - 62.99         |
 | F            | \< 60              |
 
+These are upper bounds for grade cutoffs, depending on the class performance the cutoffs may be lowered but they won't be increased.
+
+## Teams
+
+You will be assigned to a different team for each of your two projects. You are encouraged to sit with your teammates in lecture and you will also work with them in the lab sessions. All team members are expected to contribute equally to the completion of each project and you will be asked to evaluate your team members after each assignment is due. Failure to adequately contribute to an assignment will result in a penalty to your mark relative to the team's overall mark.
+
+You are expected to make use of the provided GitHub repository as their central collaborative platform. Commits to this repository will be used as a metric (one of several) of each team member's relative contribution for each project.
+
 ## Course policies
 
 ### Academic honesty
@@ -162,60 +172,101 @@ The final letter grade will be determined based on the following thresholds:
 
 Please abide by the following as you work on assignments in this course:
 
--   You may discuss individual homework and lab assignments with other students; however, you may not directly share (or copy) code or write up with other students. For team assignments, you may collaborate freely within your team. You may discuss the assignment with other teams; however, you may not directly share (or copy) code or write up with another team. Unauthorized sharing (or copying) of the code or write up will be considered a violation for all students involved.
--   You may not discuss or otherwise work with others on the exams. Unauthorized collaboration or using unauthorized materials will be considered a violation for all students involved. More details will be given closer to the exam date.
--   **Reusing code**: Unless explicitly stated otherwise, you may make use of online resources (e.g. StackOverflow) for coding examples on assignments. If you directly use code from an outside source (or use it as inspiration), you must explicitly cite where you obtained the code. Any recycled code that is discovered and is not explicitly cited will be treated as plagiarism.
+-   **Collaboration:** Only work that is clearly assigned as team work should be completed collaboratively.
+
+-   The reading quizzes must be completed individually with absolutely no communication with classmates.
+
+-   The homework assignments must also be completed individually and you are welcomed to discuss the assignment with classmates at a high level (e.g., discuss what's the best way for approaching a problem, what functions are useful for accomplishing a particular task, etc.). However you may not directly share answers to homework questions (including any code) with anyone other than myself and the teaching assistants.
+
+-   For the projects, collaboration within teams is not only allowed, but expected. Communication between teams at a high level is also allowed however you may not share code or components of the project across teams.
+
+-   **Sharing and reusing code:** I am well aware that a huge volume of code is available on the web to solve any number of problems. Unless I explicitly tell you not to use something, the course's policy is that you may make use of any online resources (e.g. RStudio Community, StackOverflow) but you must explicitly cite where you obtained any code you directly use (or use as inspiration). Any recycled code that is discovered and is not explicitly cited will be treated as plagiarism. On individual assignments you may not directly share code with another student in this class, and on team assignments you may not directly share code with another team in this class.
+
+Regardless of course delivery format, it is the responsibility of all students to understand and follow all Duke policies, including academic integrity (e.g., completing one's own work, following proper citation of sources, adhering to guidance around group work projects, and more). Ignoring these requirements is a violation of the Duke Community Standard. Any questions and/or concerns regarding academic integrity can be directed to the Office of Student Conduct and Community Standards at [conduct\@duke.edu](mailto:conduct@duke.edu).
 
 Any violations in academic honesty standards as outlined in the [Duke Community Standard](https://studentaffairs.duke.edu/conduct/about-us/duke-community-standard) and those specific to this course will automatically result in a 0 for the assignment and will be reported to the [Office of Student Conduct](https://studentaffairs.duke.edu/conduct) for further action.
 
 ### Late work & extensions
 
-The due dates for assignments are there to help you keep up with the course material and to ensure the teaching team can provide feedback within a timely manner. We understand that things come up periodically that could make it difficult to submit an assignment by the deadline. Note that the lowest homework and lab assignment will be dropped to accommodate such circumstances.
+The due dates for assignments are there to help you keep up with the course material and to ensure the teaching team can provide feedback within a timely manner. We understand that things come up periodically that could make it difficult to submit an assignment by the deadline.
 
-### Late work
+Policy on late work depends on the particular course component:
 
--   Homework and labs may be submitted up to 3 days late. There will be a 5% deduction for each 24-hour period the assignment is late.
--   There is no late work accepted for application exercises, since these are designed to help you prepare for labs and homework.
--   The late work policy for exams will be provided with the exam instructions.
--   The late work policy for the project will be provided with the project instructions.
+-   Reading quizzes: Late quizzes are not accepted and there are no make ups for missed quizzes.
+
+-   Homework assignments: GitHub repositories will be closed to contributions at the deadline. If you need to submit your work late, Slack/email me to reopen your repository.
+
+    -   Late, but same day (before midnight): -10% of available points
+
+    -   Late, but next day: -20% of available points
+
+    -   Two days late or later: No credit, and we will not provide written feedback
+
+-   Projects: The following three components contribute to your project score.
+
+    -   Presentation: Late presentations are not accepted and there are no make ups for missed presentations.
+
+    -   Write up: GitHub repositories will be closed to contributions at the deadline. If you need to submit your work late, Slack/email me to reopen your repository.
+
+        -   Late, but same day (before midnight): -10% of available points
+
+        -   Late, but next day: -20% of available points
+
+        -   Two days late or later: No credit, and we will not provide written feedback
+
+    -   Peer evaluation: Late peer evaluations are not accepted and there are no make ups for missed presentations. If you do not turn in your peer evaluation, you get 0 points for your own peer score as well, regardless of how your teammates have evaluated you.
 
 ### Waiver for extenuating circumstances
 
-If there are circumstances that prevent you from completing a lab or homework assignment by the stated due date, you may email the head TA before the deadline to waive the late penalty. In your email, you only need to request the waiver; you do not need to provide explanation. This waiver may only be used for once in the semester, so only use it for a truly extenuating circumstance.
+If there are circumstances that prevent you from completing a lab or homework assignment by the stated due date, you may email the Head TA (Jackie Du, [mailto:jacquelyn.du\@duke.edu](jacquelyn.du@duke.edu)) before the deadline to waive the late penalty. In your email, you only need to request the waiver; you do not need to provide explanation. This waiver may only be used for once in the semester, so only use it for a truly extenuating circumstance.
 
-If there are circumstances that are having a longer-term impact on your academic performance, please let your academic dean know, as they can be a resource. Please let Dr. Çetinkaya-Rundel know if you need help contacting your academic dean.
+If there are circumstances that are having a longer-term impact on your academic performance, please let your academic dean know, as they can be a resource. Please let me know if you need help contacting your academic dean.
 
 ### Regrade requests
 
-Regrade requests must be submitted on Gradescope within a week of when an assignment is returned. Regrade requests will be considered if there was an error in the grade calculation or if you feel a correct answer was mistakenly marked as incorrect. Requests to dispute the number of points deducted for an incorrect response will not be considered. Note that by submitting a regrade request, the entire question will be graded which could potentially result in losing points.
+Regrade requests must be made within one week of when the assignment is returned, and must be typed up and submitted via email to the course instructor. These will be considered if points were tallied incorrectly or if you feel your answer is correct but it was marked wrong. No regrade will be made to alter the number of points deducted for a mistake. There will be no grade changes after the second project presentations. Note that during the regrade process your score could go up or go down or not change.
 
 *No grades will be changed after the project presentations.*
 
-### Class recording requests
-
-Lectures will be recorded on Panopto and will be made available to students with an excused absence upon request. Videos shared with such students will be available for a week. To request a particular lecture's video, please fill out [the form](https://forms.gle/1ckJVZU9unoxkaJ39). Please also make sure that any official documentation, such as incapacitation forms, Dean's excuses, NOVAPs, and quarantine/removal from class notices from student health are also uploaded to the form.
-
 ### Attendance policy
 
--   **COVID Symptoms, Exposure, or Infection:** Student health, safety, and well-being are the university's top priorities. To help ensure your well-being and the well-being of those around you, **please do not come to class** **if you have tested positive for COVID-19 or have possible symptoms and have not yet been tested.** If any of these situations apply to you, you must follow university guidance related to the ongoing COVID-19 pandemic and current health and safety protocols. If you are experiencing any COVID-19 symptoms, [contact student health](https://coronavirus.duke.edu/testing/#symptomatic-testing) ([dshcheckin\@duke.edu](mailto:dshcheckin@duke.edu), 919-681-9355). Learn more about current university policy related to COVID-19 at [https://coronavirus.duke.edu](https://coronavirus.duke.edu/). To keep the university community's safe and healthy as possible, you will be expected to follow these guidelines. Please reach out to me and your academic dean as soon as possible if you need to quarantine or isolate so that we can discuss arrangements for your continued participation in class.
--   **Inclement weather:** In the event of inclement weather or other connectivity-related events that prohibit class attendance, I will notify you how we will make up missed course content and work.  Asynchronous catch-up methods may apply.
--   **Religious accommodations:** Students are permitted by university policy to be absent from class to observe a religious holiday. Accordingly, Trinity College of Arts & Sciences and the Pratt School of Engineering have established procedures to be followed by students for notifying their instructors of an absence necessitated by the observance of a religious holiday. Please submit requests for religious accommodations at the beginning of the semester so that we can work to make suitable arrangements well ahead of time. You can find the policy and relevant notification form here: <https://trinity.duke.edu/undergraduate/academic-policies/religious-holidays>.
+Responsibility for class attendance rests with individual students. Since regular and punctual class attendance is expected, students must accept the consequences of failure to attend. More details on Trinity attendance policies are available [here](https://trinity.duke.edu/undergraduate/academic-policies/class-attendance-and-missed-work).
 
-*Note: If you've read this far in the syllabus, email me a picture of your pet if you have one or your favourite meme!*
+However, there may be many reasons why you cannot be in class on a given day, particularly with possible extra personal and academic stress and health concerns this semester. All course lectures will be recorded and available to enrolled students after class. If you miss a lecture, make sure to watch the recording and review the material before the next class session. Lab time is dedicated to working on your homework assignments and collaborating with your teammates on your project. If you miss a lab session, make sure to communicate with your team about how you can make up your contribution. Given the technologies we use in the course, this is straightforward to do asynchronously. If you know you're going to miss a lab session and you're feeling well enough to do so, notify your teammates ahead of time. Overall these policies are put in place to ensure communication between team members, respect for each others' time, and also to give you a safety net in the case of illness or other reasons that keep you away from attending class.
+
+### Attendance policy related to COVID symptoms, exposure, or infection
+
+Student health, safety, and well-being are the university's top priorities. To help ensure your well-being and the well-being of those around you, please do not come to class if you have symptoms related to COVID-19, have had a known exposure to COVID-19, or have tested positive for COVID-19. If any of these situations apply to you, you must follow university guidance related to the ongoing COVID-19 pandemic and current health and safety protocols. If you are experiencing any COVID-19 symptoms, contact student health at 919-681-9355. To keep the university community as safe and healthy as possible, you will be expected to follow these guidelines. Please reach out to me and your academic dean as soon as possible if you need to quarantine or isolate so that we can discuss arrangements for your continued participation in class.
+
+### Inclement weather policy
+
+In the event of inclement weather or other connectivity-related events that prohibit class attendance, I will notify you how we will make up missed course content and work. This might entail holding the class on Zoom synchronously or watching a recording of the class.
+
+### Policy on video recording course content
+
+All lectures will be recorded and available on Panopto, so students should not need to create their own recordings of lectures. If you feel that you need record the lectures yourself, you must get permission from me ahead of time and these recordings should be used for personal study only, no for distribution. The full policy on recording of lectures falls under the Duke University Policy on Intellectual Property Rights, available at [provost.duke.edu/sites/default/files/FHB_App_P.pdf](https://provost.duke.edu/sites/default/files/FHB_App_P.pdf). Unauthorized distribution is a cause for disciplinary action by the Judicial Board.
+
+## Accommodations
+
+### Academic accommodations
+
+If you are a student with a disability and need accommodations for this class, it is your responsibility to register with the [Student Disability Access Office (SDAO)](https://access.duke.edu/students) and provide them with documentation of your disability. SDAO will work with you to determine what accommodations are appropriate for your situation. Please note that accommodations are not retroactive and disability accommodations cannot be provided until a Faculty Accommodation Letter has been given to me. Please contact SDAO for more information: [sdao\@duke.edu](mailto:sdao@duke.edu) or [access.duke.edu](https://access.duke.edu).
+
+### Religious accommodations
+
+Students are permitted by university policy to be absent from class to observe a religious holiday. Accordingly, Trinity College of Arts & Sciences and the Pratt School of Engineering have established procedures to be followed by students for notifying their instructors of an absence necessitated by the observance of a religious holiday. Please submit requests for religious accommodations at the beginning of the semester so that we can work to make suitable arrangements well ahead of time. You can find the policy and relevant notification form here: <https://trinity.duke.edu/undergraduate/academic-policies/religious-holidays>.
+
+*Note: If you've read this far in the syllabus, email me a picture of your pet if you have one or your favorite meme!*
 
 ## Important dates
 
--   **Aug 29:** Classes begin
--   **Sep 9:** Drop/add ends
--   **Sep 29:** Exam 1 released
--   **Oct 3:** Exam 1 due (at 2pm)
--   **Oct 10-11**: Fall break
--   **Nov 11**: Last day to withdraw with W
--   **Nov 17:** Exam 2 released
--   **Nov 21:** Exam 2 due (at 2pm)
--   **Nov 23-25:** Thanksgiving recess
--   **Dec 9**: Classes end
--   **Dec 10-13**: Reading period
--   **Dec 14-19**: Final exams
+-   **Wednesday, January 11:** Classes begin, Monday schedule (no class for us)
+-   **Wednesday, January 25:** Drop/add ends
+-   **Friday, February 24:** Mid-semester grades reported
+-   **Saturday - Sunday, March 11 - 19**: Spring Break (continuing, but limited course support available)
+-   **Wednesday, March 29:** Last day to withdraw with W
+-   **Wednesday, April 26**: Classes end
+-   **Thursday - Sunday, April 27 - 30**: Reading period
+-   **Thursday, May 4, 2-5pm**: Project 2 presentation
 
-For more important dates, see the full [Duke Academic Calendar](https://registrar.duke.edu/fall-2022-academic-calendar).
+For more important dates, see the full [Duke Academic Calendar](https://registrar.duke.edu/spring-2023-academic-calendar).
