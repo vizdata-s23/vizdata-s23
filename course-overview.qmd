@@ -2,21 +2,20 @@
 title: "Course overview"
 ---
 
-Intro to data science and statistical thinking.
-Learn to explore, visualize, and analyze data to understand natural phenomena, investigate patterns, model outcomes, and make predictions, and do so in a reproducible and shareable manner.
-Gain experience in data wrangling and munging, exploratory data analysis, predictive modeling, and data visualization, and effective communication of results.
-Work on problems and case studies inspired by and based on real-world questions and data.
-The course will focus on the R statistical computing language.
-No statistical or computing background is necessary.
-Not open to students who have taken a 100-level Statistical Science course, Statistical Science 210, or a Statistical Science course numbered 300 or above.
+<img src="images/logo.png" class="cover" width="240" height="240"/>This is the homepage for STA 313 - Advanced Data Visualization taught by [Dr. Mine Çetinkaya-Rundel](http://mine-cr.com/) in Spring 2023 at Duke University. All course materials will be posted on this site.
+
+You can find the syllabus for the course [here](/syllabus) and the course schedule [here](/).
 
 ## Class meetings
 
 | Meeting | Location                       | Time                        |
 |---------|--------------------------------|-----------------------------|
-| Lecture | French Science 2231            | Tue & Thur 10:15 - 11:30 am |
-| Lab 01  | Perkins Link 087 (Classroom 3) | Mon 10:15 - 11:30 am        |
-| Lab 02  | Perkins Link 087 (Classroom 3) | Mon 1:45 - 3:00 pm          |
-| Lab 03  | Perkins Link 087 (Classroom 3) | Mon 3:30 - 4:45 pm          |
-| Lab 04  | Perkins Link 087 (Classroom 3) | Mon 5:15 - 6:30 pm          |
-| Lab 05  | Perkins Link 087 (Classroom 3) | Mon 12:00 - 1:15 pm         |
+| Lecture | Old Chemistry 116.             | Tue & Thur 12:00 - 13:15 pm |
+| Lab 01  | Perkins Link 087 (Classroom 3) | Wed 1:45 - 3:00 pm          |
+| Lab 02  | Perkins Link 087 (Classroom 3) | Mon 3:30 - 4:45 pm          |
+
+## Course description
+
+This course is all about the art and science of visualizing data. Learn about the what (types of visualizations, tools to produce them), the how (start with a design, pre-process the data, map it to graphical attributes, make strategic decisions about visual encoding, post-process for readability and visual appeal), and the why (the theory behind the grammar of graphics). Evaluate the clarity, effectiveness, and honesty of visualization choices and improve (your and others') visualizations through an iterative design process. Discuss the role of statistical graphics in modeling and inference. Do it all in R, reproducibly, and using a variety of modern data visualization packages.
+
+Prerequisite: Statistical Science 198L or (198L-1 and 198L-2) or 199L or (199L-1 and 199L-2) or 210L.
