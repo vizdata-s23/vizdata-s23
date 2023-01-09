@@ -58,6 +58,14 @@ website:
             text: Useful links
           - href: course-faq.qmd
             text: FAQ
+      - section: "Projects"
+        contents:
+          - href: project-1.qmd
+            text: Project 1
+          - href: project-2.qmd
+            text: Project 2
+          - href: project-tips-resources.qmd
+            text: Tips + resources
       - section: "Computing"
         contents:
           - href: computing-access.qmd
@@ -66,12 +74,6 @@ website:
             text: Troubleshooting
           - href: computing-cheatsheets.qmd
             text: Cheatsheets
-      - section: "Project"
-        contents:
-          - href: project-description.qmd
-            text: Description
-          - href: project-tips-resources.qmd
-            text: Tips + resources
 
   page-footer:
     right: "This page is built with 💛 and [Quarto](https://quarto.org/)."
