@@ -7,9 +7,9 @@
 
 
 $font-family-sans-serif: "Atkinson Hyperlegible", sans-serif;
-$presentation-heading-color: #325b74; /* Pantone Midnight - Fall 2022 */
+$presentation-heading-color: #866fa3; /* Pantone Midnight - Fall 2022 */
 $presentation-title-slide-text-align: "left";
-$link-color: #325b74;
+$link-color: #866fa3;
 $code-block-font-size: 0.7em;
 
 /*-- scss:rules --*/
@@ -41,7 +41,7 @@ details>summary {
   font-size: 0.75em;
 }
 
-.small {
+.large {
   font-size: 1.5em;
 }
 
@@ -60,19 +60,4 @@ details>summary {
   margin-top: 6px;
   border-left: solid 5px #F1DE67;
   background-color: #F1DE6750;
-}
-.reveal .slide .poll {
-  border-left: 3px solid #fcd06b; /* Pantone Samoan Sun - Fall 2022 */
-  padding-left: 0.5em;
-  padding-top: 0.25em;
-  padding-bottom: 0.25em;
-  background: #FFEDC2;
-}
-
-.reveal .slide .appex {
-  border-left: 3px solid #1f7349; /* Pantone Amazon - Fall 2022 */
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-  padding: 0.5em;
-  background: #EBF7FF;
 }

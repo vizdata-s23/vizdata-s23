@@ -86,22 +86,23 @@ Old Chem 213
 
 ## Course website
 
-::: large
+::: {.large style="text-align: center;"}
 [vizdata.org](https://www.vizdata.org/)
 :::
 
-::: hand
+::: {.hand style="text-align: center;"}
 aka "the one link to rule them all"
 :::
 
-.center\[ <iframe width="900" height="450" src="https://www.vizdata.org/" frameborder="0" style="background:white;"></iframe>\
-\]
+::: {style="text-align: center;"}
+```{=html}
+<iframe width="1000" height="400" src="https://www.vizdata.org/" frameborder="1" style="background:white;"></iframe>
+```
+:::
 
-## Lectures
+## Lectures {.smaller}
 
--   Lectures will be in person this semester
-
-    -   Recordings will be automatically posted after class
+-   In person
 
 -   Attendance is required (as long as you're healthy!)
 
@@ -111,6 +112,8 @@ aka "the one link to rule them all"
     -   Live coding + demos
     -   Short exercises + solution discussion
 
+-   Recordings will be posted after class -- to be used for review + make-up if you can't make it to class due to health reasons, they're not an alternative to class attendance
+
 ## Labs
 
 -   Attendance is required (as long as you're healthy!)
@@ -119,28 +122,19 @@ aka "the one link to rule them all"
 
 -   Opportunity to work with teammates on projects
 
-## Community participation
-
-\[UPDATE\]
-
--   I'll try to do a live stream in alternating weeks for the these two community projects (schedule TBA):
-    -   [TidyTuesday](https://github.com/rfordatascience/tidytuesday) - New dataset every week for wrangling, visualizing, modeling
-    -   [Recreation Thursday](https://twitter.com/_natalie_oshea/status/1400526683170541570) - Piece of art to recreate/remix, every two weeks
--   I encourage you to participate, or at a minimum, browse others' contributions on Twitter with [#TidyTuesday](https://twitter.com/search?q=%23TidyTuesday&src=typed_query&f=live) and [#RecreationThursday](https://twitter.com/search?q=%23RecreationThursday&src=typed_query&f=live)
-
 ## Announcements
 
 -   Posted on Sakai (Announcements tool) and sent via email, be sure to check both regularly
 
 -   I'll assume that you've read an announcement by the next "business" day
 
-## Diversity and inclusion
+## Diversity and inclusion {.smaller}
 
 It is my intent that students from all diverse backgrounds and perspectives be well-served by this course, that students' learning needs be addressed both in and out of class, and that the diversity that the students bring to this class be viewed as a resource, strength and benefit.
 
--   If you have a name that differs from those that appear in your official Duke records, please let me know! You'll be able to note this in the Getting to know you survey.
+-   If you have a name that differs from those that appear in your official Duke records, please let me know!
 
--   Please let me know your preferred pronouns. You'll also be able to note this in the Getting to know you survey.
+-   Please let me know your preferred pronouns.
 
 -   If you feel like your performance in the class is being impacted by your experiences outside of class, please don't hesitate to come and talk with me. I want to be a resource for you. If you prefer to speak with someone outside of the course, your advisers and deans are excellent resources.
 
@@ -154,26 +148,33 @@ It is my intent that students from all diverse backgrounds and perspectives be w
 
 # Assessments
 
-## Attendance + participation
+## Attendance + participation (5%)
 
-Add info
+-   Required throughout the semester in lecture and lab
 
-## Reading quizzes
+-   Students who attend at least 80% of the lectures and participate regularly in lecture and/or other course venues (lab + Slack) will receive full credit for this portion of their grade
+
+-   Participation in labs as well as on Slack will also count towards this component
+
+## Reading quizzes (10%)
 
 -   Online, individual
 -   Cover reading that is due since the previous quiz and up to and including the deadline for the given quiz
--   Due by 12pm ET (beginning of class) on the indicated day on the course schedule
--   Lowest dropped
+-   Due by 12 pm ET (beginning of class) on the indicated day on the course schedule
+-   **Lowest dropped**
 
-## Homework assignments
+## Homework assignments (45%)
 
 -   Submitted on GitHub, individual
--   Lowest dropped
+-   Some lab sessions allocated to working on homework / getting feedback from TAs
+-   Due by 12 pm ET (beginning of class) on the indicated day on the course schedule
+-   **Lowest dropped**
 
 ## Projects
 
 -   Submitted on GitHub, team-based
 -   Interim deadlines, peer review on content, peer evaluation for team contribution
+-   Some lab sessions allocated to working on projects, doing peer review, getting feedback from TAs
 
 ## Teams
 
@@ -186,15 +187,15 @@ Add info
     -   Everyone is expected to understand *all* code turned in
     -   Individual contribution evaluated by peer evaluation, commits, etc.
 
-## Project 1
+## Project 1 (15%)
 
--   Same data, different results
+-   Same/similar data, different results
 
 -   Presentation and write-up
 
 -   Wrapped up before midterms grades are due
 
-## Project 2
+## Project 2 (25%)
 
 -   The world is your oyster! (and more details TBA)
 
@@ -204,20 +205,24 @@ Add info
 
 -   Wrapped up on the final exam date
 
-## Grading
-
-TO DO: UPDATE!!!
+## Grading {.smaller}
 
 This course is assessed 100% on your coursework (there is no exam). We will be assessing you based on the following assignments,
 
-<br/>
+| Assignment                 | Type       | Value | n   | Due                                        |
+|:---------------------------|:-----------|:------|:----|--------------------------------------------|
+| Attendance + participation | Individual | 5%    |     |                                            |
+| Reading quizzes            | Individual | 10%   | 7   | \~ Every other week                        |
+| Homeworks                  | Individual | 45%   | 6   | \~ Every other week                        |
+| Project 1                  | Team       | 15%   | 1   | \~ Week 6 + earlier interim deadlines      |
+| Project 2                  | Team       | 25%   | 1   | \~ Finals week + earlier interim deadlines |
 
-| Assignment      | Type       | Value | n   | Due                 |
-|:----------------|:-----------|:------|:----|---------------------|
-| Reading quizzes | Individual | 12%   | 6   | \~ Every other week |
-| Homeworks       | Individual | 48%   | 6   | \~ Every other week |
-| Project 1       | Team       | 15%   | 1   | \~ Week 4 and 6     |
-| Project 2       | Team       | 25%   | 1   | \~ Week 11 and 15   |
+## Community participation
+
+This is not required but highly recommended!
+
+-   [TidyTuesday](https://github.com/rfordatascience/tidytuesday) - New dataset every week for wrangling, visualizing, modeling
+-   I encourage you to participate, or at a minimum, browse others' contributions on Twitter or Mastodon with [#TidyTuesday](https://twitter.com/search?q=%23TidyTuesday&src=typed_query&f=live)
 
 # Course policies
 
@@ -229,7 +234,7 @@ This course is assessed 100% on your coursework (there is no exam). We will be a
 
 -   Read and follow university guidance
 
-## Late work policy
+## Late work policy {.smaller}
 
 -   Reading quizzes: Late submissions not accepted
 
@@ -278,45 +283,58 @@ This course is assessed 100% on your coursework (there is no exam). We will be a
 
 ## 
 
-::: .large .center
+<br><br><br>
 
-most importantly: ask if you're not sure if something violates a policy!
+::: {.large .hand style="text-align: center"}
+most importantly:
 
+ask if you're not sure if something violates a policy!
 :::
 
-## Learning during a pandemic
+## 
+
+# Support
+
+## Office hours {.smaller}
+
+-   Mine:
+
+    -   Wednesdays 8 - 9 pm - Zoom (E)
+
+        -   Except Wed, Feb 1
+
+        -   Any other exceptions will be announced in class / by email
+
+    -   By appointment - Zoom or Old Chem 213
+
+-   TAs:
+
+    -   Jackie: Tuesdays 4 - 6 pm - Edge Project Room 2
+
+    -   Lorenzo: Mondays 5 - 7 pm - Old Chemistry 203b
+
+    -   Sam: Tuesdays 1:30 - 3:30 pm - Location TBA
+
+    -   Evan: Mondays 10 am - 12 pm - Zoom (Link on Sakai \> Zoom meetings)
+
+    -   Holly: Mondays 1-3 pm - Zoom (Link on Sakai \> Zoom meetings)
+
+-   \+ lots more resources listed on the syllabus!
+
+## Wellness
 
 I want to make sure that you learn everything you were hoping to learn from this class. If this requires flexibility, please don't hesitate to ask.
 
 -   You never owe me personal information about your health (mental or physical) but you're always welcome to talk to me. If I can't help, I likely know someone who can.
 
--   I want you to learn lots of things from this class, but I primarily want you to stay healthy, balanced, and grounded during this crisis.
-
-# Support
-
-## Office hours
-
--   Mine: 8-9pm on Wednesdays on Zoom (Link in Sakai)
-
--   Jennifer: on Zoom
-
-    -   5-6pm on Thursdays
-
--   Vittorio: at Old Chem 203B
-
-    -   2-3pm on Mondays
-    -   11am-12pm on Tuesdays
-
--   R TA: TBA
-
--   and lots more resources listed on the [syllabus](https://www.vizdata.org/syllabus.html#support)
+-   I want you to learn lots of things from this class, but I primarily want you to stay healthy, balanced, and grounded.
 
 # Course Tools
 
 ## RStudio
 
-::: large
-https://cmgr.oit.duke.edu/containers
+::: {.large style="text-align: center;"}
+<https://cmgr.oit.duke.edu/containers>
 :::
 
 -   Browser based RStudio instance(s) provided by Duke OIT
@@ -327,10 +345,10 @@ https://cmgr.oit.duke.edu/containers
 
 -   Local R installations are fine but we will not guarantee support
 
-## GitHub
+## GitHub {.smaller}
 
-::: large
-https://github.com/vizdata-s23
+::: {.large style="text-align: center;"}
+<https://github.com/vizdata-s23>
 :::
 
 -   GitHub organization for the course
@@ -339,13 +357,13 @@ https://github.com/vizdata-s23
 
 -   Each assignment is a private repo on GitHub, I distribute the assignments on GitHub and you submit them there
 
--   Feedback on assignments is given as GitHub issues, only points recorded on Sakai gradebook
+-   Feedback on assignments is given as GitHub issues, scores recorded on Sakai Gradebook
 
 ::: task
 Fill out the *Getting to know you* survey for collection of your account names, later this week you will be invited to the course organization.
 :::
 
-## Username advice
+## Username advice {.smaller}
 
 ::: hand
 in case you don't yet have a GitHub account...
@@ -363,7 +381,7 @@ Some brief advice about selecting your account names (particularly for GitHub),
 
 -   Make it timeless. Avoid highlighting your current university, employer, or place of residence
 
-## Slack
+## Slack {.smaller}
 
 -   Online forum for asking and answering questions
 
@@ -379,18 +397,18 @@ Some brief advice about selecting your account names (particularly for GitHub),
 
 -   **Unfortunately** Slack is **not** the best place to ask coding questions, but it's a great place for real-time connection and collaboration
 
-.task\[ Demo on Tuesday for asking good questions with proper code formatting.\]
+::: task
+Demo on Tuesday for asking good questions with proper code formatting.
+:::
 
-# Before Friday
+## Before the weekend
 
-## Before Friday
+1.  Create a GitHub account if you don't have one
 
--   Create a GitHub account if you don't have one
+2.  Read the [syllabus](https://www.vizdata.org/syllabus.html)
 
--   Read the [syllabus](https://www.vizdata.org/syllabus.html)
+3.  Make sure you can login in to RStudio and reserve a container for STA 313: [cmgr.oit.duke.edu/containers](https://cmgr.oit.duke.edu/containers)
 
--   Make sure you can login in to RStudio and reserve a container for STA 313: [cmgr.oit.duke.edu/containers](https://cmgr.oit.duke.edu/containers)
+4.  Complete the *Getting to know you* survey on Sakai -- to be posted
 
--   Complete the *Getting to know you* survey on Sakai -- to be posted
-
--   Complete the readings and Reading Quiz 1 -- to be posted
+5.  Complete the readings and Reading Quiz 1 -- to be posted

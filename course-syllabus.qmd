@@ -103,9 +103,8 @@ Assessment for the course is comprised of four components: attendance and partic
 
 -   **Attendance and participation** is required throughout the semester. Students who attend at least 80% of the lectures and participate regularly during lecture will receive full credit for this portion of their grade. Participation in labs as well as on Slack will also count towards this component.
 
-```{=html}
 <!-- -->
-```
+
 -   **Reading quizzes** (6), due every other week (roughly), completed individually. Each quiz is worth 2% of the grade. Lowest quiz score is dropped.
 
     Reading quizzes will be linked from the [course schedule](https://www.vizdata.org/schedule.html). They always cover reading that is due since the previous quiz and up to and including the deadline for the given quiz. They're due by 12pm ET (beginning of class) on the indicated day on the [course schedule](https://www.vizdata.org/schedule.html).

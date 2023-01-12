@@ -13,3 +13,10 @@ You can find the course syllabus [here](/syllabus) and the course schedule [here
 | Lecture | Old Chemistry 116.             | Tue & Thur 12:00 - 13:15 pm |
 | Lab 01  | Perkins Link 087 (Classroom 3) | Wed 1:45 - 3:00 pm          |
 | Lab 02  | Perkins Link 087 (Classroom 3) | Wed 3:30 - 4:45 pm          |
+
+<br>
+
+## **License**
+
+[![Creative Commons License](https://licensebuttons.net/l/by-sa/4.0/88x31.png){alt="Creative Commons License"}](https://creativecommons.org/licenses/by-sa/4.0/)\
+This online work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/). Visit [here](https://github.com/dukestatsciintrods/blob/master/LICENSE.md) for more information about the license.
