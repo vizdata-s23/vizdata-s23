@@ -103,8 +103,6 @@ Assessment for the course is comprised of four components: attendance and partic
 
 -   **Attendance and participation** is required throughout the semester. Students who attend at least 80% of the lectures and participate regularly during lecture will receive full credit for this portion of their grade. Participation in labs as well as on Slack will also count towards this component.
 
-<!-- -->
-
 -   **Reading quizzes** (6), due every other week (roughly), completed individually. Each quiz is worth 2% of the grade. Lowest quiz score is dropped.
 
     Reading quizzes will be linked from the [course schedule](https://www.vizdata.org/schedule.html). They always cover reading that is due since the previous quiz and up to and including the deadline for the given quiz. They're due by 12pm ET (beginning of class) on the indicated day on the [course schedule](https://www.vizdata.org/schedule.html).
@@ -223,7 +221,7 @@ If there are circumstances that are having a longer-term impact on your academic
 
 ### Regrade requests
 
-Regrade requests must be made within one week of when the assignment is returned, and must be typed up and submitted via email to the course instructor. These will be considered if points were tallied incorrectly or if you feel your answer is correct but it was marked wrong. No regrade will be made to alter the number of points deducted for a mistake. There will be no grade changes after the second project presentations. Note that during the regrade process your score could go up or go down or not change.
+Regrade requests must be made within one week of when the assignment is returned, and must be typed up and submitted via email to the course Head TA (Jackie Du). These will be considered if points were tallied incorrectly or if you feel your answer is correct but it was marked wrong. No regrade will be made to alter the number of points deducted for a mistake. There will be no grade changes after the second project presentations. Note that during the regrade process your score could go up or go down or not change.
 
 *No grades will be changed after the project presentations.*
 
@@ -232,6 +230,8 @@ Regrade requests must be made within one week of when the assignment is returned
 Responsibility for class attendance rests with individual students. Since regular and punctual class attendance is expected, students must accept the consequences of failure to attend. More details on Trinity attendance policies are available [here](https://trinity.duke.edu/undergraduate/academic-policies/class-attendance-and-missed-work).
 
 However, there may be many reasons why you cannot be in class on a given day, particularly with possible extra personal and academic stress and health concerns this semester. All course lectures will be recorded and available to enrolled students after class. If you miss a lecture, make sure to watch the recording and review the material before the next class session. Lab time is dedicated to working on your homework assignments and collaborating with your teammates on your project. If you miss a lab session, make sure to communicate with your team about how you can make up your contribution. Given the technologies we use in the course, this is straightforward to do asynchronously. If you know you're going to miss a lab session and you're feeling well enough to do so, notify your teammates ahead of time. Overall these policies are put in place to ensure communication between team members, respect for each others' time, and also to give you a safety net in the case of illness or other reasons that keep you away from attending class.
+
+Note that attendance and participation is part of your grade as well.
 
 ### Attendance policy related to COVID symptoms, exposure, or infection
 
