@@ -210,7 +210,7 @@ It is my intent that students from all diverse backgrounds and perspectives be w
 This course is assessed 100% on your coursework (there is no exam). We will be assessing you based on the following assignments,
 
 | Assignment                 | Type       | Value | n   | Due                                        |
-|:---------------------------|:-----------|:------|:----|--------------------------------------------|
+|:------------|:------------|:------------|:------------|--------------------|
 | Attendance + participation | Individual | 5%    |     |                                            |
 | Reading quizzes            | Individual | 10%   | 7   | \~ Every other week                        |
 | Homeworks                  | Individual | 45%   | 6   | \~ Every other week                        |
@@ -412,3 +412,161 @@ Demo on Tuesday for asking good questions with proper code formatting.
 4.  Complete the *Getting to know you* survey on Sakai -- to be posted
 
 5.  Complete the readings and Reading Quiz 1 -- to be posted
+
+# Grammar of graphics
+
+## Data visualization
+
+> *"The simple graph has brought more information to the data analyst's mind than any other device." \-\-- John Tukey*
+
+-   Data visualization is the creation and study of the visual representation of data
+
+-   Many tools for visualizing data \-- R is one of them
+
+-   Many approaches/systems within R for making data visualizations \-- **ggplot2** is one of them, and that's what we're going to use
+
+## ggplot2 ∈ tidyverse
+
+::: columns
+::: {.column width="50%"}
+![](images/ggplot2-part-of-tidyverse.png){fig-align="left"}
+:::
+
+::: {.column width="50%"}
+-   **ggplot2** is tidyverse's data visualization package
+
+-   `gg` in "ggplot2" stands for Grammar of Graphics
+
+-   Inspired by the book **Grammar of Graphics** by Leland Wilkinson
+:::
+:::
+
+## Grammar of Graphics
+
+::: columns
+::: {.column width="30%"}
+A grammar of graphics is a tool that enables us to concisely describe the components of a graphic
+:::
+
+::: {.column width="70%"}
+![](images/grammar-of-graphics.png){fig-align="right"}
+:::
+:::
+
+::: aside
+Source: [BloggoType](http://bloggotype.blogspot.com/2016/08/holiday-notes2-grammar-of-graphics.html)
+:::
+
+## Hello ggplot2!
+
+-   `ggplot()` is the main function in ggplot2
+-   Plots are constructed in layers
+-   Structure of the code for plots can be summarized as
+
+```{r}
+#| eval: false
+
+ggplot(data = [dataset], 
+       mapping = aes(x = [x-variable], y = [y-variable])) +
+   geom_xxx() +
+   other options
+```
+
+-   The ggplot2 package comes with the tidyverse
+
+```{r}
+#| message: false
+
+library(tidyverse)
+```
+
+-   For help with ggplot2, see [ggplot2.tidyverse.org](http://ggplot2.tidyverse.org/)
+
+## Data: Palmer Penguins
+
+Measurements for penguin species, island in Palmer Archipelago, size (flipper length, body mass, bill dimensions), and sex.
+
+::: columns
+::: {.column width="20%"}
+![](images/penguins.png){fig-align="left"}
+:::
+
+::: {.column width="80%"}
+```{r}
+library(palmerpenguins)
+glimpse(penguins)
+```
+:::
+:::
+
+## Goal
+
+::: panel-tabset
+## Plot
+
+```{r}
+#| ref.label: "goal-plot"
+#| echo: false
+```
+
+## Code
+
+```{r}
+#| label: goal-plot
+#| eval: false
+
+ggplot(
+  penguins,
+  aes(x = bill_depth_mm, y = bill_length_mm, colour = species)
+) +
+  geom_point() +
+  labs(
+    title = "Bill depth and length",
+    subtitle = "Dimensions for Adelie, Chinstrap, and Gentoo Penguins",
+    x = "Bill depth (mm)", y = "Bill length (mm)",
+    colour = "Species"
+  )
+```
+:::
+
+## An improved goal {.smaller}
+
+::: panel-tabset
+## Plot
+
+```{r}
+#| ref.label: "improved-goal-plot"
+#| echo: false
+```
+
+## Code
+
+```{r}
+#| label: improved-goal-plot
+#| eval: false
+
+ggplot(
+  penguins,
+  aes(x = bill_depth_mm,y = bill_length_mm,colour = species)) +
+  geom_point() +
+  labs(
+    title = "Bill depth and length",
+    subtitle = "Dimensions for Adelie, Chinstrap, and Gentoo Penguins",
+    x = "Bill depth (mm)", y = "Bill length (mm)",
+    colour = "Species",
+    caption = "Source: Palmer Station LTER / palmerpenguins package"
+  ) +
+  theme_minimal() +
+  ggthemes::scale_color_colorblind()
+```
+
+## Narrative
+
+Start with the `penguins` data frame, map bill depth to the x-axis and map bill length to the y-axis.
+
+Represent each observation with a point and map species to the colour of each point.
+
+Title the plot "Bill depth and length", add the subtitle "Dimensions for Adelie, Chinstrap, and Gentoo Penguins", label the x and y axes as "Bill depth (mm)" and "Bill length (mm)", respectively, label the legend "Species", and add a caption for the data source.
+
+Finally, use a discrete colour scale that is designed to be perceived by viewers with common forms of colour blindness.
+:::
