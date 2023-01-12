@@ -25,7 +25,7 @@ website:
     align: center
     tools:
       - icon: github
-        href: https://github.com/sta199-f22-1/sta199-f22-1.github.io
+        href: https://github.com/vizdata-s23/vizdata-s23
         text: "GitHub organization"
       - icon: code-square
         href: https://cmgr.oit.duke.edu/containers
@@ -33,11 +33,13 @@ website:
       - icon: person-fill
         text: "Sakai"
         menu:
-          - text: Gradescope
-            url: https://sakai.duke.edu/portal/site/d55dc1df-28e1-4637-be6f-6ba7c848fabf/page/e6e5b35b-ae85-4d98-8c56-ec6c559db637
+          - text: Announcements
+            url: https://sakai.duke.edu/portal/directtool/e0d406f3-bd6a-41fe-a2e9-18bfecebeed0/
+          - text: Zoom meetings
+            url: https://sakai.duke.edu/portal/directtool/c3f055cb-2cdc-4527-a88e-b75d1162784c/
           - text: Gradebook
-            url: https://sakai.duke.edu/portal/site/d55dc1df-28e1-4637-be6f-6ba7c848fabf/tool/1d0ca2ac-6304-46b2-a6ac-de5a93f677b2/
-
+            url: https://sakai.duke.edu/portal/directtool/3ec6ed6c-6bc7-4758-917b-431e0b5b39c7/
+ 
     style: docked
     search: true
     collapse-level: 1
