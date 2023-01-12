@@ -58,26 +58,32 @@ website:
             text: Useful links
           - href: course-faq.qmd
             text: FAQ
-      - section: "Projects"
-        contents:
-          - href: project-1.qmd
-            text: Project 1
-          - href: project-2.qmd
-            text: Project 2
-          - href: project-tips-resources.qmd
-            text: Tips + resources
       - section: "Computing"
         contents:
-          - href: computing-access.qmd
+          - href: computing/computing-access.qmd
             text: Access
-          - href: computing-troubleshooting.qmd
+          - href: computing/computing-troubleshooting.qmd
             text: Troubleshooting
-          - href: computing-cheatsheets.qmd
+          - href: computing/computing-cheatsheets.qmd
             text: Cheatsheets
+      - section: "Projects"
+        contents:
+          - href: project/project-1.qmd
+          - href: project/project-2.qmd
+          - href: project/project-tips-resources.qmd
+            text: Tips + resources
+      - section: "HW"
+        contents:
+          - href: hw/hw-1.qmd
+          - href: hw/hw-2.qmd
+          - href: hw/hw-3.qmd
+          - href: hw/hw-4.qmd
+          - href: hw/hw-5.qmd
+          - href: hw/hw-6.qmd
 
   page-footer:
     right: "This page is built with 💛 and [Quarto](https://quarto.org/)."
-    left: "&copy; Copyright 2022, Mine Çetinkaya-Rundel"
+    left: "&copy; Copyright 2023, Mine Çetinkaya-Rundel"
     background: "#f1de67" # Arylide Yellow
 
 format:
@@ -85,7 +91,7 @@ format:
     theme:
       light: [cosmo, style/sta313.scss]
       dark: [cosmo, style/sta313.scss, style/dark.scss]
-    linkcolor: "#a493ba" # Glossy Grape
+    linkcolor: "#866fa3" # Glossy Grape
     toc: true
     code-copy: true
     code-overflow: wrap

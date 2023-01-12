@@ -1,8 +1,0 @@
----
-title: "Prepare"
-subtitle: "Due: August 30, 2022"
-categories: "prepare"
----
-
--   Join the course Slack using the invitation link in your email.
--   Reserve a STA 198-199 container at <https://cmgr.oit.duke.edu/containers>.

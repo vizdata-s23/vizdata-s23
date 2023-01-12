@@ -21,7 +21,8 @@ gs4_deauth()
 d <- read_sheet("https://docs.google.com/spreadsheets/d/1Qj2rcIqFGwOosr9Yiyo-MaeFSZ7KOYNn8Ph1kebgDuY/edit?usp=sharing")
 ```
 
-::: column-screen-right
+<div>
+
 ```{r}
 #| echo: false
 
@@ -30,11 +31,11 @@ d |>
     date = as.Date(date)
   ) |>
   gt() |>
-  fmt_date(date, date_style = 30) |>
-  sub_missing(columns = c(week, prepare, due), missing_text = "") |>
+  fmt_date(date, date_style = 31) |>
+  sub_missing(columns = c(week, topic, prepare, due), missing_text = "") |>
   cols_align(
     align = "center", 
-    columns = c(week, dow)
+    columns = c(week)
     ) |>
   cols_align(
     align = "right", 
@@ -42,7 +43,7 @@ d |>
     ) |>
   cols_align(
     align = "left", 
-    columns = c(topic, prepare, due)
+    columns = c(what, topic, prepare, due)
     ) |>
   tab_style(
     style = cell_borders(
@@ -55,7 +56,14 @@ d |>
     )
   ) |>
   fmt_markdown(
-    columns = c(prepare, due)
+    columns = c(topic, prepare, due)
+  ) |>
+  cols_width(
+    week ~ px(40)
+  ) |>
+  cols_label(
+    what = ""
   )
 ```
-:::
+
+</div>

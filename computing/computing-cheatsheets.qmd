@@ -1,0 +1,39 @@
+---
+title: "R cheatsheets"
+---
+
+The following cheatsheets come from <https://posit.co/resources/cheatsheets>. We haven't covered every function and functionality listed on them, but you might still find them useful as references.
+
+::: columns
+::: {.column width="50%"}
+[![](cheatsheets/data-visualization.png){fig-alt="ggplot2 cheat sheet" fig-align="left" width="300"}](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-visualization.pdf)
+
+<br>
+
+[![](cheatsheets/tidyr.png){fig-alt="ggplot2 cheat sheet" fig-align="left" width="300"}](https://raw.githubusercontent.com/rstudio/cheatsheets/main/tidyr.pdf)
+
+<br>
+
+[![](cheatsheets/strings.png){fig-alt="ggplot2 cheat sheet" fig-align="left" width="300"}](https://raw.githubusercontent.com/rstudio/cheatsheets/main/strings.pdf)
+
+<br>
+
+[![](cheatsheets/lubridate.png){fig-alt="ggplot2 cheat sheet" fig-align="left" width="300"}](https://raw.githubusercontent.com/rstudio/cheatsheets/main/lubridate.pdf)
+:::
+
+::: {.column width="50%"}
+[![](cheatsheets/data-transformation.png){fig-alt="ggplot2 cheat sheet" fig-align="right" width="300"}](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-transformation.pdf)
+
+<br>
+
+[![](cheatsheets/data-import.png){fig-alt="ggplot2 cheat sheet" fig-align="right" width="300"}](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-import.pdf)
+
+<br>
+
+[![](cheatsheets/factors.png){fig-alt="ggplot2 cheat sheet" fig-align="right" width="300"}](https://raw.githubusercontent.com/rstudio/cheatsheets/main/factors.pdf)
+
+<br>
+
+[![](cheatsheets/rstudio-ide.png){fig-alt="ggplot2 cheat sheet" fig-align="right" width="300"}](https://raw.githubusercontent.com/rstudio/cheatsheets/main/rstudio-ide.pdf)
+:::
+:::
