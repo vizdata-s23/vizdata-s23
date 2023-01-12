@@ -1,7 +1,10 @@
 /*-- scss:defaults --*/
 
 // fonts
-@import 'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap';
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap');
+
 
 $font-family-sans-serif: "Atkinson Hyperlegible", sans-serif;
 $presentation-heading-color: #325b74; /* Pantone Midnight - Fall 2022 */
@@ -16,30 +19,48 @@ details>summary {
 }
 
 #title-slide .subtitle {
-  color: #325b74;
-  font-weight: bold
+  color: #464a53;
+  font-weight: bold;
+  text-align: center;
+}
+
+#title-slide .title {
+  text-align: center;
+  color: #464a53;
 }
 
 #title-slide .author {
-  text-align: right;
+  text-align: center;
 }
 
 #title-slide .institute {
-  text-align: right;
+  text-align: center;
 }
 
 .small {
   font-size: 0.75em;
 }
 
-.reveal .slide .question {
-  border-left: 3px solid #325b74;
-  padding-left: 0.5em;
-  padding-top: 0.25em;
-  padding-bottom: 0.25em;
-  background: #D9E3E4;
+.small {
+  font-size: 1.5em;
 }
 
+
+.reveal .hand {
+  font-family: 'Gochi Hand', cursive;
+  font-size: 1.2em
+}
+
+.reveal .slide .task {
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  margin-bottom: 6px;
+  margin-top: 6px;
+  border-left: solid 5px #F1DE67;
+  background-color: #F1DE6750;
+}
 .reveal .slide .poll {
   border-left: 3px solid #fcd06b; /* Pantone Samoan Sun - Fall 2022 */
   padding-left: 0.5em;
