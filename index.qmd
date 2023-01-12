@@ -3,11 +3,17 @@ title: "STA 313: Advanced Data Visualization"
 subtitle: "Dr. Mine Çetinkaya-Rundel"
 execute:
   freeze: false
+editor_options: 
+  chunk_output_type: console
 ---
 
 This page contains an outline of the topics, content, and assignments for the semester. Note that this schedule will be updated as the semester progresses and the timeline of topics and assignments might be updated throughout the semester.
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
 library(googlesheets4)
 library(gt)
 library(tidyverse)
@@ -16,50 +22,27 @@ d <- read_sheet("https://docs.google.com/spreadsheets/d/1Qj2rcIqFGwOosr9Yiyo-Mae
 ```
 
 ::: column-screen-right
-```{r, echo = FALSE}
+```{r}
+#| echo: false
+
 d |>
   mutate(
-    date = as.Date(date),
-    week = ifelse(is.na(week), "", week)
+    date = as.Date(date)
   ) |>
   gt() |>
-  text_transform(cells_body(columns = c(prepare)),
-    fn = function(x) {
-      ifelse(is.na(x), fontawesome::fa("book", fill_opacity = 0.1),
-        glue::glue("<a href = {x}>{fontawesome::fa('book')}</a>")
-      )
-    }
-  ) |>
-  text_transform(cells_body(columns = c(slides)),
-    fn = function(x) {
-      ifelse(is.na(x), fontawesome::fa("laptop", fill_opacity = 0.1),
-        glue::glue("<a href = {x}>{fontawesome::fa('laptop')}</a>")
-      )
-    }
-  ) |>
-  text_transform(cells_body(columns = c(hw)),
-    fn = function(x) {
-      ifelse(is.na(x), fontawesome::fa("keyboard", fill_opacity = 0.1),
-        glue::glue("<a href = {x}>{fontawesome::fa('keyboard')}</a>")
-      )
-    }
-  ) |>
-  text_transform(cells_body(columns = c(project)),
-    fn = function(x) {
-      ifelse(is.na(x), fontawesome::fa("users", fill_opacity = 0.1),
-        glue::glue("<a href = {x}>{fontawesome::fa('users')}</a>")
-      )
-    }
-  ) |>
   fmt_date(date, date_style = 30) |>
-  sub_missing(columns = c(date, what, topic, due), missing_text = "") |>
+  sub_missing(columns = c(week, prepare, due), missing_text = "") |>
   cols_align(
     align = "center", 
-    columns = c(week, dow, prepare, slides, hw, project)
+    columns = c(week, dow)
+    ) |>
+  cols_align(
+    align = "right", 
+    columns = c(date)
     ) |>
   cols_align(
     align = "left", 
-    columns = c(date, what, topic, due)
+    columns = c(topic, prepare, due)
     ) |>
   tab_style(
     style = cell_borders(
@@ -68,8 +51,11 @@ d |>
       style = "solid"
     ),
     locations = cells_body(
-      columns = c(date, topic, prepare, project)
+      columns = c(date, topic, prepare)
     )
+  ) |>
+  fmt_markdown(
+    columns = c(prepare, due)
   )
 ```
 :::
