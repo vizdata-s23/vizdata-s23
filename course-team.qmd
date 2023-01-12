@@ -6,7 +6,7 @@ title: "Teaching team"
 
 ![](images/team/mine.png){style="float:right;padding: 0 0 0 10px;" fig-alt="Headshot of Dr. Mine Çetinkaya-Rundel" width="200"}
 
-[**Dr. Mine Çetinkaya-Rundel**](http://mine-cr.com/) (she/her) is Professor of the Practice and Director of Undergraduate Studies at the Department of Statistical Science at Duke University. Mine's work focuses on innovation in statistics and data science pedagogy, with an emphasis on computing, reproducible research, student-centered learning, and open-source education as well as pedagogical approaches for enhancing retention of women and under-represented minorities in STEM.
+[**Dr. Mine Çetinkaya-Rundel**](http://mine-cr.com/) (she/her) is Professor of the Practice and Director of Undergraduate Studies at the Department of Statistical Science at Duke University. Mine's work focuses on innovation in statistics and data science pedagogy, with an emphasis on computing, reproducible research, student-centered learning, and open-source education as well as pedagogical approaches for enhancing retention of women and under-represented minorities in STEM.
 
 | Office hours                | Location             |
 |-----------------------------|----------------------|
@@ -15,16 +15,16 @@ title: "Teaching team"
 
 ## Teaching assistants
 
-+-------------------------------------------+-----------------------------------------------------------------+-------------+-------------------+--------------+
-|                                           | Name                                                            | Role        | Lab section       | Office hours |
-+===========================================+=================================================================+=============+===================+==============+
-| ![](images/team/jackie.png){width="100"}  | [Jackie Du](https://scholars.duke.edu/person/jacquelyn.du)      | Head TA     |                   | TBA          |
-+-------------------------------------------+-----------------------------------------------------------------+-------------+-------------------+--------------+
-| ![](images/team/lorenzo.png){width="100"} | [Lorenzo Mauri](https://scholars.duke.edu/person/lorenzo.mauri) | Lab TA      | W 1:45PM - 3:00PM | TBA          |
-+-------------------------------------------+-----------------------------------------------------------------+-------------+-------------------+--------------+
-| ![](images/team/sam.png){width="100"}     | [Sam Rosen](https://samgrosen.github.io/)                       | Lab TA      | W 3:30PM - 4:45PM | TBA          |
-+-------------------------------------------+-----------------------------------------------------------------+-------------+-------------------+--------------+
-| ![](images/team/evan.png){width="100"}    | [Evan Dragich](https://www.linkedin.com/in/evandragich/)        | Lecture TA  |                   | TBA          |
-+-------------------------------------------+-----------------------------------------------------------------+-------------+-------------------+--------------+
-| ![](images/team/holly.png){width="100"}   | [Holly Cui](https://www.linkedin.com/in/holly-cui-4b4520236/)   | TA          |                   | TBA          |
-+-------------------------------------------+-----------------------------------------------------------------+-------------+-------------------+--------------+
++-------------------------------------------+-----------------------------------------------------------------+-------------+-------------------+-------------------------------------+
+|                                           | Name                                                            | Role        | Lab section       | Office hours                        |
++===========================================+=================================================================+=============+===================+=====================================+
+| ![](images/team/jackie.png){width="100"}  | [Jackie Du](www.linkedin.com/in/jacquelyn-du)                   | Head TA     |                   | Tuesday 4-6pm - Edge Project Room 2 |
++-------------------------------------------+-----------------------------------------------------------------+-------------+-------------------+-------------------------------------+
+| ![](images/team/lorenzo.png){width="100"} | [Lorenzo Mauri](https://scholars.duke.edu/person/lorenzo.mauri) | Lab TA      | W 1:45PM - 3:00PM | Monday 5-7pm - Old Chemistry 203b   |
++-------------------------------------------+-----------------------------------------------------------------+-------------+-------------------+-------------------------------------+
+| ![](images/team/sam.png){width="100"}     | [Sam Rosen](https://samgrosen.github.io/)                       | Lab TA      | W 3:30PM - 4:45PM | Tuesday 1:30-3:30pm - Location TBA  |
++-------------------------------------------+-----------------------------------------------------------------+-------------+-------------------+-------------------------------------+
+| ![](images/team/evan.png){width="100"}    | [Evan Dragich](https://www.linkedin.com/in/evandragich/)        | Lecture TA  |                   | Monday 10am-12pm - Zoom             |
++-------------------------------------------+-----------------------------------------------------------------+-------------+-------------------+-------------------------------------+
+| ![](images/team/holly.png){width="100"}   | [Holly Cui](https://www.linkedin.com/in/holly-cui-4b4520236/)   | TA          |                   | Monday 1-3pm - Zoom                 |
++-------------------------------------------+-----------------------------------------------------------------+-------------+-------------------+-------------------------------------+
