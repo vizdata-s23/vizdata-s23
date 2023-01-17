@@ -2,30 +2,32 @@
 title: "Useful links"
 ---
 
-+----------------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| RStudio containers         | 🔗 on [Duke Container Manager](https://cmgr.oit.duke.edu/containers)                                                               |
-+----------------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| Course GitHub organization | 🔗 on [GitHub](https://github.com/sta199-f22-1)                                                                                    |
-+----------------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| Gradebook                  | 🔗 on [Sakai](https://sakai.duke.edu/portal/site/d55dc1df-28e1-4637-be6f-6ba7c848fabf/tool/1d0ca2ac-6304-46b2-a6ac-de5a93f677b2/)  |
-+----------------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| Texbooks                   | 🔗 [ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/)                                                        |
-|                            |                                                                                                                                    |
-|                            | 🔗 [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/)                                                           |
-|                            |                                                                                                                                    |
-|                            | 🔗 [Data Visualization: A Practical Introduction](https://socviz.co/)                                                              |
-+----------------------------+------------------------------------------------------------------------------------------------------------------------------------+
-| Package documentation      | 🔗 ggplot2: [ggplot2.tidyverse.org](https://ggplot2.tidyverse.org/)                                                                |
-|                            |                                                                                                                                    |
-|                            | 🔗 dplyr: [dplyr.tidyverse.org](https://dplyr.tidyverse.org/)                                                                      |
-|                            |                                                                                                                                    |
-|                            | 🔗 tidyr: [tidyr.tidyverse.org](https://tidyr.tidyverse.org/)                                                                      |
-|                            |                                                                                                                                    |
-|                            | 🔗 forcats: [forcats.tidyverse.org](https://forcats.tidyverse.org/)                                                                |
-|                            |                                                                                                                                    |
-|                            | 🔗 stringr: [stringr.tidyverse.org](https://stringr.tidyverse.org/)                                                                |
-|                            |                                                                                                                                    |
-|                            | 🔗 lubridate: [lubridate.tidyverse.org](https://lubridate.tidyverse.org/)                                                          |
-|                            |                                                                                                                                    |
-|                            | 🔗 readr: [readr.tidyverse.org](https://readr.tidyverse.org/)                                                                      |
-+----------------------------+------------------------------------------------------------------------------------------------------------------------------------+
++----------------------------+-----------------------------------------------------------------------------------------------------------------------------------+
+| RStudio containers         | 🔗 on [Duke Container Manager](https://cmgr.oit.duke.edu/containers)                                                              |
++============================+===================================================================================================================================+
+| Course GitHub organization | 🔗 on [GitHub](https://github.com/sta199-f22-1)                                                                                   |
++----------------------------+-----------------------------------------------------------------------------------------------------------------------------------+
+| Lecture recordings         | 🔗 on [Panopto / Duke Capture](https://duke.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=0309b17f-6772-4162-831a-af87014b93a4) |
++----------------------------+-----------------------------------------------------------------------------------------------------------------------------------+
+| Gradebook                  | 🔗 on [Sakai](https://sakai.duke.edu/portal/site/d55dc1df-28e1-4637-be6f-6ba7c848fabf/tool/1d0ca2ac-6304-46b2-a6ac-de5a93f677b2/) |
++----------------------------+-----------------------------------------------------------------------------------------------------------------------------------+
+| Texbooks                   | 🔗 [ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/)                                                       |
+|                            |                                                                                                                                   |
+|                            | 🔗 [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/)                                                          |
+|                            |                                                                                                                                   |
+|                            | 🔗 [Data Visualization: A Practical Introduction](https://socviz.co/)                                                             |
++----------------------------+-----------------------------------------------------------------------------------------------------------------------------------+
+| Package documentation      | 🔗 ggplot2: [ggplot2.tidyverse.org](https://ggplot2.tidyverse.org/)                                                               |
+|                            |                                                                                                                                   |
+|                            | 🔗 dplyr: [dplyr.tidyverse.org](https://dplyr.tidyverse.org/)                                                                     |
+|                            |                                                                                                                                   |
+|                            | 🔗 tidyr: [tidyr.tidyverse.org](https://tidyr.tidyverse.org/)                                                                     |
+|                            |                                                                                                                                   |
+|                            | 🔗 forcats: [forcats.tidyverse.org](https://forcats.tidyverse.org/)                                                               |
+|                            |                                                                                                                                   |
+|                            | 🔗 stringr: [stringr.tidyverse.org](https://stringr.tidyverse.org/)                                                               |
+|                            |                                                                                                                                   |
+|                            | 🔗 lubridate: [lubridate.tidyverse.org](https://lubridate.tidyverse.org/)                                                         |
+|                            |                                                                                                                                   |
+|                            | 🔗 readr: [readr.tidyverse.org](https://readr.tidyverse.org/)                                                                     |
++----------------------------+-----------------------------------------------------------------------------------------------------------------------------------+
