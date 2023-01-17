@@ -17,7 +17,9 @@ execute:
 
 -   Office hours + locations finalized at [vizdata.org/course-team.html](https://vizdata.org/course-team.html).
 
--   ???
+-   Don't forget to complete the getting to know you survey by 8pm today at the latest!
+
+-   A note on readings for this week: Some of it is review so feel free to skim those parts.
 
 ## Setup
 
@@ -641,7 +643,7 @@ Always use "typewriter text" (monospace font) when writing function names, and f
 
 -   `lm()`
 
-## `geom_dotplot()` 
+## `geom_dotplot()`
 
 ::: task
 What does each point represent? How are their locations determined? What do the x and y axes represent?
@@ -692,7 +694,7 @@ ggplot(duke_forest, aes(x = price, color = decade_built_cat)) +
 
 -   `geom_text()`: text labels
 
-## `geom_rug()` 
+## `geom_rug()`
 
 ```{r}
 ggplot(duke_forest, aes(x = area, y = price)) +
@@ -770,9 +772,8 @@ install.packages("hexbin")
 
 -   Otherwise you might see
 
-```{=html}
 <!-- -->
-```
+
     Warning: Computation failed in `stat_binhex()`
 
 ## Two variables
