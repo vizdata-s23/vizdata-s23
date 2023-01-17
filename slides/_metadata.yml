@@ -1,7 +1,7 @@
 institute: "Duke University <br> STA 313 - Spring 2023"
 author: "Dr. Mine Çetinkaya-Rundel"
 footer: "[🔗 vizdata.org](https://vizdata.org/)"
-logo: "images/logo.png"
+logo: "../logo.png"
 format:
   revealjs:
     theme: slides.scss
