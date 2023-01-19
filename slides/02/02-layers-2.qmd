@@ -23,7 +23,7 @@ editor_options:
     -   On Slack, in public channels for #general, #homework, #project-1, #project-2, #quizzes, and #random as well as in a private channel for their lab section.
     -   Make sure your profile photo/avatar and name matches between GitHub and Slack.
 
-- HW 1 posted, due next Thursday.
+- HW 1 will be posted after class, due next Thursday.
     - You'll get to work on it in lab next Wednesday, but you should start it before then and go to lab with questions.
 
 ## Setup {.smaller}
