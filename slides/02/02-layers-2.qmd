@@ -1,0 +1,1070 @@
+---
+title: Deep dive into ggplot2 layers - II
+subtitle: Lecture 2
+title-slide-attributes:
+  data-background-image: ../vizdata-bg.png
+  data-background-size: stretch
+  data-slide-number: none
+format: revealjs
+highlight-style: a11y
+execute:
+  code-link: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# Warm up
+
+## Announcements
+
+- Thank you for filling out the survey!
+
+-   At this point everyone should be:
+    -   On Slack, in public channels for #general, #homework, #project-1, #project-2, #quizzes, and #random as well as in a private channel for their lab section.
+    -   Make sure your profile photo/avatar and name matches between GitHub and Slack.
+
+- HW 1 posted, due next Thursday.
+    - You'll get to work on it in lab next Wednesday, but you should start it before then and go to lab with questions.
+
+## Setup {.smaller}
+
+```{r}
+#| label: setup
+#| message: false
+
+# load packages
+library(tidyverse)
+library(openintro)
+library(countdown)
+library(palmerpenguins)
+library(ggrepel)
+library(waffle)
+library(scales)
+
+# set theme for ggplot2
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14))
+
+# set width of code output
+options(width = 65)
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 7,        # 7" width
+  fig.asp = 0.618,      # the golden ratio
+  fig.retina = 3,       # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300             # higher dpi, sharper image
+)
+```
+
+## From last time
+
+```{r}
+#| label: data-prep
+
+duke_forest <- duke_forest |>
+  mutate(
+    decade_built = (year_built %/% 10) * 10,
+    decade_built_cat = case_when(
+      decade_built <= 1940 ~ "1940 or before",
+      decade_built >= 1990 ~ "1990 or after",
+      TRUE ~ as.character(decade_built)
+    )
+  )
+
+mean_area_decade <- duke_forest |>
+  group_by(decade_built_cat) |>
+  summarise(mean_area = mean(area))
+```
+
+# Geoms
+
+## Geoms
+
+-   Geometric objects, or **geoms** for short, perform the actual rendering of the layer, controlling the type of plot that you create
+
+-   You can think of them as "the geometric shape used to represent the data"
+
+## One variable
+
+-   Discrete:
+
+    -   `geom_bar()`: display distribution of discrete variable.
+
+-   Continuous
+
+    -   `geom_histogram()`: bin and count continuous variable, display with bars
+
+    -   `geom_density()`: smoothed density estimate
+
+    -   `geom_dotplot()`: stack individual points into a dot plot
+
+    -   `geom_freqpoly()`: bin and count continuous variable, display with lines
+
+## Aside
+
+Always use "typewriter text" (monospace font) when writing function names, and follow with `()`, e.g.,
+
+-   `geom_freqpoly()`
+
+-   `mean()`
+
+-   `lm()`
+
+## `geom_dotplot()`
+
+::: task
+What does each point represent? How are their locations determined? What do the x and y axes represent?
+:::
+
+```{r}
+#| fig-asp: 0.5
+
+ggplot(duke_forest, aes(x = price)) +
+  geom_dotplot(binwidth = 50000)
+```
+
+## Comparing across groups {.smaller}
+
+::: task
+Which of the following allows for easier comparison across groups?
+:::
+
+::: panel-tabset
+## Histogram
+
+```{r}
+#| fig-asp: 0.4
+
+ggplot(duke_forest, aes(x = price, fill = decade_built_cat)) +
+  geom_histogram(binwidth = 100000)
+```
+
+## Frequency polygon
+
+```{r}
+#| fig-asp: 0.4
+
+ggplot(duke_forest, aes(x = price, color = decade_built_cat)) +
+  geom_freqpoly(binwidth = 100000, size = 1)
+```
+:::
+
+## Two variables - both continuous
+
+-   `geom_point()`: scatterplot
+
+-   `geom_quantile()`: smoothed quantile regression
+
+-   `geom_rug()`: marginal rug plots
+
+-   `geom_smooth()`: smoothed line of best fit
+
+-   `geom_text()`: text labels
+
+## Application exercise - Part 1
+
+::: task
+-   Go to the course GitHub organization: <https://github.com/vizdata-s23>
+
+-   Clone the repo called `ae-02-[YOUR-GITHUB-USERNAME]` and work on the exercises for Part 1.
+
+-   Once you're done, share your plots on Slack in #general.
+
+-   Label your chunk(s) and pay attention to code style and formatting!
+:::
+
+```{r}
+#| echo: false
+
+countdown(minutes = 10, color_background = "white")
+```
+
+## Two variables - show density
+
+-   `geom_bin2d()`: bin into rectangles and count
+
+-   `geom_density2d()`: smoothed 2d density estimate
+
+-   `geom_hex()`: bin into hexagons and count
+
+## `geom_hex()`
+
+Not very helpful for `r nrow(duke_forest)` observations:
+
+```{r}
+ggplot(duke_forest, aes(x = area, y = price)) +
+  geom_hex()
+```
+
+## `geom_hex()`
+
+More helpful for `r nrow(diamonds)` observations:
+
+```{r}
+ggplot(diamonds, aes(x = carat, y = price)) +
+  geom_hex()
+```
+
+## `geom_hex()` and warnings
+
+-   Requires installing the [**hexbin**](https://cran.r-project.org/web/packages/hexbin/index.html) package separately!
+
+```{r}
+#| eval: false
+
+install.packages("hexbin")
+```
+
+-   Otherwise you might see
+
+```
+Warning: Computation failed in `stat_binhex()`
+```
+
+## Two variables
+
+-   At least one discrete
+
+    -   `geom_count()`: count number of point at distinct locations
+
+    -   `geom_jitter()`: randomly jitter overlapping points
+
+-   One continuous, one discrete
+
+    -   `geom_col()`: a bar chart of pre-computed summaries
+
+    -   `geom_boxplot()`: boxplots
+
+    -   `geom_violin()`: show density of values in each group
+
+## `geom_jitter()` {.smaller}
+
+::: task
+How are the following three plots different?
+:::
+
+::: panel-tabset
+## Plot A
+
+```{r}
+#| fig-asp: 0.4
+
+ggplot(duke_forest, aes(x = bed, y = price)) +
+  geom_point()
+```
+
+## Plot B
+
+```{r}
+#| fig-asp: 0.4
+
+ggplot(duke_forest, aes(x = bed, y = price)) +
+  geom_jitter()
+```
+
+## Plot C
+
+```{r}
+#| fig-asp: 0.4
+
+ggplot(duke_forest, aes(x = bed, y = price)) +
+  geom_jitter()
+```
+:::
+
+## `geom_jitter()` and `set.seed()` {.smaller}
+
+::: panel-tabset
+## Plot A
+
+```{r}
+#| fig-asp: 0.4
+
+set.seed(1234)
+
+ggplot(duke_forest, aes(x = bed, y = price)) +
+  geom_jitter()
+```
+
+## Plot B
+
+```{r}
+#| fig-asp: 0.4
+
+set.seed(1234)
+
+ggplot(duke_forest, aes(x = bed, y = price)) +
+  geom_jitter()
+```
+:::
+
+## Two variables {.smaller}
+
+-   One time, one continuous
+    -   `geom_area()`: area plot
+    -   `geom_line()`: line plot
+    -   `geom_step()`: step plot
+-   Display uncertainty:
+    -   `geom_crossbar()`: vertical bar with center
+    -   `geom_errorbar()`: error bars
+    -   `geom_linerange()`: vertical line
+    -   `geom_pointrange()`: vertical line with center
+-   Spatial
+    -   `geom_sf()`: for map data (more on this later...)
+
+## Average price per year built {.smaller}
+
+```{r}
+mean_price_year <- duke_forest |>
+  group_by(year_built) |>
+  summarise(
+    n = n(),
+    mean_price = mean(price),
+    sd_price = sd(price)
+    )
+
+mean_price_year
+```
+
+## `geom_line()`
+
+```{r}
+ggplot(mean_price_year, aes(x = year_built, y = mean_price)) +
+  geom_line()
+```
+
+## `geom_area()`
+
+```{r}
+ggplot(mean_price_year, aes(x = year_built, y = mean_price)) +
+  geom_area()
+```
+
+## `geom_step()`
+
+```{r}
+ggplot(mean_price_year, aes(x = year_built, y = mean_price)) +
+  geom_step()
+```
+
+## Application exercise - Part 2
+
+::: task
+-   Go to the course GitHub organization: <https://github.com/vizdata-s23>
+
+-   Clone the repo called `ae-02-[YOUR-GITHUB-USERNAME]` and work on the exercises for Part 2.
+
+-   Once you're done, share your plot on Slack in #general.
+
+-   Label your chunk(s) and pay attention to code style and formatting!
+:::
+
+```{r}
+#| echo: false
+
+countdown(minutes = 5, color_background = "white")
+```
+
+##  {.center}
+
+::: {.hand .large}
+let's clean things up a bit!
+:::
+
+## Let's clean things up a bit!
+
+::: panel-tabset
+## Code
+
+```{r}
+#| ref.label: clean-up
+#| echo: false
+#| code-line-numbers: "|3-4"
+```
+
+## Plot
+
+```{r}
+#| label: clean-up
+#| fig-show: hide
+#| fig-asp: 0.55
+
+ggplot(duke_forest, aes(x = area, y = price)) +
+  geom_point(alpha = 0.6, size = 2, color = "#012169") +
+  scale_x_continuous(labels = label_number(big.mark = ",")) +
+  scale_y_continuous(labels = label_dollar(scale = 1/1000, suffix = "K")) +
+  labs(
+    x = "Area (square feet)",
+    y = "Sale price (USD)",
+    title = "Sale prices of homes in Duke Forest",
+    subtitle = "As of November 2020",
+    caption = "Source: Zillow.com"
+  )
+```
+:::
+
+## Three variables
+
+-   `geom_contour()`: contours
+-   `geom_tile()`: tile the plane with rectangles
+-   `geom_raster()`: fast version of `geom_tile()` for equal sized tiles
+
+## `geom_tile()`
+
+```{r}
+ggplot(duke_forest, aes(x = bed, y = bath)) +
+ geom_tile(aes(fill = price))
+```
+
+## Activity: Pick a geom
+
+::: task
+For each of the following problems, suggest a useful geom:
+
+1.  Display how the value of variable has changed over time
+2.  Show the detailed distribution of a single continuous variable
+3.  Focus attention on the overall relationship between two variables in a large dataset
+4.  Label outlying points in a single variable
+:::
+
+TO DO: ADD SLIDO
+
+```{r}
+#| echo: false
+countdown(minutes = 3, bottom = 0)
+```
+
+# Stats
+
+## Stats \< \> geoms {.smaller}
+
+-   Statistical transformation (**stat**) transforms the data, typically by summarizing
+-   Many of ggplot2's stats are used behind the scenes to generate many important geoms
+
+| `stat`            | geom                                                |
+|-------------------|-----------------------------------------------------|
+| `stat_bin()`      | `geom_bar()`, `geom_freqpoly()`, `geom_histogram()` |
+| `stat_bin2d()`    | `geom_bin2d()`                                      |
+| `stat_bindot()`   | `geom_dotplot()`                                    |
+| `stat_binhex()`   | `geom_hex()`                                        |
+| `stat_boxplot()`  | `geom_boxplot()`                                    |
+| `stat_contour()`  | `geom_contour()`                                    |
+| `stat_quantile()` | `geom_quantile()`                                   |
+| `stat_smooth()`   | `geom_smooth()`                                     |
+| `stat_sum()`      | `geom_count()`                                      |
+
+## A bit more data cleaning
+
+```{r}
+duke_forest <- duke_forest |>
+  mutate(
+    parking = case_when(
+      parking == "0 spaces" ~ "Street",
+      str_detect(parking, "Carport") ~ "Carport",
+      str_detect(parking, "Garage") ~ "Garage",
+      str_detect(parking, "Covered") ~ "Covered",
+      TRUE ~ parking
+    )
+  )
+```
+
+## Layering with stats
+
+```{r}
+#| code-line-numbers: "3-6"
+#| fig-width: 8
+#| fig-asp: 0.4
+
+ggplot(duke_forest, aes(x = parking, y = price)) + 
+  geom_point(alpha = 0.5) + 
+  stat_summary(
+    geom = "point", fun = "median", 
+    colour = "red", size = 5, pch = 4, stroke = 2
+  )
+```
+
+## Alternate: layering with stats
+
+```{r}
+#| code-line-numbers: "3-6"
+#| fig-width: 8
+#| fig-asp: 0.4
+
+ggplot(duke_forest, aes(x = parking, y = price)) + 
+  geom_point(alpha = 0.5) + 
+  geom_point(
+    stat = "summary", fun = "median", 
+    colour = "red", size = 5, pch = 4, stroke = 2
+  )
+```
+
+## Statistical transformations
+
+::: task
+What can you say about the distribution of price from the following QQ plot?
+:::
+
+```{r}
+#| code-line-numbers: "2-3"
+#| fig-width: 8
+#| fig-asp: 0.4
+
+ggplot(duke_forest, aes(sample = price)) +
+  stat_qq() +
+  stat_qq_line() +
+  labs(y = "price")
+```
+
+# Scales
+
+## What is a scale?
+
+-   Each scale is a function from a region in data space (the domain of the scale) to a region in aesthetic space (the range of the scale)
+
+-   The axis or legend is the inverse function: it allows you to convert visual properties back to data
+
+## Scale specification {.smaller}
+
+Every aesthetic in your plot is associated with exactly one scale:
+
+::: columns
+::: {.column width="50%"}
+Automatic scales:
+
+```{r}
+#| fig-width: 4
+#| strip.white: false
+
+ggplot(
+  duke_forest, 
+  aes(x = area, y = price, color = parking)
+) + 
+  geom_point(alpha = 0.8)
+```
+:::
+
+::: {.column width="50%"}
+Manual scales:
+
+```{r}
+#| fig-width: 4
+
+ggplot(
+  duke_forest, 
+  aes(x = area, y = price, color = parking)
+) + 
+  geom_point(alpha = 0.8) +
+  scale_x_continuous() + 
+  scale_y_continuous() + 
+  scale_colour_discrete()
+```
+:::
+:::
+
+## Anatomy of a scale function
+
+<br>
+
+::: {.large style="text-align: center;"}
+`scale_A_B()`
+:::
+
+<br>
+
+-   Always starts with `scale`
+-   `A`: Name of the primary aesthetic (e.g., `colour`, `shape`, `x`)
+-   `B`: Name of the scale (e.g., `continuous`, `discrete`, `brewer`)
+
+## Guess the output
+
+::: task
+What will the x-axis label of the following plot say?
+:::
+
+```{r}
+#| message: false
+#| fig-show: hide
+
+ggplot(duke_forest, aes(x = area, y = price, color = parking)) + 
+  geom_point(alpha = 0.8) +
+  scale_x_continuous(name = "Area") +
+  scale_x_continuous(name = "Area (sq ft)")
+```
+
+## "Address" messages
+
+```{r}
+#| message: true
+#| fig-asp: 0.4
+
+ggplot(duke_forest, aes(x = area, y = price, color = parking)) + 
+  geom_point(alpha = 0.8) +
+  scale_x_continuous(name = "Area") +
+  scale_x_continuous(name = "Area (sq ft)") 
+```
+
+## Guess the output
+
+::: task
+What happens if you pair a discrete variable with a continuous scale? What happens if you pair a continuous variable with a discrete scale? Answer in the context of the following plots.
+:::
+
+::: panel-tabset
+## Plots
+
+```{r}
+#| eval: false
+
+ggplot(duke_forest, aes(x = parking, y = price)) + 
+  geom_point(alpha = 0.5) +
+  scale_x_continuous()
+
+ggplot(duke_forest, aes(x = parking, y = price)) + 
+  geom_point(alpha = 0.5) +
+  scale_y_discrete()
+```
+
+## Discuss
+
+TO DO: ADD SLIDO
+:::
+
+```{r}
+#| echo: false
+
+countdown(minutes = 3, bottom = 0)
+```
+
+## Transformations {.smaller}
+
+When working with continuous data, the default is to map linearly from the data space onto the aesthetic space, but this scale can be transformed.
+
+::: columns
+::: {.column width="50%"}
+Linear:
+
+```{r}
+#| fig-width: 4
+
+ggplot(
+  duke_forest, 
+  aes(x = area, y = price)
+) + 
+  geom_point(alpha = 0.5)
+```
+:::
+
+::: {.column width="50%"}
+Transformed:
+
+```{r}
+#| fig-width: 4
+
+ggplot(
+  duke_forest, 
+  aes(x = area, y = price)
+) + 
+  geom_point(alpha = 0.5) +
+  scale_y_continuous(trans = "log10")
+```
+:::
+:::
+
+## Continuous scale transformations {.smaller}
+
+| Name       | Function $f(x)$         | Inverse $f^{-1}(y)$  |
+|------------|-------------------------|----------------------|
+| asn        | $\tanh^{-1}(x)$         | $\tanh(y)$           |
+| exp        | $e ^ x$                 | $\log(y)$            |
+| identity   | $x$                     | $y$                  |
+| log        | $\log(x)$               | $e ^ y$              |
+| log10      | $\log_{10}(x)$          | $10 ^ y$             |
+| log2       | $\log_2(x)$             | $2 ^ y$              |
+| logit      | $\log(\frac{x}{1 - x})$ | $\frac{1}{1 + e(y)}$ |
+| pow10      | $10^x$                  | $\log_{10}(y)$       |
+| probit     | $\Phi(x)$               | $\Phi^{-1}(y)$       |
+| reciprocal | $x^{-1}$                | $y^{-1}$             |
+| reverse    | $-x$                    | $-y$                 |
+| sqrt       | $x^{1/2}$               | $y ^ 2$              |
+
+## Convenience functions for transformations {.smaller}
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| fig-width: 4
+
+ggplot(
+  duke_forest, 
+  aes(x = area, y = price)
+) + 
+  geom_point(alpha = 0.5) +
+  scale_y_continuous(trans = "log10")
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+#| fig-width: 4
+
+ggplot(
+  duke_forest, 
+  aes(x = area, y = price)
+) + 
+  geom_point(alpha = 0.5) +
+  scale_y_log10()
+```
+:::
+:::
+
+## Scale transform vs. data transform {.smaller}
+
+::: task
+How are the following two plots different, how are they similar? What does this say about how scale transformations work.
+:::
+
+::: panel-tabset
+## Plot A
+
+::: columns
+::: {.column width="60%"}
+```{r}
+#| label: data-transform
+#| fig-show: hide
+
+duke_forest |>
+  mutate(price_log10 = log(price, base = 10)) |>
+  ggplot(aes(x = area, y = price_log10)) + 
+  geom_point(alpha = 0.5)
+```
+:::
+
+::: {.column width="40%"}
+```{r}
+#| ref.label: data-transform
+#| echo: false
+#| fig-asp: 1
+#| fig-width: 4
+```
+:::
+:::
+
+## Plot B
+
+::: columns
+::: {.column width="60%"}
+```{r}
+#| label: scale-transform
+#| fig-show: hide
+
+ggplot(duke_forest, aes(x = area, y = price)) + 
+  geom_point(alpha = 0.5) +
+  scale_y_log10()
+```
+:::
+
+::: {.column width="40%"}
+```{r}
+#| ref.label: scale-transform
+#| echo: false
+#| fig-asp: 1
+#| fig-width: 4
+```
+:::
+:::
+
+## Discuss
+
+TO DO: ADD SLIDO
+:::
+
+```{r}
+#| echo: false
+
+countdown(minutes = 3, left = 0)
+```
+
+# Coordinate systems
+
+## Coordinate systems: purpose
+
+-   Combine the two position aesthetics (`x` and `y`) to produce a 2d position on the plot:
+    -   linear coordinate system: horizontal and vertical coordinates
+    -   polar coordinate system: angle and radius
+    -   maps: latitude and longitude
+-   Draw axes and panel backgrounds in coordination with the faceter coordinate systems
+
+## Coordinate systems: types
+
+1.  **Linear coordinate systems:** preserve the shape of geoms
+
+-   `coord_cartesian()`: the default Cartesian coordinate system, where the 2d position of an element is given by the combination of the x and y positions.
+-   `coord_fixed()`: Cartesian coordinate system with a fixed aspect ratio. *(useful only in limited circumstances)*
+
+. . . 
+
+2. **Non-linear coordinate systems:** can change the shapes -- a straight line may no longer be straight. The closest distance between two points may no longer be a straight line.
+
+-   `coord_trans()`: Apply arbitrary transformations to x and y positions, after the data has been processed by the stat
+-   `coord_polar()`: Polar coordinates
+-   `coord_sf()`: Map projections
+
+## Setting limits: what the plots say {.smaller}
+
+```{r}
+#| label: set-limits
+#| fig-show: hold
+#| warning: false
+#| message: false
+#| layout-ncol: 2
+#| output-location: slide
+
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point() + geom_smooth() +
+  labs(title = "Plot 1")
+
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point() + geom_smooth() +
+  scale_x_continuous(limits = c(190, 220)) + scale_y_continuous(limits = c(4000, 5000)) +
+  labs(title = "Plot 2")
+
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point() + geom_smooth() +
+  xlim(190, 220) + ylim(4000, 5000) +
+  labs(title = "Plot 3")
+
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point() + geom_smooth() +
+  coord_cartesian(xlim = c(190,220), ylim = c(4000, 5000)) +
+  labs(title = "Plot 4")
+```
+
+## Setting limits: what the warnings say {.smaller}
+
+```{r}
+#| ref.label: set-limits
+#| fig-show: hide
+#| message: true
+```
+
+## Setting limits
+
+-   Setting scale limits: Any data outside the limits is thrown away
+    -   `scale_*_continuous()`, `xlim` and `ylim` arguments
+    -   `xlim()` and `ylim()`
+-   Setting coordinate system limits: Use all the data, but only display a small region of the plot (zooming in)
+    -   `coord_cartesian()`, `xlim` and `ylim` arguments
+
+## Fixing aspect ratio with `coord_fixed()` {.smaller}
+
+Useful when having an aspect ratio of 1 makes sense, e.g. scores on two tests (reading and writing) on the same scale (0 to 100 points)
+
+```{r}
+#| layout-ncol: 2
+#| fig-show: hold
+#| message: false
+#| output-location: slide
+
+ggplot(hsb2, aes(x = read, y = write)) +
+  geom_point() + geom_smooth(method = "lm") +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "gray") +
+  labs(title = "Not fixed")
+
+ggplot(hsb2, aes(x = read, y = write)) +
+  geom_point() + geom_smooth(method = "lm") +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "gray") +
+  coord_fixed() +
+  labs(title = "Fixed")
+```
+
+## Transformations {.smaller}
+
+```{r}
+#| label: transformations
+#| layout-ncol: 2
+#| warning: false
+#| message: false
+#| fig-show: hold
+
+ggplot(penguins, aes(x = bill_depth_mm, y = body_mass_g)) +
+  geom_point() + geom_smooth(method = "lm") +
+  labs(title = "Plot 1")
+
+ggplot(penguins, aes(x = bill_depth_mm, y = body_mass_g)) +
+  geom_point() + geom_smooth(method = "lm") +
+  scale_x_log10() + scale_y_log10() +
+  labs(title = "Plot 2")
+
+ggplot(penguins, aes(x = bill_depth_mm, y = body_mass_g)) +
+  geom_point() + geom_smooth(method = "lm") +
+  coord_trans(x = "log10", y = "log10") +
+  labs(title = "Plot 3")
+
+ggplot(penguins, aes(x = log(bill_depth_mm, base = 10), y = log(body_mass_g, base = 10))) +
+  geom_point() + geom_smooth(method = "lm") +
+  labs(title = "Plot 4")
+```
+
+## Pie charts and bullseye charts with `coord_polar()`
+
+```{r}
+#| layout-ncol: 3
+#| warning: false
+#| message: false
+#| fig-show: hold
+
+ggplot(penguins, aes(x = 1, fill = species)) +
+  geom_bar() +
+  labs(title = "Stacked bar chart")
+
+ggplot(penguins, aes(x = 1, fill = species)) +
+  geom_bar() +
+  coord_polar(theta = "y") +
+  labs(title = "Pie chart")
+
+ggplot(penguins, aes(x = 1, fill = species)) +
+  geom_bar() +
+  coord_polar(theta = "x") +
+  labs(title = "Bullseye chart")
+```
+
+## 
+
+::: hand
+aside: about pie charts...
+:::
+
+## Pie charts
+
+::: task
+What do you know about pie charts and data visualization best practices? Love 'em or lose 'em?
+:::
+
+```{r}
+#| echo: false
+#| layout-ncol: 2
+
+loans <- loans_full_schema |>
+  mutate(application_type = as.character(application_type)) |>
+  filter(application_type != "") |>
+  mutate(
+    homeownership    = tolower(homeownership), 
+    homeownership    = fct_relevel(homeownership, "rent", "mortgage", "own"), 
+    application_type = fct_relevel(application_type, "joint", "individual")
+    ) 
+
+pie_homeownership <- loans |> 
+  mutate(homeownership = fct_infreq(homeownership)) |>
+  count(homeownership) |>
+  mutate(text_y = cumsum(n) - n/2) |>
+  ggplot(aes(x = "", fill = homeownership, y = n)) + 
+  geom_col(position = position_stack(reverse = TRUE), show.legend = FALSE) +
+  geom_text_repel(aes(x = 1, label = homeownership, y = text_y)) +
+  coord_polar("y", start = 0) +
+  scale_fill_openintro("hot") +
+  theme_void(base_size = 16) +
+  labs(title = "Homeownership")
+pie_homeownership
+
+pie_loan_grades <- loans |> 
+  count(grade) |> 
+  mutate(text_y = cumsum(n) - n/2) |> 
+  ggplot(aes(x = "", fill = grade, y = n)) + 
+  geom_col(position = position_stack(reverse = TRUE), show.legend = FALSE) +
+  geom_text_repel(aes(x = 1.4, label = grade, y = text_y), nudge_x = 0.3, segment.size = 0.5) + 
+  coord_polar(theta = "y") + 
+  scale_fill_openintro("cool") +
+  theme_void(base_size = 16) +
+  labs(title = "Loan grade")
+pie_loan_grades
+```
+
+## Pie charts: when to love 'em, when to lose 'em
+
+For categorical variables with few levels, bar charts can work well
+
+```{r}
+#| layout-ncol: 2
+
+pie_homeownership
+
+loans %>%
+  ggplot(aes(x = homeownership, fill = homeownership)) +
+  geom_bar(show.legend = FALSE) +
+  scale_fill_openintro("hot") +
+  labs(x = "Homeownership", y = "Count")
+```
+
+## Pie charts: when to love 'em, when to lose 'em
+
+For categorical variables with many levels, bar charts are difficult to read
+
+```{r}
+#| layout-ncol: 2
+
+pie_loan_grades
+
+loans |>
+  ggplot(aes(x = grade, fill = grade)) +
+  geom_bar(show.legend = FALSE) +
+  scale_fill_openintro("cool") +
+  labs(x = "Loan grade", y = "Count")
+```
+
+## Waffle charts
+
+-   Like with pie charts, work best when the number of levels represented is low
+-   Unlike pie charts, easier to compare proportions that represent non-simple fractions
+
+```{r}
+#| fig-show: hold
+#| echo: false
+#| layout-ncol: 2
+
+loans |>
+  count(homeownership) |>
+  ggplot(aes(fill = homeownership, values = n)) +
+  geom_waffle(colour = "white", flip = TRUE, make_proportional = TRUE) +
+  labs(fill = NULL, title = "Homeownership") +
+  scale_fill_openintro("hot") +
+  coord_equal() +
+  theme_enhance_waffle() +
+  theme(legend.position = "bottom")
+
+loans |>
+  count(loan_status) |>
+  ggplot(aes(fill = loan_status, values = n)) +
+  geom_waffle(colour = "white", flip = TRUE, make_proportional = TRUE)  +
+  labs(fill = NULL, title = "Loan status") +
+  scale_fill_openintro("four") +
+  coord_equal() +
+  theme_enhance_waffle() +
+  theme(legend.position = "bottom") +
+  guides(fill=guide_legend(nrow = 2))
+```
+
+## Waffle charts: making of
+
+```{r}
+#| code-line-numbers: "|4"
+
+penguins |>
+  count(species) |>
+  ggplot(aes(fill = species, values = n)) +
+  geom_waffle(colour = "white", flip = TRUE, make_proportional = TRUE) +
+  labs(fill = NULL, title = "Penguin species")
+```
+
+## Waffle charts: enhanced theme
+
+```{r}
+#| code-line-numbers: "|6"
+
+penguins |>
+  count(species) |>
+  ggplot(aes(fill = species, values = n)) +
+  geom_waffle(colour = "white", flip = TRUE, make_proportional = TRUE) +
+  labs(fill = NULL, title = "Penguin species") +
+  theme_enhance_waffle()
+```
