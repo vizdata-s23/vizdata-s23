@@ -29,9 +29,10 @@ This course assumes that this is not your first interaction with working with da
 
 Readings for the course will come from the following textbooks. All of them are **freely available online** and you do not need to purchase a physical copy of either book to succeed in this class.
 
-1.  Hadley Wickham, Danielle Navarro, and Thomas Lin Pedersen. [ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/). (in progress) 3rd edition. Springer, 2021.
-2.  Claus O. Wilke. [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/). O'Reilly Media, 2019.
-3.  Kieran Healy. [Data Visualization: A Practical Introduction](https://socviz.co/). Princeton University Press, 2018.
+1.  `[ggplot2-book]` Hadley Wickham, Danielle Navarro, and Thomas Lin Pedersen. [ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/). (in progress) 3rd edition. Springer, 2022.
+2.  `[socviz]` Kieran Healy. [Data Visualization: A Practical Introduction](https://socviz.co/). Princeton University Press, 2018.
+3.  `[fdv]` Claus O. Wilke. [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/). O'Reilly Media, 2019.
+4.  `[r4ds]` Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund. [R for Data Science](https://r4ds.hadley.nz/). (in progress) 2nd edition. O'Reilly, 2022.
 
 ## Course community
 
