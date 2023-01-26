@@ -192,7 +192,7 @@ Policy on late work depends on the particular course component:
 
 -   Reading quizzes: Late quizzes are not accepted and there are no make ups for missed quizzes.
 
--   Homework assignments: GitHub repositories will be closed to contributions at the deadline. If you need to submit your work late, Slack/email me to reopen your repository.
+-   Homework assignments: GitHub repositories will be closed to contributions at the deadline. If you need to submit your work late, send a DM on Slack to Jackie Du (our Head TA) to reopen your repository.
 
     -   Late, but same day (before midnight): -10% of available points
 
