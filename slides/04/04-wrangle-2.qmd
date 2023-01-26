@@ -1,0 +1,796 @@
+---
+title: Deep wrangling - II
+subtitle: Lecture 3
+title-slide-attributes:
+  data-background-image: ../vizdata-bg.png
+  data-background-size: stretch
+  data-slide-number: none
+format: revealjs
+highlight-style: a11y
+execute:
+  code-link: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# Warm up
+
+## Announcements
+
+-   RQ2 due Tuesday:
+
+    -   Will be posted tomorrow
+
+    -   Covers everything since the previous quiz
+
+## Setup {.smaller}
+
+```{r}
+#| label: setup
+#| message: false
+#| code-line-numbers: "|7-8"
+
+# load packages
+library(countdown)
+library(tidyverse)
+library(glue)
+library(lubridate)
+library(scales)
+library(ggthemes)
+library(gt)
+
+# set theme for ggplot2
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14))
+
+# set width of code output
+options(width = 65)
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 7,        # 7" width
+  fig.asp = 0.618,      # the golden ratio
+  fig.retina = 3,       # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300             # higher dpi, sharper image
+)
+```
+
+# Transforming and reshaping a single data frame (cont.)
+
+## Data: Hotel bookings
+
+-   Data from two hotels: one resort and one city hotel
+-   Observations: Each row represents a hotel booking
+
+```{r message=FALSE}
+hotels <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-11/hotels.csv")
+```
+
+## Scenario 1
+
+::: hand
+We...
+
+have a single data frame
+
+want to slice it, and dice it, and juice it, and process it, so we can plot it
+:::
+
+##  {.smaller}
+
+::: task
+Come up with a plan for making the following visualization and write the pseudocode.
+:::
+
+```{r}
+#| label: monthly-bookings
+#| fig-asp: 0.5
+#| echo: false
+#| dev: ragg_png
+
+hotels <- hotels |>
+  mutate(
+    arrival_date_month = fct_relevel(arrival_date_month, month.name),
+    season = case_when(
+      arrival_date_month %in% c("December", "January", "February") ~ "Winter",
+      arrival_date_month %in% c("March", "April", "May")           ~ "Spring",
+      arrival_date_month %in% c("June", "July", "August")          ~ "Summer",
+      TRUE                                                         ~ "Fall"
+    ),
+    season = fct_relevel(season, "Winter", "Spring", "Summer", "Fall"),
+    season_emoji = case_when(
+      season == "Winter" ~ "❄️",
+      season == "Spring" ~ "⛅️️",
+      season == "Summer" ~ "☀️",
+      season == "Fall"   ~ "☂️"
+    )
+  )
+
+hotels |>
+  count(season_emoji, hotel, arrival_date_month) |>
+  ggplot(aes(x = arrival_date_month, y = n, group = hotel, linetype = hotel)) +
+  geom_line(linewidth = 0.8, color = "cornsilk4") +
+  geom_text(aes(label = season_emoji), size = 6, show.legend = FALSE) +
+  scale_x_discrete(labels = month.abb) +
+  labs(
+    x = "Arrival month", y = "Number of bookings", linetype = NULL,
+    title = "Number of monthly bookings",
+    subtitle = "July 2015 to August 2017",
+    caption = "Source: Antonio, Almeida and Nunes (2019) | TidyTuesday"
+  ) +
+  coord_cartesian(clip = "off") +
+  theme(
+    legend.position = c(0.12, 0.9),
+    legend.box.background = element_rect(fill = "white", color = "white"),
+    plot.subtitle = element_text(color = "cornsilk4"),
+    plot.caption = element_text(color = "cornsilk4")
+  )
+```
+
+## Livecoding {.smaller}
+
+Reveal below for code developed during live coding session.
+
+```{r}
+#| ref.label: monthly-bookings
+#| fig-show: hide
+#| code-fold: true
+```
+
+## A few takeaways
+
+-   `forcats::fct_relevel()` in a `mutate()` is useful for custom ordering of levels of a factor variable
+
+-   `summarize()` after `group_by()` with multiple variables results in a message about the grouping structure of the resulting data frame -- the message can be supressed by defining `.groups` (e.g., `.groups = "drop"` or `.groups = "keep"`)
+
+-   `summarize()` also lets you get away with being sloppy and not naming your new column, but that's not recommended!
+
+## Rowwise operations {.smaller}
+
+::: task
+We want to calculate the total number of guests for each booking. Why does the following not work?
+:::
+
+```{r}
+hotels |>
+  select(adults, children, babies) |>
+  mutate(guests = sum(c(adults, children, babies)))
+```
+
+## Rowwise operations {.smaller}
+
+```{r}
+#| code-line-numbers: "|3"
+
+hotels |>
+  select(adults, children, babies) |>
+  rowwise() |> 
+  mutate(guests = sum(c(adults, children, babies))) |>
+  filter(adults > 0, children > 0, babies > 0) # to show sum works
+```
+
+## Columnwise operations {.smaller}
+
+Use `across()` combined with `summarise()` to calculate summary statistics for multiple columns at once:
+
+```{r}
+#| code-line-numbers: "|2|4"
+
+hotels |>
+  summarise(across(.cols = starts_with("stays"),  mean))
+
+hotels |>
+  summarise(across(.cols = starts_with("stays"),  list(mean, sd)))
+```
+
+## Select helpers {.smaller}
+
+-   `starts_with()`: Starts with a prefix
+-   `ends_with()`: Ends with a suffix
+-   `contains()`: Contains a literal string
+-   `num_range()`: Matches a numerical range like x01, x02, x03
+-   `one_of()`: Matches variable names in a character vector
+-   `everything()`: Matches all variables
+-   `last_col()`: Select last variable, possibly with an offset
+-   `matches()`: Matches a regular expression (a sequence of symbols/characters expressing a string/pattern to be searched for within text)
+
+::: aside
+See help for any of these functions for more info, e.g. `?everything`.
+:::
+
+## Columnwise operations {.smaller}
+
+```{r}
+#| code-line-numbers: "|4"
+
+hotels |>
+  group_by(hotel, is_canceled) |>
+  summarise(
+    across(.cols = starts_with("stays"),  list(mean = mean, sd = sd), .names = "{.fn}_{.col}") 
+    )
+```
+
+## Columnwise operations {.smaller}
+
+```{r}
+#| code-line-numbers: "|4"
+
+hotels |>
+  group_by(hotel, is_canceled) |>
+  summarise(
+    across(.cols = starts_with("stays"),  list(mean = mean, sd = sd), .names = "{.fn}_{.col}"),
+    .groups = "drop"
+    )
+```
+
+## Setup for next example: `hotel_summary` {.smaller}
+
+```{r}
+#| code-line-numbers: "|4-8|9"
+
+hotels_summary <- hotels |>
+  group_by(hotel, is_canceled) |>
+  summarise(
+    across(
+      .cols = starts_with("stays"),
+      list(mean = mean),
+      .names = "{.fn}_{.col}"
+    ),
+    .groups = "drop"
+  )
+
+hotels_summary
+```
+
+## 
+
+::: task
+Which variables are plotted in the following visualization? Which aesthetics are they mapped to? Recreate the visualization.
+:::
+
+```{r}
+#| label: stay-nights
+#| fig-asp: 0.5
+#| echo: false
+#| dev: ragg_png
+
+hotels_summary |>
+  mutate(is_canceled = if_else(is_canceled == 0, "Not canceled", "Canceled")) |>
+  pivot_longer(cols = starts_with("mean"),
+               names_to = "day_type",
+               values_to = "mean_stays",
+               names_prefix = "mean_stays_in_") |>
+  mutate(
+    day_type = if_else(str_detect(day_type, "weekend"), "Weekend", "Weekday")
+    ) |>
+  ggplot(aes(x = str_wrap(is_canceled, 10), y = mean_stays, 
+             group = hotel, color = hotel)) +
+  geom_point(show.legend = FALSE) +
+  geom_line(aes(linetype = hotel), linewidth = 1) +
+  facet_wrap(~day_type) +
+  labs(
+    x = "Booking status",
+    y = "Mean number of\nnights of stay",
+    color = NULL, linetype = NULL,
+    title = "Mean number of stays",
+    subtitle = "By hotel type and booking status",
+    caption = "Source: Antonio, Almeida and Nunes (2019) | TidyTuesday"
+  ) +
+  scale_color_manual(values = c("cornsilk4", "deepskyblue3")) +
+  scale_y_continuous(limits = c(0, 4), breaks = 0:4) +
+  theme(legend.position = "bottom")
+```
+
+## Livecoding
+
+Reveal below for code developed during live coding session.
+
+```{r}
+#| ref.label: stay-nights
+#| fig-show: hide
+#| code-fold: true
+```
+
+## `pivot_wider()` and `pivot_longer()`
+
+::: columns
+::: {.column width="50%"}
+-   From **tidyr**
+-   Incredibly useful for reshaping for plotting
+-   Lots of extra arguments to help with reshaping pain!
+-   Refer to [pivoting vignette](https://tidyr.tidyverse.org/articles/pivot.html) when needed
+:::
+
+::: {.column width="50%"}
+![](images/tidyr-longer-wider.gif){fig-alt="Animation showing what pivoting longer and wider look like" fig-align="center"}
+:::
+:::
+
+# Stats
+
+## Stats \< \> geoms {.smaller}
+
+-   Statistical transformation (**stat**) transforms the data, typically by summarizing
+-   Many of ggplot2's stats are used behind the scenes to generate many important geoms
+
+| `stat`            | geom                                                |
+|-------------------|-----------------------------------------------------|
+| `stat_bin()`      | `geom_bar()`, `geom_freqpoly()`, `geom_histogram()` |
+| `stat_bin2d()`    | `geom_bin2d()`                                      |
+| `stat_bindot()`   | `geom_dotplot()`                                    |
+| `stat_binhex()`   | `geom_hex()`                                        |
+| `stat_boxplot()`  | `geom_boxplot()`                                    |
+| `stat_contour()`  | `geom_contour()`                                    |
+| `stat_quantile()` | `geom_quantile()`                                   |
+| `stat_smooth()`   | `geom_smooth()`                                     |
+| `stat_sum()`      | `geom_count()`                                      |
+
+## Layering with stats {.smaller}
+
+```{r}
+#| code-line-numbers: "|5-8"
+#| fig-width: 8
+#| fig-asp: 0.4
+
+hotels |>
+  filter(adr < 4000) |>
+  ggplot(aes(x = arrival_date_month, y = adr)) +
+  geom_point(alpha = 0.5) +
+  stat_summary(
+    geom = "point", fun = "median", 
+    colour = "red", size = 5, pch = 4, stroke = 2
+  ) +
+  facet_wrap(~ hotel, ncol = 1)
+```
+
+## Alternate: layering with stats {.smaller}
+
+```{r}
+#| code-line-numbers: "|5-8"
+#| fig-width: 8
+#| fig-asp: 0.4
+
+hotels |>
+  filter(adr < 4000) |>
+  ggplot(aes(x = arrival_date_month, y = adr)) +
+  geom_point(alpha = 0.5) +
+  geom_point(
+    stat = "summary", fun = "median", 
+    colour = "red", size = 5, pch = 4, stroke = 2
+  ) +
+  facet_wrap(~ hotel, ncol = 1)
+```
+
+## Statistical transformations {.smaller}
+
+::: task
+What can you say about the distribution of price from the following QQ plot?
+:::
+
+```{r}
+#| code-line-numbers: "|4-5"
+#| fig-width: 8
+#| fig-asp: 0.4
+
+hotels |>
+  filter(adr < 4000) |>
+  ggplot(aes(sample = adr)) +
+  stat_qq() +
+  stat_qq_line() +
+  labs(y = "adr")
+```
+
+# Bringing together multiple data frames
+
+## Scenario 2
+
+::: hand
+We...
+
+have **multiple** data frames
+
+want to want to bring them together so we can plot them
+:::
+
+## 
+
+```{r}
+#| include: false
+
+professions <- read_csv("data/professions.csv")
+dates <- read_csv("data/dates.csv")
+works <- read_csv("data/works.csv")
+```
+
+```{r}
+#| echo: false
+#| message: false
+
+professions <- read_csv(here::here("slides/04", "data/professions.csv"))
+dates <- read_csv(here::here("slides/04", "data/dates.csv"))
+works <- read_csv(here::here("slides/04", "data/works.csv"))
+```
+
+## Data: 10 women in science who changed the world {.smaller}
+
+```{r echo=FALSE}
+#| echo: false
+
+professions |> select(name) |> gt()
+```
+
+::: aside
+Source: [Discover Magazine](https://www.discovermagazine.com/the-sciences/meet-10-women-in-science-who-changed-the-world)
+:::
+
+## Inputs
+
+::: panel-tabset
+
+### professions
+
+```{r}
+professions
+```
+
+### dates
+
+```{r}
+dates
+```
+
+### works
+
+```{r}
+works
+```
+
+## Desired output {.smaller}
+
+```{r}
+#| echo: false
+#| message: false
+
+professions |>
+  left_join(dates) |>
+  left_join(works)
+```
+
+## Inputs, reminder
+
+::: columns
+::: {.column width="50%"}
+```{r}
+names(professions)
+names(dates)
+names(works)
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+nrow(professions)
+nrow(dates)
+nrow(works)
+```
+:::
+:::
+
+## Joining data frames {.smaller}
+
+```{r}
+#| eval: false
+
+something_join(x, y)
+```
+
+-   `left_join()`: all rows from x
+-   `right_join()`: all rows from y
+-   `full_join()`: all rows from both x and y
+-   `semi_join()`: all rows from x where there are matching values in y, keeping just columns from x
+-   `inner_join()`: all rows from x where there are matching values in y, return all combination of multiple matches in the case of multiple matches
+-   `anti_join()`: return all rows from x where there are not matching values in y, never duplicate rows of x
+-   ...
+
+## Setup
+
+For the next few slides...
+
+::: columns
+::: {.column width="50%"}
+```{r}
+x <- tibble(
+  id = c(1, 2, 3),
+  value_x = c("x1", "x2", "x3")
+  )
+
+x
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+y <- tibble(
+  id = c(1, 2, 4),
+  value_y = c("y1", "y2", "y4")
+  )
+
+y
+```
+:::
+:::
+
+## `left_join()`
+
+::: columns
+::: {.column width="50%"}
+![](images/left-join.gif)
+:::
+
+::: {.column width="50%"}
+```{r}
+left_join(x, y)
+```
+:::
+:::
+
+## `left_join()`
+
+```{r}
+professions |>
+  left_join(dates)
+```
+
+## `right_join()`
+
+::: columns
+::: {.column width="50%"}
+![](images/right-join.gif){style="background-color: #FDF6D3"}
+:::
+
+::: {.column width="50%"}
+```{r}
+right_join(x, y)
+```
+:::
+:::
+
+## `right_join()`
+
+```{r}
+professions |>
+  right_join(dates)
+```
+
+## `full_join()`
+
+::: columns
+::: {.column width="50%"}
+![](images/full-join.gif){style="background-color: #FDF6D3"}
+:::
+
+::: {.column width="50%"}
+```{r}
+full_join(x, y)
+```
+:::
+:::
+
+## `full_join()`
+
+```{r}
+dates |>
+  full_join(works)
+```
+
+## `inner_join()`
+
+::: columns
+::: {.column width="50%"}
+![](images/inner-join.gif){style="background-color: #FDF6D3"}
+:::
+
+::: {.column width="50%"}
+```{r}
+inner_join(x, y)
+```
+:::
+:::
+
+## `inner_join()`
+
+```{r}
+dates |>
+  inner_join(works)
+```
+
+## `semi_join()`
+
+::: columns
+::: {.column width="50%"}
+![](images/semi-join.gif){style="background-color: #FDF6D3"}
+:::
+
+::: {.column width="50%"}
+```{r}
+semi_join(x, y)
+```
+:::
+:::
+
+## `semi_join()`
+
+```{r}
+dates |>
+  semi_join(works)
+```
+
+## `anti_join()`
+
+::: columns
+::: {.column width="50%"}
+![](images/anti-join.gif){style="background-color: #FDF6D3"}
+:::
+
+::: {.column width="50%"}
+```{r}
+anti_join(x, y)
+```
+:::
+:::
+
+## `anti_join()`
+
+```{r}
+dates |>
+  anti_join(works)
+```
+
+## Putting it altogether
+
+```{r}
+scientists <- professions |>
+  left_join(dates) |>
+  left_join(works)
+
+scientists
+```
+
+## `*_join()` functions
+
+-   From **dplyr**
+-   Incredibly useful for bringing datasets with common information (e.g., unique identifier) together
+-   Use `by` argument when the names of the column containing the common information are not the same across datasets
+-   Always check that the numbers of rows and columns of the result dataset makes sense
+-   Refer to [two-table verbs vignette](https://dplyr.tidyverse.org/articles/two-table.html) when needed
+
+## Visualizing joined data
+
+```{r}
+#| label: scientists-gantt-transform
+#| echo: false
+
+scientists_longer <- scientists |>
+  mutate(
+    birth_year = case_when(
+      name == "Ada Lovelace" ~ 1815,
+      name == "Marie Curie" ~ 1867,
+      TRUE ~ birth_year
+    ),
+    death_year = case_when(
+      name == "Ada Lovelace" ~ 1852,
+      name == "Marie Curie" ~ 1934,
+      name == "Flossie Wong-Staal" ~ 2020,
+      TRUE ~ death_year
+    ),
+    status = if_else(is.na(death_year), "alive", "deceased"),
+    death_year = if_else(is.na(death_year), 2021, death_year),
+    known_for = if_else(name == "Rosalind Franklin", "understanding of the molecular structures of DNA ", known_for)
+  ) |>
+  pivot_longer(
+    cols = contains("year"),
+    names_to = "year_type",
+    values_to = "year"
+  ) |>
+  mutate(death_year_fake = if_else(year == 2021, TRUE, FALSE))
+```
+
+```{r}
+#| label: scientists-gantt-plot
+#| echo: false
+#| fig-asp: 0.55
+#| out-width: "100%"
+#| fig-width: 12
+#| warning: false
+
+ggplot(scientists_longer, 
+       aes(x = year, y = fct_reorder(name, as.numeric(factor(profession))), group = name, color = profession)) +
+  geom_point(aes(shape = death_year_fake), show.legend = FALSE) +
+  geom_line(aes(linetype = status), show.legend = FALSE) +
+  scale_shape_manual(values = c("circle", NA)) +
+  scale_linetype_manual(values = c("dashed", "solid")) +
+  scale_color_colorblind() +
+  scale_x_continuous(expand = c(0.01, 0), breaks = seq(1820, 2020, 50)) +
+  geom_text(aes(y = name, label = known_for), x = 2030, show.legend = FALSE, hjust = 0) +
+  geom_text(aes(label = profession), x = 1809, y = Inf, hjust = 1, vjust = 1, show.legend = FALSE) +
+  coord_cartesian(clip = "off") +
+  labs(
+    x = "Year", y = NULL,
+    title = "10 women in science who changed the world",
+    caption = "Source: Discover magazine"
+  ) +
+  facet_grid(profession ~ ., scales = "free_y", space = "free_y", switch = "x") +
+  theme(
+    plot.margin = unit(c(1, 23, 1, 4), "lines"),
+    plot.title.position = "plot",
+    plot.caption.position = "plot",
+    plot.caption = element_text(hjust = 2), # manual hack
+    strip.background = element_blank(),
+    strip.text = element_blank(),
+    axis.title.x = element_text(hjust = 0),
+    panel.background = element_rect(fill = "#f0f0f0", color = "white"),
+    panel.grid.major = element_line(color = "white", size = 0.5)
+  )
+```
+
+## Livecoding {.smaller}
+
+Reveal below for code developed during live coding session.
+
+- Transform
+
+```{r}
+#| ref.label: scientists-gantt-transform
+#| fig-show: hide
+#| code-fold: true
+```
+
+- Plot
+
+```{r}
+#| ref.label: scientists-gantt-plot
+#| fig-show: hide
+#| code-fold: true
+```
+
+## 
+
+<center>
+
+<blockquote class="twitter-tweet" width="400" height="600">
+
+<p lang="en" dir="ltr">
+
+TIL: debug = TRUE argument for element_text() in <a href="https://twitter.com/hashtag/ggplot2?src=hash&amp;ref_src=twsrc%5Etfw">#ggplot2</a> "aids visual debugging by drawing a solid rectangle behind the complete text area, and a point where each label is anchored" 🤯 <br><br>I don't know how I've never seen this before, it's super helpful! <a href="https://t.co/87VVhMpeLm">pic.twitter.com/87VVhMpeLm</a>
+
+</p>
+
+--- Mine Çetinkaya-Rundel (@minebocek) <a href="https://twitter.com/minebocek/status/1437844443588136960?ref_src=twsrc%5Etfw">September 14, 2021</a>
+
+</blockquote>
+
+```{=html}
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+```
+</center>
+
+## Gantt charts
+
+<center>
+
+<blockquote class="twitter-tweet">
+
+<p lang="en" dir="ltr">
+
+Oh! Also, if this is for a blogpost could I recommend noting that the datviz you've made is called a Gantt chart? <br><br>In my experience that name isn't very well known, but knowing it helps when googling how to customise these charts 😊
+
+</p>
+
+--- Charlie 👩‍💻 (@charliejhadley) <a href="https://twitter.com/charliejhadley/status/1437849467793952775?ref_src=twsrc%5Etfw">September 14, 2021</a>
+
+</blockquote>
+
+```{=html}
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+```
+</center>
