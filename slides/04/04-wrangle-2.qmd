@@ -1,6 +1,6 @@
 ---
-title: Deep wrangling - II
-subtitle: Lecture 3
+title: Data wrangling - II
+subtitle: Lecture 4
 title-slide-attributes:
   data-background-image: ../vizdata-bg.png
   data-background-size: stretch
@@ -737,7 +737,7 @@ ggplot(scientists_longer,
 
 Reveal below for code developed during live coding session.
 
-- Transform
+-   Transform
 
 ```{r}
 #| ref.label: scientists-gantt-transform
@@ -745,7 +745,7 @@ Reveal below for code developed during live coding session.
 #| code-fold: true
 ```
 
-- Plot
+-   Plot
 
 ```{r}
 #| ref.label: scientists-gantt-plot

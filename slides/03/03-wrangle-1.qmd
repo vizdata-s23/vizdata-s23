@@ -1,5 +1,5 @@
 ---
-title: Deep wrangling - I
+title: Data wrangling - I
 subtitle: Lecture 3
 title-slide-attributes:
   data-background-image: ../vizdata-bg.png
