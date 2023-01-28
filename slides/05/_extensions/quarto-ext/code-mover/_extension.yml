@@ -1,0 +1,9 @@
+title: CodeMover
+author:  Sam Rosen
+version: 0.1.0
+quarto-required: ">=1.2.198"
+contributes:
+  revealjs-plugins:
+    - name: CodeMover
+      script:
+        - code-mover.js
