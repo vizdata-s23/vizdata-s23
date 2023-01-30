@@ -38,14 +38,14 @@ library(gt)
 
 # set theme for ggplot2
 ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14))
-
-# set width of code output
-options(width = 65)
-
-# set figure parameters for knitr
+# 
+# # set width of code output
+# options(width = 65)
+# 
+# # set figure parameters for knitr
 knitr::opts_chunk$set(
-  fig.width = 7,        # 7" width
-  fig.asp = 0.618,      # the golden ratio
+  fig.height = 3.6,      
+  # fig.asp = 0.618,      # the golden ratio
   fig.retina = 3,       # dpi multiplier for displaying HTML output on retina
   fig.align = "center", # center align figures
   dpi = 300             # higher dpi, sharper image
@@ -100,12 +100,9 @@ ggplot(example_data, aes(random_values)) +
   scale_x_continuous(limits = c(-2.5, 5))
 ```
 
-
 ## Density Plots {.smaller}
 
-**What's the difference?**
-Histograms are *counts* of bins of *observed* data.
-Density plots are *estimates* of the *unknown* distribution.
+**What's the difference?** Histograms are *counts* of bins of *observed* data. Density plots are *estimates* of the *unknown* distribution.
 
 ```{r}
 #| label: density-example
@@ -120,7 +117,6 @@ ggplot(example_data, aes(random_values)) +
   labs(title = "Density plot of two random normal variables") +
   scale_x_continuous(limits = c(-2.5, 5))
 ```
-
 
 ## So what? {.smaller .no-list-margins}
 
@@ -157,9 +153,9 @@ plotNewData(regenerateData(numPoints / 3), binWidth, generate);
 Based on [example](https://observablehq.com/@d3/kernel-density-estimation) by Mike Bostock
 :::
 
-## Motivating Example 
+## Motivating Example
 
-::: {.smallest}
+::: smallest
 -   Baseball! A home run in baseball occurs when a player hits a fair ball outside of the playing field. Examples:
 
 ::: {style="text-align: center"}
@@ -171,18 +167,16 @@ Based on [example](https://observablehq.com/@d3/kernel-density-estimation) by Mi
 
 . . .
 
-::: {.smallest}
+::: smallest
 -   Home runs are exciting! Baseball currently has a marketing problem, but throughout history Major League Baseball (MLB, the organization running the highest level of professional baseball) has tried to change the rules to increase home runs to help the game be more entertaining.
 
     -   In short terms, **Home runs = Money**, but if everyone hits the same number of home runs they become less exciting.
     -   Examining the distribution of home runs year-by-year we may be able to see the effect of rule changes.
-
 :::
 
-## Data 
+## Data
 
-::: {.smallest}
-
+::: smallest
 ```{r}
 #| label: load-data
 #| echo: TRUE
@@ -193,16 +187,15 @@ names(Batting)
 
 Our dataset comes from the R package `Lahman`. Each row in the data frame is the hitting stats of a player for a given year. We will mostly be using the following columns:
 
-| Variable | Description                                                                        |
-|--------------------------|---------------------------------------------|
-| `yearID`   | The year for the statistics    |
-| `playerID` | Player unique ID to distinguish rows   |
+| Variable   | Description                                                                        |
+|---------------------------|---------------------------------------------|
+| `yearID`   | The year for the statistics                                                        |
+| `playerID` | Player unique ID to distinguish rows                                               |
 | `HR`       | The number of home runs a player hit in a given year                               |
 | `SB`       | Stolen bases; more stolen bases = faster player                                    |
 | `G`        | Number of games played; there are 162 games in a baseball season (154 before 1961) |
 | `BB`       | Walks; more walks = defense is worried about player hitting home runs              |
 | `SO`       | Strike outs; more strikeouts = Hitter is swinging recklessly                       |
-
 :::
 
 ## Data we will use {auto-animate="true"}
@@ -280,7 +273,7 @@ home_runs <- Batting |>
 
 -   We are only considering the `AL` and `NL` leagues as they have the best stat-tracking and are the only Major leagues still around today.
 
-## Density Graph Example
+## Density Graph Example {.smaller}
 
 ::: panel-tabset
 ### Plot {.move-code}
@@ -302,14 +295,13 @@ ggplot(home_runs, aes(HR)) +
 ### Code
 :::
 
-## Stacked Density Graph By Decade
+## Stacked Density Graph By Decade {.smaller}
 
 ::: panel-tabset
 ### Plot {.move-code}
 
 ```{r}
 #| label: stacked-geom-density
-#| fig-height: 4
 #| echo: true
 
 home_runs |>
@@ -326,20 +318,19 @@ home_runs |>
 ```
 
 ::: r-fit-text
--   If we stratify by decade, we can see the **mode** of the density graphs slowly creep forward, but it is difficult to see the tail of the distribution.
+If we stratify by decade, we can see the **mode** of the density graphs slowly creep forward, but it is difficult to see the tail of the distribution.
 :::
 
 ### Code
 :::
 
-## Overlapping Density Graphs By Decade
+## Overlapping Density Graphs By Decade {.smaller}
 
 ::: panel-tabset
 ### Plot {.move-code}
 
 ```{r}
 #| label: overlapping-geom-density
-#| fig-height: 4
 #| echo: true
 
 home_runs |>
@@ -356,20 +347,19 @@ home_runs |>
 ```
 
 ::: r-fit-text
--   The modes moving forward is a little more apparent now, but the graphs are too coupled to digest easily.
+The modes moving forward is a little more apparent now, but the graphs are too coupled to digest easily.
 :::
 
 ### Code
 :::
 
-## Density Graph with Conditional Probabilities
+## Density Graph with Conditional Probabilities {.smaller}
 
 ::: panel-tabset
 ### Plot {.move-code}
 
 ```{r}
 #| label: conditional-geom-density
-#| fig-height: 4
 #| echo: true
 
 home_runs |>
@@ -387,9 +377,8 @@ home_runs |>
 
 ```
 
-::: r-fit-text
--   By using `position = "fill"` and `y = after_stat(count)` we graph the conditional probability of a decade given that a player has hit a certain number of home runs.
--   We see that players would hit about 60 homeruns in the 20's and 30's, but that disappears until the 90's and 2000's [^2] which quickly take up the conditional probability for years with more than 60 home runs. What happened?
+::: {.small style="margin: 0"}
+By using `position = "fill"` and `y = after_stat(count)` we graph the conditional probability of a decade given that a player has hit a certain number of home runs. We see that players would hit about 60 homeruns in the 20's and 30's, but that disappears until the 90's and 2000's. [^2]
 :::
 
 ### Code
@@ -397,14 +386,13 @@ home_runs |>
 
 [^2]: With the exception of 1961, the year Roger Maris hit 61 home runs.
 
-## Violin Plot
+## Violin Plot {.smaller}
 
 ::: panel-tabset
 ### Plot {.move-code}
 
 ```{r}
 #| label: violin-plot
-#| fig-height: 4
 #| echo: true
 
 home_runs |>
@@ -423,13 +411,13 @@ home_runs |>
 ```
 
 ::: r-fit-text
--   Let's examine the years near the change point, 1985 to 2005. All points shown are players that hit 30 or more home runs in a given year. It looks like around 1995 players started hitting **a lot** more home runs.
+Let's examine the years near the change point, 1985 to 2005. All points shown are players that hit 30 or more home runs in a given year. It looks like around 1995 players started hitting **a lot** more home runs.
 :::
 
 ### Code
 :::
 
-## Ridge Plot
+## Ridge Plot {.smaller}
 
 ::: panel-tabset
 ### Plot {.move-code}
@@ -469,10 +457,8 @@ home_runs |>
 
 ```
 
-::: r-fit-text
--   The quantiles also have a consistent increase, along with many more players hitting 30 or more home runs!
--   In 1998 there was a home run record race between two players; this brought a lot of interest back into baseball.
--   1995 to about 2005 is known as the *Steroid Era* in baseball. During this time, players would take performance enhancing drugs freely as the league did not enforce the ban on them. League-wide testing began in 2003.
+::: {.small style="margin: 0"}
+The quantiles also have a consistent increase, along with many more players hitting 30 or more home runs! In 1998 there was a home run record race between two players; this brought a lot of interest back into baseball. 1995 to about 2005 is known as the *Steroid Era* in baseball. During this time, players would take performance enhancing drugs freely as the league did not enforce the ban on them. League-wide testing began in 2003.
 :::
 
 ### Code
@@ -480,8 +466,8 @@ home_runs |>
 
 ## Application Exercise: More Examples
 
-- Go to [ADD REPO NAME]
-- Work on exercise 1
+-   Go to \[ADD REPO NAME\]
+-   Work on exercise 1
 
 ```{r}
 #| label: ae-1
@@ -515,7 +501,7 @@ plotNewDataBW(regenerateData(numPoints2 / 3), binWidth2, bandwidth, generate2);
 
 ## Automatic Bandwidth Selection
 
-::: {.smallest}
+::: smallest
 -   Because change in bandwidth leads to a continuous change in the density estimate, it is often easier to automatically pick a bandwidth!
 
 -   Silverman's 'rule-of-thumb' `bw.nrd0` :
@@ -532,7 +518,7 @@ plotNewDataBW(regenerateData(numPoints2 / 3), binWidth2, bandwidth, generate2);
 
 . . .
 
-::: {.smallest}
+::: smallest
 -   Sheather-Jones `bw.SJ`
 
     -   More complicated bandwidth selector that "would rather fit" as the default
@@ -541,10 +527,10 @@ plotNewDataBW(regenerateData(numPoints2 / 3), binWidth2, bandwidth, generate2);
 
     -   `geom_density(bw = "SJ")` to use
 :::
+
 . . .
 
-::: {.smallest}
-
+::: smallest
 -   Other methods
 
     -   Scott's plug in estimator `bw.nrd`: similar to Silverman's
@@ -552,7 +538,6 @@ plotNewDataBW(regenerateData(numPoints2 / 3), binWidth2, bandwidth, generate2);
     -   `bw.ucv` and `bw.bcv`: cross validation based methods that are less useful for data visualization
 
     -   `bw.SJ(<data>, method = "dpi")`: An easier to calculate Sheather-Jones estimate that gives worse results
-
 :::
 
 ## Sheather-Jones Example
@@ -562,6 +547,7 @@ plotNewDataBW(regenerateData(numPoints2 / 3), binWidth2, bandwidth, generate2);
 
 ```{r}
 #| label: sj-use-case
+#| fig-height: 5
 #| echo: false
 
 example_data <- data.frame(vals = c(rnorm(1000, 0, 1), rnorm(1000, 20, 1)))
@@ -598,6 +584,7 @@ ggplot(example_data, aes(x = vals)) +
 
 ```{r}
 #| label: sj-potentially-not-useful
+#| fig-height: 5
 #| echo: false
 
 ggplot(home_runs, aes(x = HR)) +
@@ -648,8 +635,8 @@ To learn more, see [Chapter 2](https://bookdown.org/egarpor/NP-UC3M/kde-i-kde.ht
 
 ## Application Exercise: Bandwidth
 
-- Go to [ADD REPO NAME]
-- Work on exercise 2
+-   Go to \[ADD REPO NAME\]
+-   Work on exercise 2
 
 ```{r}
 #| label: ae-2
@@ -675,10 +662,10 @@ long_tailed_data <- data.frame(random_values = rlnorm(1000, -3, 1))
 ::: {.column width="49%"}
 ```{r}
 #| label: plot-long-tailed-data
+#| fig-height: 5
 #| echo: true
 
-# Base R plotting
-plot(
+plot( # Base R plotting
   density(long_tailed_data$random_values, bw = "SJ"), 
   main = "Density graph of positive numbers with density below 0"
 ) 
@@ -692,6 +679,7 @@ abline(v = 0, col="red", lty = 2)
 ::: {.column width="49%"}
 ```{r}
 #| label: better-plot-long-tailed-data
+#| fig-height: 5
 #| echo: true
 
 plot(
@@ -719,6 +707,7 @@ longer_tailed_data <- tibble(random_values = rlnorm(1000, -6, 5))
 ::: {.column width="49%"}
 ```{r}
 #| label: plot-longer-tailed-data
+#| fig-height: 5
 #| echo: true
 
 ggplot(longer_tailed_data, aes(x = random_values)) +
@@ -732,6 +721,7 @@ ggplot(longer_tailed_data, aes(x = random_values)) +
 ::: {.column width="49%"}
 ```{r}
 #| label: plot-logged-longer-tailed-data
+#| fig-height: 5
 #| echo: true
 
 ggplot(longer_tailed_data, aes(x = random_values)) +
@@ -745,6 +735,8 @@ ggplot(longer_tailed_data, aes(x = random_values)) +
 :::
 
 ## 2D Density/Histograms {.smallest}
+
+Players that hit lots of home runs tend to strikeout and walk more.
 
 ::: panel-tabset
 ### Scatter plot
@@ -784,7 +776,6 @@ home_runs |>
 
 ```{r}
 #| label: plot-2d-density
-#| fig-height: 5
 #| echo: true
 
 home_runs |>
@@ -796,10 +787,7 @@ home_runs |>
     y = "Strike outs and walks per player per year"
   )
 ```
-
 :::
--   Players that hit lots of home runs tend to strikeout and walk more.
-
 
 ## Density Graphs Summary {.smaller}
 
