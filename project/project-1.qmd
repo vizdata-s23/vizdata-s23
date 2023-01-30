@@ -91,7 +91,7 @@ Your presentation should generally follow the same structure as your write-up. E
 
 ### Website
 
-Each of your projects will have a website that looks like \[link to be added\]. You are not expected to change the styling of the website, but if you want to, you'll need to edit the `_quarto.yml` file in your repo. Feel free to google your way around it or ask on the discussion forum / office hours!
+Each of your projects will have a website that looks like <https://vizdata-s23.github.io/project-01>. You are not expected to change the styling of the website, but if you want to, you'll need to edit the `_quarto.yml` file in your repo. Feel free to google your way around it or ask on the discussion forum / office hours!
 
 ## Repo organization
 
