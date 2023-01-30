@@ -1,7 +1,7 @@
 ---
 title: Visualizing density - I
 subtitle: Lecture 5
-author: Slides by Sam Rosen
+author: Sam Rosen
 title-slide-attributes:
   data-background-image: ../vizdata-bg.png
   data-background-size: stretch
@@ -212,6 +212,11 @@ We are interested in the distribution of the number of home runs individual play
 
 ## Context 1 {auto-animate="true"}
 
+There are many players in the dataset that played very little games per year, so we will limit to players that played at least 100 games in a given year, with the following years excepted:
+
+-   In 1994 only about 115 games were played due to labor strikes, so will filter to at least 70 games.
+-   In 2020 COVID shortened the season to only 60 games, so we will filter at least 40 games.
+
 ```{r}
 #| label: context-1
 #| echo: true
@@ -225,15 +230,10 @@ home_runs <- Batting |>
   )
 ```
 
-::: r-fit-text
--   There are many players in the dataset that played very little games per year, so we will limit to players that played at least 100 games in a given year, with the following years excepted:
-
-    -   In 1994 only about 115 games were played due to labor strikes, so will filter to at least 70 games.
-
-    -   In 2020 COVID shortened the season to only 60 games, so we will filter at least 40 games.
-:::
-
 ## Context 2 {auto-animate="true"}
+
+-   We are only concerned with years after 1920 (known as the "live-ball era").
+-   Very few home runs were hit before 1920 as the same baseball was used for the entire game. About 100 baseballs are used every game today!
 
 ```{r}
 #| label: context-2
@@ -249,10 +249,9 @@ home_runs <- Batting |>
   )
 ```
 
--   We are only concerned with years after 1920 (known as the "live-ball era").
--   Very few home runs were hit before 1920 as the same baseball was used for the entire game. About 100 baseballs are used every game today!
-
 ## Context 3 {auto-animate="true"}
+
+We are only considering the `AL` and `NL` leagues as they have the best stat-tracking and are the only Major leagues still around today.
 
 ```{r}
 #| label: context-3
@@ -268,8 +267,6 @@ home_runs <- Batting |>
     lgID %in% c("AL", "NL")
   )
 ```
-
--   We are only considering the `AL` and `NL` leagues as they have the best stat-tracking and are the only Major leagues still around today.
 
 ## Density Graph Example {.smaller}
 
@@ -399,13 +396,10 @@ home_runs |>
   geom_violin(draw_quantiles = c(0.25, 0.5, 0.75)) +
   geom_jitter(
     data = ~ filter(.x, HR >= 30),
-    height = 0,
-    width = 0.1,
-    alpha = 0.5
+    height = 0, width = 0.1, alpha = 0.5
   ) +
-  xlab("Home runs per player per year") +
-  scale_x_discrete(guide = guide_axis(n.dodge = 2))
-
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
+  labs(x = "Home runs per player per year")
 ```
 
 ::: r-fit-text
@@ -428,8 +422,7 @@ library(ggridges)
 
 home_runs |>
   filter(yearID %in% 1985:2010) |>
-  ggplot(aes(x = HR,
-             y = factor(yearID))) +
+  ggplot(aes(x = HR, y = factor(yearID))) +
   stat_density_ridges(
     mapping = aes(fill = factor(after_stat(quantile))),
     geom = "density_ridges_gradient",
@@ -441,18 +434,17 @@ home_runs |>
   ) +
   scale_fill_viridis_d(
     name = "Quantiles",
-    labels = c("0", "25th", "50th", "75th", "95th")) +
+    labels = c("0", "25th", "50th", "75th", "95th")
+  ) +
   geom_jitter(
     data = ~ filter(.x, HR >= 30),
-    height = 0.2,
-    width = 0,
-    alpha = 0.3,
+    height = 0.2, width = 0, alpha = 0.3,
   ) +
   scale_x_continuous(
     name = "Home runs per player per year",
-    limits = c(0,73)) +
-  ylab("Year")
-
+    limits = c(0, 73)
+  ) +
+  labs(y = "Year")
 ```
 
 ::: {.small style="margin: 0"}
@@ -465,7 +457,7 @@ The quantiles also have a consistent increase, along with many more players hitt
 ## Application Exercise: More Examples
 
 -   Go to `ae-05`
--   Work on exercise 1
+-   Work on Exercise 1
 
 ```{r}
 #| label: ae-1
@@ -634,7 +626,7 @@ To learn more, see [Chapter 2](https://bookdown.org/egarpor/NP-UC3M/kde-i-kde.ht
 ## Application Exercise: Bandwidth
 
 -   Go to `ae-05`
--   Work on exercise 2
+-   Work on Exercise 2
 
 ```{r}
 #| label: ae-2
@@ -643,17 +635,17 @@ To learn more, see [Chapter 2](https://bookdown.org/egarpor/NP-UC3M/kde-i-kde.ht
 countdown(minutes = 5)
 ```
 
-## Cautions
+## Cautions {.smaller}
 
 ::: panel-tabset
-### Density Below 0 {.smallest}
+### Density Below 0
 
 ```{r}
 #| label: long-tailed-data
 #| echo: true
 #| code-line-numbers: false
 
-long_tailed_data <- data.frame(random_values = rlnorm(1000, -3, 1))
+long_tailed_data <- tibble(random_values = rlnorm(1000, -3, 1))
 ```
 
 ::: columns
@@ -663,11 +655,11 @@ long_tailed_data <- data.frame(random_values = rlnorm(1000, -3, 1))
 #| fig-height: 5
 #| echo: true
 
-plot( # Base R plotting
+plot(
   density(long_tailed_data$random_values, bw = "SJ"), 
   main = "Density graph of positive numbers with density below 0"
 ) 
-abline(v = 0, col="red", lty = 2)
+abline(v = 0, col = "red", lty = 2)
 ```
 :::
 
@@ -684,14 +676,14 @@ plot(
   density(long_tailed_data$random_values, bw = "SJ", from = 0),
   main = "Density graph of positive numbers with cut density"
 )
-abline(v = 0, col="red", lty = 2)
+abline(v = 0, col = "red", lty = 2)
 ```
 :::
 :::
 
--   `ggplot2` generally handles this for you by putting bounds at the range of your data, but it can occasionally skip this depending on how complicated your graph becomes.
+ggplot2 generally handles this for you by putting bounds at the range of your data, but it can occasionally skip this depending on how complicated your graph becomes.
 
-### Long Tailed Data {.smallest}
+### Long Tailed Data
 
 ```{r}
 #| label: longer-tailed-data
@@ -729,7 +721,7 @@ ggplot(longer_tailed_data, aes(x = random_values)) +
 :::
 :::
 
--   This occurs in practice quite often!
+This occurs in practice quite often!
 :::
 
 ## 2D Density/Histograms {.smallest}
