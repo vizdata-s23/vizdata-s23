@@ -4,10 +4,6 @@ title: "Project 1"
 
 For this project, you will be using a dataset from the TidyTuesday project. You can choose any dataset you want from the datasets released in 2022 as part of this project: <https://github.com/rfordatascience/tidytuesday/tree/master/data/2022#readme>. Your task for the project is to come up with two questions to answer, answer them with data visualizations, and write-up and present your method and findings. You will also get to peer review others' projects.
 
-::: callout-important
-The details will be updated as the project date approaches.
-:::
-
 ## Dataset
 
 Choosing a dataset is something you should do carefully but also relatively quickly (during the first lab session that you're working on the project).
@@ -22,17 +18,19 @@ Each of the two questions you come up with should involve more than two variable
 
 ## Workflow
 
--   Week 1 of project (week of \[TBA\]): Choose a dataset and write up your proposal in `proposal.qmd`.
+-   Week 1 of project (week of January 30): Choose a dataset and write up your proposal in `proposal.qmd`.
 
--   Week 2 of project (week of \[TBA\]): Provide peer review to two other teams in the form of issues in their GitHub repos, address the issues left on your team's project repo by closing them with explicit commits. Feel free to get started on your presentation as well.
+-   Week 2 of project (week of February 6): Provide peer review to two other teams in the form of issues in their GitHub repos, address the issues left on your team's project repo by closing them with explicit commits. Feel free to get started on your presentation as well.
 
--   Week 3 of project (week of \[TBA\]): Review feedback from me on your proposal and close any remaining issues. Work on your presentation in `presentation.qmd` and write-up in `README.qmd`. Finalize your write-up, presentation, and your project website. Present in class on the Friday of this week.
+-   Week 3 of project (week of February 13): Review feedback from me on your proposal and close any remaining issues. Work on your presentation in `presentation.qmd` and write-up in `README.qmd`.
+
+-   Week 4 of project (week of February 20): Finalize your write-up, presentation, and your project website. Present in lab on the Wednesday of this week.
 
 ## Due dates
 
--   Proposals for peer review: due \[TBA\] at 5pm.
--   Revised proposals for instructor review: due \[TBA\] at 5pm.
--   Write-up and presentation: due \[TBA\] at noon (beginning of class).
+-   Proposals for peer review: due on Tuesday, February 7 at noon.
+-   Revised proposals for teaching team review: due Friday, February 10 at 5pm.
+-   Write-up and presentation: due Wednesday, February 22 at the **beginning** of your lab section.
 
 ## Deliverables
 
@@ -49,9 +47,11 @@ Your proposal should include:
 
 #### Reviewer tasks {.unnumbered}
 
-Each team will review the proposals of two other teams. The peer review will be completed during the lab session on Monday, Sep 20. On that day teams will have access to the project repos of the two teams whose work they're reviewing. The peer review assignments are as follows:
+Each team will review the proposals of two other teams. The peer review will be completed during the lab session on Wednesday, February 8. On that day teams will have access to the project repos of the two teams whose work they're reviewing.
 
-\[TBA\]
+::: callout-note
+Reviewer/reviewee pairings will be posted here.
+:::
 
 Teams will develop the review together, with discussion among all team members, but only one team member will submit it as an issue on the project repo. To do so, go to the *Issues* tab, click on the green *New issue* button on the top right, and then click on the green *Get started* button for the issue template titled *Peer review*.
 
@@ -87,11 +87,11 @@ You are not required to perform any statistical tests in this project, but you m
 
 ### Presentation
 
-Your presentation should generally follow the same structure as your write-up. Each team will have 5 minutes for their presentation, and each team member must speak (roughly equally) during this time. Your presentation will be created using Quarto, which allows you to write slides using the same R Markdown structure you're used to. There is a sample xaringan document in your repo you can edit to your heart's desire to create your presentation. Roughly I recommend 1 slide for introduction, 2 slides for Question 1, ans 2 slides for Question 2. You can imagine spending roughly one minute on each slide. You should feel free to have more (or fewer) slides. Your evaluation will be based on your content, professionalism (including sticking to time), and your performance during the Q&A (question and answer). We don't care how many slides you use to do this.
+Your presentation should generally follow the same structure as your write-up. Each team will have 5 minutes for their presentation, and each team member must speak (roughly equally) during this time. Your presentation will be created using Quarto, which allows you to write slides using the same Quarto structure you're used to. There is a sample Quarto slide template in your repo you can edit to your heart's desire to create your presentation. Roughly I recommend 1 slide for introduction, 2 slides for Question 1, ans 2 slides for Question 2. You can imagine spending roughly one minute on each slide. You should feel free to have more (or fewer) slides. Your evaluation will be based on your content, professionalism (including sticking to time), and your performance during the Q&A (question and answer). We don't care how many slides you use to do this.
 
 ### Website
 
-Each of your projects will have a website that looks like \[link to be added\]. You are not expected to change the styling of the website, but if you want to, you'll need to edit the `_quarto.yml` file in your repo. Feel free to google your way around it or ask on the discussion forum / office hours!
+Each of your projects will have a website that looks like <https://vizdata-s23.github.io/project-01>. You are not expected to change the styling of the website, but if you want to, you'll need to edit the `_quarto.yml` file in your repo. Feel free to google your way around it or ask on the discussion forum / office hours!
 
 ## Repo organization
 
@@ -107,7 +107,7 @@ The following folders and files in your project repository:
 
 -   `proposal.qmd`: Your project proposal
 
--   `proposal.qmd`: Your project presentation
+-   `presentation.qmd`: Your project presentation
 
 -   `_quarto.yml`: Setup file for project website
 
@@ -198,16 +198,16 @@ Both Question 1 and Question 2 will each be scored by the following criteria. Po
 
 ### Reproducibility, style, and organization (10 points)
 
--   All required files are provided. R Markdown files knit without issues and reproduce the necessary outputs. (3 points)
+-   All required files are provided. Quarto files render without issues and reproduce the necessary outputs. (3 points)
 -   Data is in the data folder, with a codebook in the README, and is loaded from this folder in presentation and writeup. (3 points)
 -   Documents are well structured and easy to follow. No extraneous materials. (2 points)
 -   All issues are closed, mostly with specific commits addressing them. (2 points)
 
 ## Guidelines
 
-Please use the project repository that has been created for your team to complete your project. This means putting all of the content in the R Markdown files provided, knitting them to obtain the output, and committing and pushing all files to your repository by the indicated deadlines. Your R Markdown files (`.Rmd`) and the resulting markdown files (`.md`) will be graded jointly, so they must be consistent (as in, don't change the R Markdown file without also updating the knitted document!).
+Please use the project repository that has been created for your team to complete your project. This means putting all of the content in the Quarto files provided, rendering them to obtain the output, and committing and pushing all files to your repository by the indicated deadlines. Your Quarto files (`.qmd`) and the resulting html files (`.html`) will be graded jointly, so they must be consistent (as in, don't change the Quarto file without also updating the rendered document!).
 
-All results presented must have corresponding code. If you do calculations by hand instead of using R and then report the results from the calculations, you will not receive credit for those calculations. Any answers/results given without the corresponding R code that generated the result will not be considered. For example, if you're reporting the number of observations in your dataset, don't just write the number manually, use inline R code to calculate the number. All code reported in your final project document should work properly. Please do not include any extraneous code or code which produces error messages. Code which produces certain warnings and messages is acceptable, as long as you understand what the warnings mean. In such cases you can add `warning = FALSE` and `message = FALSE` in the relevant R chunks. Warnings that signal lifecycle changes (e.g., a function is deprecated and there's a newer/better function out there) should generally be addressed by updating your code, not just by hiding the warning.
+All results presented must have corresponding code. If you do calculations by hand instead of using R and then report the results from the calculations, you will not receive credit for those calculations. Any answers/results given without the corresponding R code that generated the result will not be considered. For example, if you're reporting the number of observations in your dataset, don't just write the number manually, use inline R code to calculate the number. All code reported in your final project document should work properly. Please do not include any extraneous code or code which produces error messages. Code which produces certain warnings and messages is acceptable, as long as you understand what the warnings mean. In such cases you can add `warning: false` and `message: false` in the relevant R chunks. Warnings that signal lifecycle changes (e.g., a function is deprecated and there's a newer/better function out there) should generally be addressed by updating your code, not just by hiding the warning.
 
 ## Tips
 
@@ -221,7 +221,7 @@ All results presented must have corresponding code. If you do calculations by ha
 
 -   Code:
 
-    -   In your presentation your code should be hidden (`echo = FALSE`) so that your slides are neat and easy to read. However your document should include all your code such that if I re-knit your R Markdown file I should be able to obtain the results you presented. **Exception:** If you want to highlight something specific about a piece of code, you're welcomed to show that portion.
+    -   In your presentation your code should be hidden (`echo: false`) so that your slides are neat and easy to read. However your document should include all your code such that if I re-render your Quarto file I should be able to obtain the results you presented. **Exception:** If you want to highlight something specific about a piece of code, you're welcomed to show that portion.
 
     -   In your write-up your code should be visible.
 
