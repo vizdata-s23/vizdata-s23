@@ -6,3 +6,5 @@
 /.quarto/
 docs/
 *.key
+
+.DS_Store
