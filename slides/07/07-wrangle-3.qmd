@@ -76,9 +76,9 @@ works <- read_csv("data/works.csv")
 #| echo: false
 #| message: false
 
-professions <- read_csv(here::here("slides/04", "data/professions.csv"))
-dates <- read_csv(here::here("slides/04", "data/dates.csv"))
-works <- read_csv(here::here("slides/04", "data/works.csv"))
+professions <- read_csv(here::here("slides/07", "data/professions.csv"))
+dates <- read_csv(here::here("slides/07", "data/dates.csv"))
+works <- read_csv(here::here("slides/07", "data/works.csv"))
 ```
 
 ## Data: 10 women in science who changed the world {.smaller}
