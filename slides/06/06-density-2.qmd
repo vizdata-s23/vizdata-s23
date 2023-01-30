@@ -16,12 +16,6 @@ revealjs-plugins:
   - code-mover
 ---
 
-# Warm up
-
-## Announcements
-
--   ...
-
 ```{r}
 #| label: setup
 #| message: false
@@ -475,8 +469,8 @@ ggplot(rbind(HR2005, HR2006), aes(HR, color = factor(yearID))) +
 
 ## Application Exercise: Comparing Distributions
 
-- Go to [ADD REPO NAME]
-- Work on exercise 1 under day 2
+- Go to `ae-06`
+- Work on exercise 1
 
 ```{r}
 #| label: ae-2
@@ -913,8 +907,8 @@ mat_BY +
 
 ## Application exercise: Follow the example
 
-- Go to [ADD REPO NAME]
-- Work on exercise 2 under day 2
+- Go to `ae-06`
+- Work on exercise 2
 
 ```{r}
 #| label: ae-3

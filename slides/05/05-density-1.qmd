@@ -10,17 +10,15 @@ format: revealjs
 highlight-style: a11y
 execute:
   code-link: true
-editor_options: 
+editor_options:
   chunk_output_type: console
 revealjs-plugins:
   - code-mover
 ---
 
-# Warm up
-
 ## Announcements
 
--   ...
+-   Working with project teams in lab tomorrow!
 
 ```{r}
 #| label: setup
@@ -466,7 +464,7 @@ The quantiles also have a consistent increase, along with many more players hitt
 
 ## Application Exercise: More Examples
 
--   Go to \[ADD REPO NAME\]
+-   Go to `ae-05`
 -   Work on exercise 1
 
 ```{r}
@@ -635,7 +633,7 @@ To learn more, see [Chapter 2](https://bookdown.org/egarpor/NP-UC3M/kde-i-kde.ht
 
 ## Application Exercise: Bandwidth
 
--   Go to \[ADD REPO NAME\]
+-   Go to `ae-05`
 -   Work on exercise 2
 
 ```{r}
