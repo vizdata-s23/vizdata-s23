@@ -1,0 +1,18 @@
+{
+  "hash": "618fcf10e2aa603d7f8567a9989a3b08",
+  "result": {
+    "markdown": "---\ntitle: Visualizing density - I\nsubtitle: Lecture 5\ntitle-slide-attributes:\n  data-background-image: ../vizdata-bg.png\n  data-background-size: stretch\n  data-slide-number: none\nformat: revealjs\nhighlight-style: a11y\nexecute:\n  code-link: true\neditor_options: \n  chunk_output_type: console\n---\n\n\n# Warm up\n\n## Announcements\n\n-   ...\n\n## Setup {.smaller}\n\n\n::: {.cell}\n\n```{.r .cell-code}\n# load packages\nlibrary(countdown)\nlibrary(tidyverse)\nlibrary(glue)\nlibrary(lubridate)\nlibrary(scales)\nlibrary(ggthemes)\nlibrary(gt)\n\n# set theme for ggplot2\nggplot2::theme_set(ggplot2::theme_minimal(base_size = 14))\n\n# set width of code output\noptions(width = 65)\n\n# set figure parameters for knitr\nknitr::opts_chunk$set(\n  fig.width = 7,        # 7\" width\n  fig.asp = 0.618,      # the golden ratio\n  fig.retina = 3,       # dpi multiplier for displaying HTML output on retina\n  fig.align = \"center\", # center align figures\n  dpi = 300             # higher dpi, sharper image\n)\n```\n:::\n\n\n# Section header\n\n## Slide header\n\n...\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {
+      "include-after-body": [
+        "\n<script>\n  // htmlwidgets need to know to resize themselves when slides are shown/hidden.\n  // Fire the \"slideenter\" event (handled by htmlwidgets.js) when the current\n  // slide changes (different for each slide format).\n  (function () {\n    // dispatch for htmlwidgets\n    function fireSlideEnter() {\n      const event = window.document.createEvent(\"Event\");\n      event.initEvent(\"slideenter\", true, true);\n      window.document.dispatchEvent(event);\n    }\n\n    function fireSlideChanged(previousSlide, currentSlide) {\n      fireSlideEnter();\n\n      // dispatch for shiny\n      if (window.jQuery) {\n        if (previousSlide) {\n          window.jQuery(previousSlide).trigger(\"hidden\");\n        }\n        if (currentSlide) {\n          window.jQuery(currentSlide).trigger(\"shown\");\n        }\n      }\n    }\n\n    // hookup for slidy\n    if (window.w3c_slidy) {\n      window.w3c_slidy.add_observer(function (slide_num) {\n        // slide_num starts at position 1\n        fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);\n      });\n    }\n\n  })();\n</script>\n\n"
+      ]
+    },
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
