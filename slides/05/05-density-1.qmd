@@ -1,6 +1,7 @@
 ---
 title: Visualizing density - I
 subtitle: Lecture 5
+author: Sam Rosen
 title-slide-attributes:
   data-background-image: ../vizdata-bg.png
   data-background-size: stretch
@@ -9,21 +10,20 @@ format: revealjs
 highlight-style: a11y
 execute:
   code-link: true
-editor_options: 
+editor_options:
   chunk_output_type: console
+revealjs-plugins:
+  - code-mover
 ---
-
-# Warm up
 
 ## Announcements
 
--   ...
-
-## Setup {.smaller}
+-   Working with project teams in lab tomorrow!
 
 ```{r}
 #| label: setup
 #| message: false
+#| echo: false
 
 # load packages
 library(countdown)
@@ -36,22 +36,761 @@ library(gt)
 
 # set theme for ggplot2
 ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14))
-
-# set width of code output
-options(width = 65)
-
-# set figure parameters for knitr
+# 
+# # set width of code output
+# options(width = 65)
+# 
+# # set figure parameters for knitr
 knitr::opts_chunk$set(
-  fig.width = 7,        # 7" width
-  fig.asp = 0.618,      # the golden ratio
+  fig.height = 3.6,      
+  # fig.asp = 0.618,      # the golden ratio
   fig.retina = 3,       # dpi multiplier for displaying HTML output on retina
   fig.align = "center", # center align figures
   dpi = 300             # higher dpi, sharper image
 )
 ```
 
-# Section header
+## Distributions {.smaller}
 
-## Slide header
+There are many properties of a distribution of values
 
-...
+-   **Center**: Mean, Median, Modes
+-   **Spread**: Variance, Range (Support), Interquartile range
+-   **Shape**: Skewness, Kurtosis, Quantiles
+-   Any statistic you can think of
+
+. . .
+
+Ultimately when analyzing data, the distribution is important to know how to proceed:
+
+-   Parametric tests
+-   Erratic Data
+-   Outliers
+
+So let's visualize them!
+
+## Histograms {.smaller fig-align="center"}
+
+```{r}
+#| label: load-packages
+#| echo: false
+
+library(countdown)
+library(tidyverse)
+
+theme_set(theme_minimal())
+```
+
+Histogram of 200 random numbers generated from a $\textsf{Normal}(\mu=-1, \sigma=0.5)$ and 400 generated from a $\textsf{Normal}(\mu=2, \sigma=0.75)$:
+
+```{r}
+#| label: histogram-example
+#| fig-width: 10
+#| fig-height: 4.5
+#| fig-align: center
+#| echo: false
+
+example_data <- tibble(random_values=c(rnorm(200, -1, 0.5), rnorm(n = 400, 2, 0.75)))
+
+ggplot(example_data, aes(random_values)) +
+  geom_histogram(binwidth = 0.1) +
+  labs(title = "Histogram of two random normal variables") +
+  scale_x_continuous(limits = c(-2.5, 5))
+```
+
+## Density Plots {.smaller}
+
+**What's the difference?** Histograms are *counts* of bins of *observed* data. Density plots are *estimates* of the *unknown* distribution.
+
+```{r}
+#| label: density-example
+#| fig-width: 10
+#| fig-height: 4.5
+#| fig-align: center
+#| echo: false
+
+ggplot(example_data, aes(random_values)) +
+  geom_histogram(aes(y = ..density..), binwidth = 0.1, alpha = 0.25) +
+  geom_density(fill = 4, alpha = 0.50)  +
+  labs(title = "Density plot of two random normal variables") +
+  scale_x_continuous(limits = c(-2.5, 5))
+```
+
+## So what? {.smaller .no-list-margins}
+
+::: {.no-list-margins style="font-size:0.75em;"}
+-   Histograms are sensitive to where the bins are cut
+
+-   Histograms vary more per random sample than density plots
+
+-   Density graphs are estimates for what a very fine histogram with lots of data would show
+:::
+
+. . .
+
+```{ojs}
+//| echo: false
+//| panel: sidebar
+
+viewof binWidth = Inputs.range([0.01, 1.5], {value: 0.2, step: 0.001, label: "Bin Width"});
+viewof numPoints = Inputs.range([0, 9000], {value: 900, step: 1, label: "Number of Points"});
+viewof generate = Inputs.button("Regenerate Data");
+```
+
+```{ojs}
+//| echo: false
+//| panel: fill
+
+import { plotNewData, regenerateData } from "./histoSampling.js";
+
+// Generate does not actually get used just forces a refresh
+plotNewData(regenerateData(numPoints / 3), binWidth, generate);
+```
+
+::: footer
+Based on [example](https://observablehq.com/@d3/kernel-density-estimation) by Mike Bostock
+:::
+
+## Motivating Example
+
+::: smallest
+-   Baseball! A home run in baseball occurs when a player hits a fair ball outside of the playing field. Examples:
+
+::: {style="text-align: center"}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/nxuTG5SEHn8">
+
+</iframe>
+:::
+:::
+
+. . .
+
+::: smallest
+-   Home runs are exciting! Baseball currently has a marketing problem, but throughout history Major League Baseball (MLB, the organization running the highest level of professional baseball) has tried to change the rules to increase home runs to help the game be more entertaining.
+
+    -   In short terms, **Home runs = Money**, but if everyone hits the same number of home runs they become less exciting.
+    -   Examining the distribution of home runs year-by-year we may be able to see the effect of rule changes.
+:::
+
+## Data
+
+::: smallest
+```{r}
+#| label: load-data
+#| echo: TRUE
+
+library(Lahman)
+names(Batting)
+```
+
+Our dataset comes from the R package `Lahman`. Each row in the data frame is the hitting stats of a player for a given year. We will mostly be using the following columns:
+
+| Variable   | Description                                                                        |
+|---------------------------|---------------------------------------------|
+| `yearID`   | The year for the statistics                                                        |
+| `playerID` | Player unique ID to distinguish rows                                               |
+| `HR`       | The number of home runs a player hit in a given year                               |
+| `SB`       | Stolen bases; more stolen bases = faster player                                    |
+| `G`        | Number of games played; there are 162 games in a baseball season (154 before 1961) |
+| `BB`       | Walks; more walks = defense is worried about player hitting home runs              |
+| `SO`       | Strike outs; more strikeouts = Hitter is swinging recklessly                       |
+:::
+
+## Data we will use {auto-animate="true"}
+
+```{r}
+#| label: context-0
+#| echo: true
+#| eval: false
+
+home_runs <- Batting
+```
+
+We are interested in the distribution of the number of home runs individual players have hit per year. [^1]
+
+[^1]: The record for number of home runs in one year is 73, by Barry Bonds in 2001. The 73rd home run baseball was sold for **\$517,000**!
+
+## Context 1 {auto-animate="true"}
+
+There are many players in the dataset that played very little games per year, so we will limit to players that played at least 100 games in a given year, with the following years excepted:
+
+-   In 1994 only about 115 games were played due to labor strikes, so will filter to at least 70 games.
+-   In 2020 COVID shortened the season to only 60 games, so we will filter at least 40 games.
+
+```{r}
+#| label: context-1
+#| echo: true
+#| eval: false
+
+home_runs <- Batting |>
+  filter(
+    G >= 100 |
+    (G >= 40 & yearID == 2020) |
+    (G >= 70 & yearID == 1994)
+  )
+```
+
+## Context 2 {auto-animate="true"}
+
+-   We are only concerned with years after 1920 (known as the "live-ball era").
+-   Very few home runs were hit before 1920 as the same baseball was used for the entire game. About 100 baseballs are used every game today!
+
+```{r}
+#| label: context-2
+#| echo: true
+#| eval: false
+
+home_runs <- Batting |>
+  filter(
+    G >= 100 |
+    (G >= 40 & yearID == 2020) |
+    (G >= 70 & yearID == 1994),
+    yearID > 1920
+  )
+```
+
+## Context 3 {auto-animate="true"}
+
+We are only considering the `AL` and `NL` leagues as they have the best stat-tracking and are the only Major leagues still around today.
+
+```{r}
+#| label: context-3
+#| echo: true
+#| eval: true
+
+home_runs <- Batting |>
+  filter(
+    G >= 100 |
+    (G >= 40 & yearID == 2020) |
+    (G >= 70 & yearID == 1994),
+    yearID > 1920,
+    lgID %in% c("AL", "NL")
+  )
+```
+
+## Density Graph Example {.smaller}
+
+::: panel-tabset
+### Plot {.move-code}
+
+```{r}
+#| label: basic-geom-density
+#| echo: true
+
+ggplot(home_runs, aes(HR)) +
+  geom_density() + 
+  xlab("Home runs per player per year")
+```
+
+::: r-fit-text
+-   Most players hit just a few home runs per year and the distribution is very right-skewed.
+-   Very few players hit more than 40 per year.
+:::
+
+### Code
+:::
+
+## Stacked Density Graph By Decade {.smaller}
+
+::: panel-tabset
+### Plot {.move-code}
+
+```{r}
+#| label: stacked-geom-density
+#| echo: true
+
+home_runs |>
+  mutate(
+    decade = cut(
+      yearID,
+      breaks = seq(1920, 2030, 10),
+      labels = paste0(seq(1920, 2020, 10), "'s")
+    )
+  ) |>
+  ggplot(aes(HR, fill = decade)) +
+  geom_density(position = "stack") +
+  labs(x = "Home runs per player per year")
+```
+
+::: r-fit-text
+If we stratify by decade, we can see the **mode** of the density graphs slowly creep forward, but it is difficult to see the tail of the distribution.
+:::
+
+### Code
+:::
+
+## Overlapping Density Graphs By Decade {.smaller}
+
+::: panel-tabset
+### Plot {.move-code}
+
+```{r}
+#| label: overlapping-geom-density
+#| echo: true
+
+home_runs |>
+  mutate(
+    decade = cut(
+      yearID,
+      breaks = seq(1920, 2030, 10),
+      labels = paste0(seq(1920, 2020, 10), "'s")
+    )
+  ) |>
+  ggplot(aes(HR, color = decade)) +
+  geom_density() +
+  labs(x = "Home runs per player per year")
+```
+
+::: r-fit-text
+The modes moving forward is a little more apparent now, but the graphs are too coupled to digest easily.
+:::
+
+### Code
+:::
+
+## Density Graph with Conditional Probabilities {.smaller}
+
+::: panel-tabset
+### Plot {.move-code}
+
+```{r}
+#| label: conditional-geom-density
+#| echo: true
+
+home_runs |>
+  mutate(
+    decade = cut(
+      yearID,
+      breaks = seq(1920, 2030, 10),
+      labels = paste0(seq(1920, 2020, 10), "'s")
+    )
+  ) |>
+  ggplot(aes(x = HR, y = after_stat(count), fill = decade)) +
+  geom_density(position = "fill") +
+  geom_vline(xintercept = 60, linetype = "dashed") +
+  labs(x = "Home runs per player per year")
+
+```
+
+::: {.small style="margin: 0"}
+By using `position = "fill"` and `y = after_stat(count)` we graph the conditional probability of a decade given that a player has hit a certain number of home runs. We see that players would hit about 60 homeruns in the 20's and 30's, but that disappears until the 90's and 2000's. [^2]
+:::
+
+### Code
+:::
+
+[^2]: With the exception of 1961, the year Roger Maris hit 61 home runs.
+
+## Violin Plot {.smaller}
+
+::: panel-tabset
+### Plot {.move-code}
+
+```{r}
+#| label: violin-plot
+#| echo: true
+
+home_runs |>
+  filter(yearID %in% 1985:2005) |>
+  ggplot(aes(HR, x = factor(yearID))) +
+  geom_violin(draw_quantiles = c(0.25, 0.5, 0.75)) +
+  geom_jitter(
+    data = ~ filter(.x, HR >= 30),
+    height = 0, width = 0.1, alpha = 0.5
+  ) +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
+  labs(x = "Home runs per player per year")
+```
+
+::: r-fit-text
+Let's examine the years near the change point, 1985 to 2005. All points shown are players that hit 30 or more home runs in a given year. It looks like around 1995 players started hitting **a lot** more home runs.
+:::
+
+### Code
+:::
+
+## Ridge Plot {.smaller}
+
+::: panel-tabset
+### Plot {.move-code}
+
+```{r}
+#| label: ridge-plot
+#| echo: true
+
+library(ggridges)
+
+home_runs |>
+  filter(yearID %in% 1985:2010) |>
+  ggplot(aes(x = HR, y = factor(yearID))) +
+  stat_density_ridges(
+    mapping = aes(fill = factor(after_stat(quantile))),
+    geom = "density_ridges_gradient",
+    calc_ecdf = TRUE,
+    quantiles = c(.25, .50, .75, .95),
+    quantile_lines = TRUE,
+    scale = 2,
+    rel_min_height = 0.01
+  ) +
+  scale_fill_viridis_d(
+    name = "Quantiles",
+    labels = c("0", "25th", "50th", "75th", "95th")
+  ) +
+  geom_jitter(
+    data = ~ filter(.x, HR >= 30),
+    height = 0.2, width = 0, alpha = 0.3,
+  ) +
+  scale_x_continuous(
+    name = "Home runs per player per year",
+    limits = c(0, 73)
+  ) +
+  labs(y = "Year")
+```
+
+::: {.small style="margin: 0"}
+The quantiles also have a consistent increase, along with many more players hitting 30 or more home runs! In 1998 there was a home run record race between two players; this brought a lot of interest back into baseball. 1995 to about 2005 is known as the *Steroid Era* in baseball. During this time, players would take performance enhancing drugs freely as the league did not enforce the ban on them. League-wide testing began in 2003.
+:::
+
+### Code
+:::
+
+## Application Exercise: More Examples
+
+-   Go to `ae-05`
+-   Work on Exercise 1
+
+```{r}
+#| label: ae-1
+#| echo: false
+
+countdown(minutes = 12)
+```
+
+## Bandwidth {.smaller}
+
+Density graphs are sensitive to **bandwidth**, but this is a continuous degradation of performance.
+
+```{ojs}
+//| echo: false
+//| panel: sidebar
+
+viewof binWidth2 = Inputs.range([0.01, 1.5], {value: 0.2, step: 0.001, label: "Bin Width"});
+viewof bandwidth = Inputs.range([0.01, 2], {value: 0.2, step: 0.001, label: "Bandwidth"});
+viewof numPoints2 = Inputs.range([0, 9000], {value: 900, step: 1, label: "Number of Points"});
+viewof generate2 = Inputs.button("Regenerate Data");
+```
+
+```{ojs}
+//| echo: false
+//| panel: fill
+import { plotNewDataBW } from "./bandwidthSampling.js";
+
+// Generate does not actually get used just forces a refresh
+plotNewDataBW(regenerateData(numPoints2 / 3), binWidth2, bandwidth, generate2);
+```
+
+## Automatic Bandwidth Selection
+
+::: smallest
+-   Because change in bandwidth leads to a continuous change in the density estimate, it is often easier to automatically pick a bandwidth!
+
+-   Silverman's 'rule-of-thumb' `bw.nrd0` :
+
+    $$ 
+    \begin{align*}
+      h = 0.9 * n^{-1/5} \min(s, IQR/1.34)
+    \end{align*}
+    $$
+
+    -   One of the most optimal bandwidth selectors **if** your data comes from a normal distribution
+    -   Default in `ggplot2` and `R`
+:::
+
+. . .
+
+::: smallest
+-   Sheather-Jones `bw.SJ`
+
+    -   More complicated bandwidth selector that "would rather fit" as the default
+
+    -   Less likely to give over-smoothed density graphs
+
+    -   `geom_density(bw = "SJ")` to use
+:::
+
+. . .
+
+::: smallest
+-   Other methods
+
+    -   Scott's plug in estimator `bw.nrd`: similar to Silverman's
+
+    -   `bw.ucv` and `bw.bcv`: cross validation based methods that are less useful for data visualization
+
+    -   `bw.SJ(<data>, method = "dpi")`: An easier to calculate Sheather-Jones estimate that gives worse results
+:::
+
+## Sheather-Jones Example
+
+::: panel-tabset
+### Useful
+
+```{r}
+#| label: sj-use-case
+#| fig-height: 5
+#| echo: false
+
+example_data <- data.frame(vals = c(rnorm(1000, 0, 1), rnorm(1000, 20, 1)))
+true_density <- data.frame(x = c(seq(-4, 24, length.out = 10000)))
+true_density <-
+  true_density |> mutate(y = 0.5 * dnorm(x, 0, 1) + 0.5 * dnorm(x, 20, 1),
+                         y_scaled = y / max(y))
+ggplot(example_data, aes(x = vals)) +
+  stat_density(aes(y = after_stat(scaled), color = "black"),
+               geom = "line",
+               bw   = "SJ") +
+  stat_density(aes(y = after_stat(scaled), color = "red"), geom = "line") +
+  geom_line(
+    data = true_density,
+    mapping = aes(x = x,
+                  y = y_scaled,
+                  color = "blue",),
+    linetype = "dashed"
+  ) +
+  scale_color_identity(
+    name   = "Bandwidth Estimator",
+    breaks = c("black", "red", "blue"),
+    labels = c("SJ", "Silverman's", "True Density"),
+    guide  = "legend"
+  ) +
+  labs(x        = "Random Values", 
+       y        = "Scaled Density", 
+       title    = "Density of mixture of two random normals",
+       subtitle = "Silverman's can over smooth even if generated from a Normal")
+
+```
+
+### Not useful?
+
+```{r}
+#| label: sj-potentially-not-useful
+#| fig-height: 5
+#| echo: false
+
+ggplot(home_runs, aes(x = HR)) +
+  stat_density(aes(y = ..scaled.., color = "black"),
+    geom = "line",
+    bw = "SJ",
+  ) +
+  stat_density(aes(y = ..scaled.., color = "red"), geom = "line") +
+  scale_color_identity(
+    name   = "Bandwidth Estimator",
+    breaks = c("black", "red"),
+    labels = c("SJ", "Silverman's"),
+    guide  = "legend"
+  ) +
+  labs(
+    y        = "Scaled Density",
+    x        = "Home runs per player per year",
+    title    = "Density of Home runs per person per year",
+    subtitle = "Sheather Jones only puts density at integer values because our data is discrete"
+  )
+
+```
+:::
+
+## Kernel Density Estimates (Advanced) {.smaller}
+
+-   Density graphs are illustrations of Kernel Density Estimates:
+
+$$
+\begin{align*}
+\hat{f}_h(x) & = \frac{1}{nh} \sum_{i=1}^n K\left(\frac{x - x_i}{h}\right)
+\end{align*}
+$$
+
+-   $x_i$ is the $i^{th}$ data point
+
+-   $h$ is the bandwidth of the Kernel
+
+-   $K$ is the Kernel
+
+    -   $K$ can be a number of functions (see `kernel` option from `?density` or [Wikipedia](https://en.wikipedia.org/wiki/Kernel_(statistics)#Kernel_functions_in_common_use)) but is usually the Gaussian kernel: $K(x) = \frac{1}{\sqrt{2\pi}} \exp\left(-\frac{x^2}{2}\right)$.
+    -   Choice of $K$ will give different looking density graphs, but choice of bandwidth is **a lot** more important than choice of Kernel. The Gaussian Kernel is by far the most used.
+    -   To see examples of Kernel choices, see this [shiny app](https://shinyserv.es/shiny/kde/) by Eduardo García-Portugués.
+
+::: {.footer style="font-size: 0.5em;"}
+To learn more, see [Chapter 2](https://bookdown.org/egarpor/NP-UC3M/kde-i-kde.html) of *Nonparametric Statistics* by Eduardo García-Portugués.
+:::
+
+## Application Exercise: Bandwidth
+
+-   Go to `ae-05`
+-   Work on Exercise 2
+
+```{r}
+#| label: ae-2
+#| echo: false
+
+countdown(minutes = 5)
+```
+
+## Cautions {.smaller}
+
+::: panel-tabset
+### Density Below 0
+
+```{r}
+#| label: long-tailed-data
+#| echo: true
+#| code-line-numbers: false
+
+long_tailed_data <- tibble(random_values = rlnorm(1000, -3, 1))
+```
+
+::: columns
+::: {.column width="49%"}
+```{r}
+#| label: plot-long-tailed-data
+#| fig-height: 5
+#| echo: true
+
+plot(
+  density(long_tailed_data$random_values, bw = "SJ"), 
+  main = "Density graph of positive numbers with density below 0"
+) 
+abline(v = 0, col = "red", lty = 2)
+```
+:::
+
+::: {.column width="2%"}
+:::
+
+::: {.column width="49%"}
+```{r}
+#| label: better-plot-long-tailed-data
+#| fig-height: 5
+#| echo: true
+
+plot(
+  density(long_tailed_data$random_values, bw = "SJ", from = 0),
+  main = "Density graph of positive numbers with cut density"
+)
+abline(v = 0, col = "red", lty = 2)
+```
+:::
+:::
+
+ggplot2 generally handles this for you by putting bounds at the range of your data, but it can occasionally skip this depending on how complicated your graph becomes.
+
+### Long Tailed Data
+
+```{r}
+#| label: longer-tailed-data
+#| echo: true
+#| code-line-numbers: false
+
+longer_tailed_data <- tibble(random_values = rlnorm(1000, -6, 5))
+```
+
+::: columns
+::: {.column width="49%"}
+```{r}
+#| label: plot-longer-tailed-data
+#| fig-height: 5
+#| echo: true
+
+ggplot(longer_tailed_data, aes(x = random_values)) +
+  geom_density()
+```
+:::
+
+::: {.column width="2%"}
+:::
+
+::: {.column width="49%"}
+```{r}
+#| label: plot-logged-longer-tailed-data
+#| fig-height: 5
+#| echo: true
+
+ggplot(longer_tailed_data, aes(x = random_values)) +
+  geom_density() +
+  scale_x_continuous(trans = "log")
+```
+:::
+:::
+
+This occurs in practice quite often!
+:::
+
+## 2D Density/Histograms {.smallest}
+
+Players that hit lots of home runs tend to strikeout and walk more.
+
+::: panel-tabset
+### Scatter plot
+
+```{r}
+#| label: plot-2d-density-scatter
+#| echo: true
+
+home_runs |>
+  ggplot(aes(x = HR, y = SO + BB)) +
+  geom_jitter(width = 0.3, height = 0.3, alpha = 0.1) +
+  geom_density_2d(alpha = 0.5) +
+  labs(
+    x = "Home runs per player per year",
+    y = "Strike outs and walks per player per year"
+  )
+```
+
+### 2D Bins
+
+```{r}
+#| label: plot-2d-bin
+#| echo: true
+
+home_runs |>
+  ggplot(aes(x = HR, y = SO + BB)) +
+  geom_bin_2d(binwidth = c(2, 10)) +
+  geom_density_2d(alpha = 0.5) +
+  labs(
+    x = "Home runs per player per year",
+    y = "Strike outs and walks per player per year"
+  ) +
+  scale_fill_viridis_c()
+```
+
+### 2D Density
+
+```{r}
+#| label: plot-2d-density
+#| echo: true
+
+home_runs |>
+  ggplot(aes(x = HR, y = SO + BB)) +
+  geom_density_2d_filled(show.legend = FALSE) +
+  geom_density_2d() +
+  labs(
+    x = "Home runs per player per year",
+    y = "Strike outs and walks per player per year"
+  )
+```
+:::
+
+## Density Graphs Summary {.smaller}
+
+Pros:
+
+-   **Visualize entire distribution**
+-   Mean, median, variance, outliers, support, skewness, normality etc.
+-   `plot(density(Batting$HR))` is usually the first thing I do when analyzing data
+
+. . .
+
+Cons:
+
+-   Sensitive to bandwidth choices
+-   Harder to communicate to non-statisticians
+-   Difficult to build yourself (use libraries!)
