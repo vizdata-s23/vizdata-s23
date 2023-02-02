@@ -16,6 +16,16 @@ revealjs-plugins:
   - code-mover
 ---
 
+# Warm up
+
+## Announcements
+
+-   Make sure to review the feedback on your HW 01 repo and close the issue once you're done reiewing.
+-   Once you review, close the issue
+-   HW 02 won't be graded for those who have open issues from the previously assigned homeework assignment.
+
+## Setup {.smaller}
+
 ```{r}
 #| label: setup
 #| message: false
@@ -45,6 +55,8 @@ knitr::opts_chunk$set(
   dpi = 300
 )
 ```
+
+# Densities
 
 ## Distributions and Motivating Example
 
@@ -116,7 +128,7 @@ home_runs <- Batting |>
 Our dataset comes from the R package `Lahman`. Each row in the data frame is the hitting stats of a player for a given year. Today we will use the following columns:
 
 | Variable | Description                                                                        |
-|--------------------|---------------------------------------------------|
+|---------------------|---------------------------------------------------|
 | `yearID` | The year for the statistics                                                        |
 | `HR`     | The number of home runs a player hit in a given year                               |
 | `G`      | Number of games played; there are 162 games in a baseball season (154 before 1961) |
