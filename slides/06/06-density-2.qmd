@@ -1,7 +1,7 @@
 ---
 title: Visualizing density - II
 subtitle: Lecture 6
-author: Slides by Sam Rosen
+author: Sam Rosen
 title-slide-attributes:
   data-background-image: ../vizdata-bg.png
   data-background-size: stretch
@@ -38,20 +38,18 @@ options(width = 65)
 
 # set figure parameters for knitr
 knitr::opts_chunk$set(
-  fig.width = 7,        # 7" width
-  fig.asp = 0.618,      # the golden ratio
-  fig.retina = 3,       # dpi multiplier for displaying HTML output on retina
-  fig.align = "center", # center align figures
-  dpi = 300             # higher dpi, sharper image
+  fig.width = 7,
+  fig.asp = 0.618,
+  fig.retina = 3,
+  fig.align = "center",
+  dpi = 300
 )
 ```
-
 
 ## Distributions and Motivating Example
 
 ::: columns
-::: {.column width="49%" .smallest}
-
+::: {.column .smallest width="49%"}
 There are many properties of a distribution of values
 
 -   **Center**: Mean, Median, Modes
@@ -77,29 +75,28 @@ ggplot(example_data, aes(random_values)) +
   ggtitle("Density plot of mixture normal") +
   xlim(-2.5, 5)
 ```
-
 :::
 
 ::: {.column width="2%"}
 :::
 
-::: {.column width="49%" .smallest}
--   Baseball! A home run in baseball occurs when a player hits a fair ball outside of the playing field. 
+::: {.column .smallest width="49%"}
+-   Baseball! A home run in baseball occurs when a player hits a fair ball outside of the playing field.
 -   Baseball is a game with a long rich history, but home runs have always been an integral part of it. By examining the distribution of home runs year-by-year we may be able to see the effect of various rule changes or events.
 
 ::: {style="text-align: center"}
-<iframe src="https://giphy.com/embed/AFX2Yx807TCX4YuLP4" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/mlb-world-series-2018-AFX2Yx807TCX4YuLP4">via GIPHY</a></p>
-:::
+<iframe src="https://giphy.com/embed/AFX2Yx807TCX4YuLP4" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen>
 
+</iframe>
 
+<p><a href="https://giphy.com/gifs/mlb-world-series-2018-AFX2Yx807TCX4YuLP4">via GIPHY</a></p>
 :::
 :::
-
+:::
 
 ## Data
 
-::: {.small}
-
+::: small
 ```{r}
 #| label: load-data
 #| echo: TRUE
@@ -119,22 +116,18 @@ home_runs <- Batting |>
 Our dataset comes from the R package `Lahman`. Each row in the data frame is the hitting stats of a player for a given year. Today we will use the following columns:
 
 | Variable | Description                                                                        |
-|--------------------------|--------------------------------------------------------------------|
+|--------------------|---------------------------------------------------|
 | `yearID` | The year for the statistics                                                        |
 | `HR`     | The number of home runs a player hit in a given year                               |
 | `G`      | Number of games played; there are 162 games in a baseball season (154 before 1961) |
 
-
-
 In particular we are interested in the distribution of home runs per year!
-
 :::
 
 ## Important notes from last time {.smaller}
 
-::: {.columns}
+::: columns
 ::: {.column width="49%"}
-
 Although density graphs are very useful and can display lots of information, they can be sensitive to bandwidth.
 
 ```{r}
@@ -176,14 +169,12 @@ ggplot(example_data, aes(x = vals)) +
     subtitle = "Silverman's can over smooth even if generated from a Normal"
   )
 ```
-
 :::
 
 ::: {.column width="2%"}
 :::
 
 ::: {.column width="49%"}
-
 It was not clear how to properly determine if two distributions were significantly different.
 
 ```{r}
@@ -210,7 +201,7 @@ home_runs |>
 
 ## Cumulative Distribution Functions (CDF) {.smaller .incremental}
 
-::: {.incremental}
+::: incremental
 -   For a random variable $X$, the CDF describes the probability that $X$ is below a certain value:
 
     -   Between 0 and 1 (like all probabilities)
@@ -234,13 +225,14 @@ $$
 
 ## Empirical CDF (ECDF) {.smaller}
 
-::: {.incremental}
+::: incremental
 -   The empirical CDF of data is the proportion of data below a certain value:
     -   Between 0 and 1 (like all probabilities)
     -   Non-decreasing
     -   Increases at every value of observed data (step function)
     -   Example: `X = c(0, 1, 2, 2, 3, 3.5, 4)`
 :::
+
 . . .
 
 $$
@@ -312,13 +304,13 @@ ggplot(as_df, aes(x = vals)) +
 
 ## Kolmogorov-Smirnov Test (Two-sample) {.smaller}
 
-::: {.incremental}
+::: incremental
 -   **Theorem**: If two random quantities have equal CDF's they have the exact same distribution.
 -   The *Kolmogorov-Smirnov Test* finds the maximum difference between two empirical CDF's and outputs a test statistic based on the sample sizes.
 -   The test is best used with continuous data as it is approximate in the case of discrete data, but it is good enough for our purposes.
 -   Conditions to perform the test (which we somewhat violate):
-    * Values must be i.i.d. within their respective distributions
-    * The two distributions being tested must be independent
+    -   Values must be i.i.d. within their respective distributions
+    -   The two distributions being tested must be independent
 :::
 
 ## Comparing Distributions 1 {.smaller}
@@ -361,8 +353,8 @@ get_ks_df <- function(dat1, dat2) {
   # Get the KS statistic and where it occurs
   ks_stat <- max(differences)
   first_max_location <- grid_points[which.max(differences)]
-  # Return DF to help with plotting
-  data.frame(
+  # Return tibble to help with plotting
+  tibble(
     x = first_max_location,
     xend = first_max_location,
     y = ecdf1(first_max_location),
@@ -370,7 +362,7 @@ get_ks_df <- function(dat1, dat2) {
   )
 }
 
-ks_stat_2010s = get_ks_df(HRearly2010s$HR, HRlate2010s$HR)
+ks_stat_2010s <- get_ks_df(HRearly2010s$HR, HRlate2010s$HR)
 
 ggplot(rbind(HRearly2010s, HRlate2010s), aes(HR, color = factor(yearID < 2015))) +
   stat_ecdf(geom = "step") +
@@ -385,27 +377,24 @@ ggplot(rbind(HRearly2010s, HRlate2010s), aes(HR, color = factor(yearID < 2015)))
     color = "black",
     linetype = "dashed"
   ) +
-  labs(x = "Homeruns per player per year",
-       y = "Empirical CDF",
-       title = "Empirical CDFs of player home runs per year in years 2011-2019 ",
-       subtitle = "Dashed line is the Kolmogorov-Smirnov Statistic") +
+  labs(
+    x = "Homeruns per player per year",
+    y = "Empirical CDF",
+    title = "Empirical CDFs of player home runs per year in years 2011-2019 ",
+    subtitle = "Dashed line is the Kolmogorov-Smirnov Statistic"
+  ) +
   theme(legend.position = "bottom")
 
 ```
 :::
 :::
 
-
-
 Major League Baseball was accused of replacing the standard baseballs with "juiced" baseballs (easier to hit home runs) secretly in the middle of 2015. Is there credence to this claim?
 
 ### Code
-
 :::
 
-
 ## Comparing Distributions 2 {.smaller}
-
 
 ::: panel-tabset
 ### Output
@@ -432,7 +421,7 @@ ks.test(HR2005$HR, HR2006$HR)
 #| fig-height: 5
 #| echo: True
 
-ks_stat_0506 = get_ks_df(HR2005$HR, HR2006$HR)
+ks_stat_0506 <- get_ks_df(HR2005$HR, HR2006$HR)
 
 ggplot(rbind(HR2005, HR2006), aes(HR, color = factor(yearID))) +
   stat_ecdf(geom = "step") +
@@ -460,17 +449,15 @@ ggplot(rbind(HR2005, HR2006), aes(HR, color = factor(yearID))) +
 :::
 :::
 
-- 2005 and 2006 are similar years in terms of home runs, so the Kolmogorov-Smirnov test does not reject.
-
+-   2005 and 2006 are similar years in terms of home runs, so the Kolmogorov-Smirnov test does not reject.
 
 ### Code
-
 :::
 
 ## Application Exercise: Comparing Distributions
 
-- Go to `ae-06`
-- Work on exercise 1
+-   Go to `ae-06`
+-   Work on exercise 1
 
 ```{r}
 #| label: ae-2
@@ -479,17 +466,15 @@ ggplot(rbind(HR2005, HR2006), aes(HR, color = factor(yearID))) +
 countdown(minutes = 12)
 ```
 
-
 ## Using the Kolmogorov-Smirnov statistic for visualization
 
-- Our earlier motivation was to compare the distribution of homeruns over time to see if rule changes made a difference.
-- We can't use a ridge or violin plot with all 100 years; it would be too cramped.
-- What if we used the KS statistic to compare all pairs of years and emulated a correlation matrix?
+-   Our earlier motivation was to compare the distribution of homeruns over time to see if rule changes made a difference.
+-   We can't use a ridge or violin plot with all 100 years; it would be too cramped.
+-   What if we used the KS statistic to compare all pairs of years and emulated a correlation matrix?
 
 ## Building the Matrix
 
-::: {.smallest}
-
+::: smallest
 ```{r}
 #| label: build-ks-matrix
 #| cache: TRUE
@@ -538,7 +523,6 @@ ks_matrix <- bind_rows(
 
 options(warn = 0)
 ```
-
 :::
 
 ## Visualizing the Matrix (p-values)
@@ -548,7 +532,6 @@ options(warn = 0)
 
 ::: columns
 ::: {.column width="69%"}
-
 ```{r}
 #| label: visualize-ks-matrix
 #| fig-width: 6.5
@@ -589,11 +572,9 @@ ks_matrix |>
     size = 1
   )
 ```
-
 :::
 
 ::: {.column width="29%"}
-
 ```{r}
 #| label: cell-from-ks-matrix
 #| echo: True
@@ -605,35 +586,27 @@ HR2016 <- home_runs |>
 ks.test(HR2005$HR, HR2016$HR)
 ```
 
-- There seems to be some patterns in our matrix, but there's a problem...
-
+-   There seems to be some patterns in our matrix, but there's a problem...
 :::
 :::
-
-
-
-
 
 ### Code {.smallest}
-
 :::
-
 
 ## Multiple Testing
 
 ::: {.smallest .incremental}
-- When performing multiple hypothesis tests, we typically want to control the *Family Wise Error Rate*: the probability we make at least 1 Type I error (a false rejection).
-- Newer methods focus more on controlling the *False Discovery Rate*: the probability that any particular rejected null hypothesis is actually a false positive. 
-- Both require adjusting p-values which is built in to `R` (`?p.adjust`).
-  - `holm`, `hochberg` and `hommel` control for Family Wise Error Rate
-    - `bonferroni` also controls for this, but is very conservative
-  - `fdr` and `BY` methods control for False Discovery Rate
+-   When performing multiple hypothesis tests, we typically want to control the *Family Wise Error Rate*: the probability we make at least 1 Type I error (a false rejection).
+-   Newer methods focus more on controlling the *False Discovery Rate*: the probability that any particular rejected null hypothesis is actually a false positive.
+-   Both require adjusting p-values which is built in to `R` (`?p.adjust`).
+    -   `holm`, `hochberg` and `hommel` control for Family Wise Error Rate
+        -   `bonferroni` also controls for this, but is very conservative
+    -   `fdr` and `BY` methods control for False Discovery Rate
 :::
 
 . . .
 
-::: {.smallest}
-
+::: smallest
 ```{r}
 #| label: ks-adjustments
 #| echo: True
@@ -660,11 +633,6 @@ other_half <- half_matrix |>
 
 ks_matrix <- bind_rows(half_matrix, other_half)
 ```
-
-:::
-
-::: footer
-To learn more see Chapter 13 of *An Introduction to Statistical Learning (2nd Edition)* by Hastie et al. It is [free online](https://www.statlearning.com/) and Chapter 13 is not too difficult. 
 :::
 
 ## Visualizing the Matrix (Corrections) {.smallest}
@@ -725,12 +693,9 @@ ks_matrix |>
 Controlling for the Family Wise Error Rate got rid of a lot of our interesting patterns. We don't mind some false positives so we choose the `BY` adjustment as it controls False Discovery Rate but is a bit more conservative than `FDR`.
 
 ### Code
-
 :::
 
-
 ## Pre-Integration {.smallest}
-
 
 ::: panel-tabset
 ### Plot {.move-code}
@@ -785,7 +750,6 @@ mat_BY +
 ```
 
 ### Code
-
 :::
 
 ## World War II {.smallest}
@@ -824,7 +788,6 @@ mat_BY +
 ```
 
 ### Code
-
 :::
 
 ## Shortened Seasons {.smallest}
@@ -863,7 +826,6 @@ mat_BY +
 ```
 
 ### Code
-
 :::
 
 ## Year of the Pitcher {.smallest}
@@ -902,13 +864,12 @@ mat_BY +
 ```
 
 ### Code
-
 :::
 
 ## Application exercise: Follow the example
 
-- Go to `ae-06`
-- Work on exercise 2
+-   Go to `ae-06`
+-   Work on exercise 2
 
 ```{r}
 #| label: ae-3
@@ -919,9 +880,8 @@ countdown(minutes = 12)
 
 ## Summary
 
-* The Empirical CDF is a very useful tool in statistics, for both analysis and visualization.
-* The Kolmogorov-Smirnov Test is a good way to test if two distributions of values are different.
-  * However, be careful as it is only an approximate test with discrete values.
-  * Furthermore, be sure to use multiple testing corrections if testing many different distributions.
-* Baseball is interesting! (you may disagree on this one)
-
+-   The Empirical CDF is a very useful tool in statistics, for both analysis and visualization.
+-   The Kolmogorov-Smirnov Test is a good way to test if two distributions of values are different.
+    -   However, be careful as it is only an approximate test with discrete values.
+    -   Furthermore, be sure to use multiple testing corrections if testing many different distributions.
+-   Baseball is interesting! (you may disagree on this one)
