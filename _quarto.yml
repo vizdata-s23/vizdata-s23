@@ -77,7 +77,9 @@ website:
       - section: "HW"
         contents:
           - href: https://github.com/vizdata-s23/hw-01#homework-01
+            text: HW 01
           - href: https://github.com/vizdata-s23/hw-02#homework-02
+            text: HW 02
 
   page-footer:
     right: "This page is built with 💛 and [Quarto](https://quarto.org/)."
