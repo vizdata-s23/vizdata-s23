@@ -76,12 +76,8 @@ website:
             text: Tips + resources
       - section: "HW"
         contents:
-          - href: hw/hw-1.qmd
-          - href: hw/hw-2.qmd
-          - href: hw/hw-3.qmd
-          - href: hw/hw-4.qmd
-          - href: hw/hw-5.qmd
-          - href: hw/hw-6.qmd
+          - href: https://github.com/vizdata-s23/hw-01#homework-01
+          - href: https://github.com/vizdata-s23/hw-02#homework-02
 
   page-footer:
     right: "This page is built with 💛 and [Quarto](https://quarto.org/)."
