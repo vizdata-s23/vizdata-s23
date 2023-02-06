@@ -85,7 +85,7 @@ Which of the following (if any) are unfamiliar to you?
 -   `mutate()`
 -   `summarise()`, `count()`
 
-## 
+## Average cost of daily stay
 
 ::: task
 Let's recreate this visualization!
@@ -122,4 +122,14 @@ hotels |>
     plot.subtitle = element_text(color = "cornsilk4"),
     plot.caption = element_text(color = "cornsilk4")
   )
+```
+
+## Livecoding {.smaller}
+
+Reveal below for code developed during live coding session.
+
+```{r}
+#| ref.label: daily-stay-cost
+#| fig-show: hide
+#| code-fold: true
 ```

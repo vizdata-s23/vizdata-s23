@@ -73,7 +73,7 @@ have a single data frame
 want to slice it, and dice it, and juice it, and process it, so we can plot it
 :::
 
-##  {.smaller}
+## Monthly bookings {.smaller}
 
 ::: task
 Come up with a plan for making the following visualization and write the pseudocode.
