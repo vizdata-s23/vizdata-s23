@@ -9,6 +9,7 @@ format: revealjs
 highlight-style: a11y
 execute:
   code-link: true
+  warning: true
 editor_options: 
   chunk_output_type: console
 ---
@@ -17,7 +18,13 @@ editor_options:
 
 ## Announcements
 
--   ...
+-   Tomorrow in lab: Project proposal peer review
+    -   You'll be assessed on the quality (and participation) of your peer review
+
+    -   Updates based on peer review are due Friday at 5pm
+
+    -   Your proposal will be "graded" after that, by me
+-   HW 2 is due Thursday
 
 ## Setup {.smaller}
 
@@ -33,6 +40,9 @@ library(lubridate)
 library(scales)
 library(ggthemes)
 library(gt)
+library(palmerpenguins)
+library(openintro)
+library(ggrepel)
 
 # set theme for ggplot2
 ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14))
@@ -50,6 +60,311 @@ knitr::opts_chunk$set(
 )
 ```
 
+# HW 1 lessons learned
+
+## Checks
+
+::: task
+Go to your HW 02 repo and make sure all your changes are committed. Then **pull**. You'll see there were some updates. Fix merge conflicts, if any. Then **push**. Check that your document renders.
+:::
+
+## Warnings and messages
+
+-   You should suppress package loading and data loading messages with `message: false` as a chunk option
+
+-   You should also suppress warnings with `warning: false` **after** making sure you're ok with them, or update your code to eliminate warnings
+
+## Missing values I
+
+::: columns
+::: {.column width="50%"}
+::: task
+Is it ok to suppress the following warning? Or should you update your code to eliminate it?
+:::
+
+```{r}
+df <- tibble(
+  x = c(1, 2, 3, NA, 3),
+  y = c(5, NA, 10, 0, 5)
+)
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+#| fig-width: 6
+
+ggplot(df, aes(x = x, y = y)) +
+  geom_point(size = 3)
+```
+:::
+:::
+
+## Missing values II
+
+```{r}
+set.seed(1234)
+df <- tibble(x = rnorm(100))
+```
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| fig-width: 6
+
+p <- ggplot(df, aes(x = x)) +
+  geom_boxplot()
+p
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+df |>
+  summarize(med_x = median(x))
+```
+:::
+:::
+
+## Missing values II {.smaller}
+
+::: task
+Is it ok to suppress the following warning? Or should you update your code to eliminate it?
+:::
+
+```{r}
+#| fig-asp: 0.5
+#| fig-width: 6
+
+p + xlim(0, 2)
+```
+
+## Missing values II
+
+::: task
+Is it ok to suppress the following warning? Or should you update your code to eliminate it?
+:::
+
+```{r}
+#| fig.asp: 0.5
+#| fig-width: 6
+
+p + scale_x_continuous(limits = c(0, 2))
+```
+
+## Missing values II {.smaller}
+
+::: task
+Why doesn't the following generate a warning?
+:::
+
+```{r}
+#| fig.asp: 0.5
+#| fig-width: 6
+
+p + coord_cartesian(xlim = c(0, 2))
+```
+
+# Coordinate systems
+
+## Coordinate systems: purpose
+
+-   Combine the two position aesthetics (`x` and `y`) to produce a 2d position on the plot:
+    -   linear coordinate system: horizontal and vertical coordinates
+    -   polar coordinate system: angle and radius
+    -   maps: latitude and longitude
+-   Draw axes and panel backgrounds in coordination with the faceter coordinate systems
+
+## Coordinate systems: types {.smaller}
+
+1.  **Linear coordinate systems:** preserve the shape of geoms
+
+-   `coord_cartesian()`: the default Cartesian coordinate system, where the 2d position of an element is given by the combination of the x and y positions.
+-   `coord_fixed()`: Cartesian coordinate system with a fixed aspect ratio. *(useful only in limited circumstances)*
+
+. . .
+
+2.  **Non-linear coordinate systems:** can change the shapes -- a straight line may no longer be straight. The closest distance between two points may no longer be a straight line.
+
+-   `coord_trans()`: Apply arbitrary transformations to x and y positions, after the data has been processed by the stat
+-   `coord_polar()`: Polar coordinates
+-   `coord_sf()`: Map projections
+
+## Setting limits: what the plots say {.smaller}
+
+```{r}
+#| label: set-limits
+#| fig-show: hold
+#| warning: false
+#| message: false
+#| layout-ncol: 2
+#| output-location: slide
+#| fig-asp: 0.5
+
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point() + geom_smooth() +
+  labs(title = "Plot 1")
+
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point() + geom_smooth() +
+  scale_x_continuous(limits = c(190, 220)) + scale_y_continuous(limits = c(4000, 5000)) +
+  labs(title = "Plot 2")
+
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point() + geom_smooth() +
+  xlim(190, 220) + ylim(4000, 5000) +
+  labs(title = "Plot 3")
+
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point() + geom_smooth() +
+  coord_cartesian(xlim = c(190,220), ylim = c(4000, 5000)) +
+  labs(title = "Plot 4")
+```
+
+## Setting limits: what the warnings say {.smaller}
+
+```{r}
+#| ref.label: set-limits
+#| fig-show: hide
+#| message: true
+```
+
+## Setting limits
+
+-   Setting scale limits: Any data outside the limits is thrown away
+    -   `scale_*_continuous()`, `xlim` and `ylim` arguments
+    -   `xlim()` and `ylim()`
+-   Setting coordinate system limits: Use all the data, but only display a small region of the plot (zooming in)
+    -   `coord_cartesian()`, `xlim` and `ylim` arguments
+
+## Fixing aspect ratio with `coord_fixed()` {.smaller}
+
+Useful when having an aspect ratio of 1 makes sense, e.g. scores on two tests (reading and writing) on the same scale (0 to 100 points)
+
+```{r}
+#| layout-ncol: 2
+#| fig-show: hold
+#| message: false
+#| output-location: slide
+
+ggplot(hsb2, aes(x = read, y = write)) +
+  geom_point() + geom_smooth(method = "lm") +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "gray") +
+  labs(title = "Not fixed")
+
+ggplot(hsb2, aes(x = read, y = write)) +
+  geom_point() + geom_smooth(method = "lm") +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "gray") +
+  coord_fixed() +
+  labs(title = "Fixed")
+```
+
+## Pie charts and bullseye charts with `coord_polar()` {.smaller}
+
+```{r}
+#| layout-ncol: 3
+#| warning: false
+#| message: false
+#| fig-show: hold
+
+ggplot(penguins, aes(x = 1, fill = species)) +
+  geom_bar() +
+  labs(title = "Stacked bar chart")
+
+ggplot(penguins, aes(x = 1, fill = species)) +
+  geom_bar() +
+  coord_polar(theta = "y") +
+  labs(title = "Pie chart")
+
+ggplot(penguins, aes(x = 1, fill = species)) +
+  geom_bar() +
+  coord_polar(theta = "x") +
+  labs(title = "Bullseye chart")
+```
+
+## {.center}
+
+::: hand
+aside: about pie charts...
+:::
+
+## Pie charts
+
+::: task
+What do you know about pie charts and data visualization best practices? Love 'em or lose 'em?
+:::
+
+```{r}
+#| echo: false
+#| layout-ncol: 2
+
+loans <- loans_full_schema |>
+  mutate(application_type = as.character(application_type)) |>
+  filter(application_type != "") |>
+  mutate(
+    homeownership    = tolower(homeownership), 
+    homeownership    = fct_relevel(homeownership, "rent", "mortgage", "own"), 
+    application_type = fct_relevel(application_type, "joint", "individual")
+    ) 
+
+pie_homeownership <- loans |> 
+  mutate(homeownership = fct_infreq(homeownership)) |>
+  count(homeownership) |>
+  mutate(text_y = cumsum(n) - n/2) |>
+  ggplot(aes(x = "", fill = homeownership, y = n)) + 
+  geom_col(position = position_stack(reverse = TRUE), show.legend = FALSE) +
+  geom_text_repel(aes(x = 1, label = homeownership, y = text_y)) +
+  coord_polar("y", start = 0) +
+  scale_fill_openintro("hot") +
+  theme_void(base_size = 16) +
+  labs(title = "Homeownership")
+pie_homeownership
+
+pie_loan_grades <- loans |> 
+  count(grade) |> 
+  mutate(text_y = cumsum(n) - n/2) |> 
+  ggplot(aes(x = "", fill = grade, y = n)) + 
+  geom_col(position = position_stack(reverse = TRUE), show.legend = FALSE) +
+  geom_text_repel(aes(x = 1.4, label = grade, y = text_y), nudge_x = 0.3, segment.size = 0.5) + 
+  coord_polar(theta = "y") + 
+  scale_fill_openintro("cool") +
+  theme_void(base_size = 16) +
+  labs(title = "Loan grade")
+pie_loan_grades
+```
+
+## Pie charts: when to love 'em, when to lose 'em
+
+For categorical variables with few levels, bar charts can work well
+
+```{r}
+#| layout-ncol: 2
+
+pie_homeownership
+
+loans %>%
+  ggplot(aes(x = homeownership, fill = homeownership)) +
+  geom_bar(show.legend = FALSE) +
+  scale_fill_openintro("hot") +
+  labs(x = "Homeownership", y = "Count")
+```
+
+## Pie charts: when to love 'em, when to lose 'em
+
+For categorical variables with many levels, bar charts are difficult to read
+
+```{r}
+#| layout-ncol: 2
+
+pie_loan_grades
+
+loans |>
+  ggplot(aes(x = grade, fill = grade)) +
+  geom_bar(show.legend = FALSE) +
+  scale_fill_openintro("cool") +
+  labs(x = "Loan grade", y = "Count")
+```
+
 # Bringing together multiple data frames
 
 ## Scenario 2
@@ -62,10 +377,8 @@ have **multiple** data frames
 want to want to bring them together so we can plot them
 :::
 
-## 
-
 ```{r}
-#| include: false
+#| eval: false
 
 professions <- read_csv("data/professions.csv")
 dates <- read_csv("data/dates.csv")
@@ -81,7 +394,7 @@ dates <- read_csv(here::here("slides/07", "data/dates.csv"))
 works <- read_csv(here::here("slides/07", "data/works.csv"))
 ```
 
-## Data: 10 women in science who changed the world {.smaller}
+## 10 women in science who changed the world {.smaller}
 
 ```{r echo=FALSE}
 #| echo: false
@@ -96,7 +409,6 @@ Source: [Discover Magazine](https://www.discovermagazine.com/the-sciences/meet-1
 ## Inputs
 
 ::: panel-tabset
-
 ### professions
 
 ```{r}
@@ -114,8 +426,9 @@ dates
 ```{r}
 works
 ```
+:::
 
-## Desired output {.smaller}
+## Desired output
 
 ```{r}
 #| echo: false
@@ -215,7 +528,7 @@ professions |>
 
 ::: columns
 ::: {.column width="50%"}
-![](images/right-join.gif){style="background-color: #FDF6D3"}
+![](images/right-join.gif)
 :::
 
 ::: {.column width="50%"}
@@ -236,7 +549,7 @@ professions |>
 
 ::: columns
 ::: {.column width="50%"}
-![](images/full-join.gif){style="background-color: #FDF6D3"}
+![](images/full-join.gif)
 :::
 
 ::: {.column width="50%"}
@@ -257,7 +570,7 @@ dates |>
 
 ::: columns
 ::: {.column width="50%"}
-![](images/inner-join.gif){style="background-color: #FDF6D3"}
+![](images/inner-join.gif)
 :::
 
 ::: {.column width="50%"}
@@ -278,7 +591,7 @@ dates |>
 
 ::: columns
 ::: {.column width="50%"}
-![](images/semi-join.gif){style="background-color: #FDF6D3"}
+![](images/semi-join.gif)
 :::
 
 ::: {.column width="50%"}
@@ -299,7 +612,7 @@ dates |>
 
 ::: columns
 ::: {.column width="50%"}
-![](images/anti-join.gif){style="background-color: #FDF6D3"}
+![](images/anti-join.gif)
 :::
 
 ::: {.column width="50%"}
@@ -403,6 +716,12 @@ ggplot(scientists_longer,
   )
 ```
 
+## But first...
+
+::: task
+What is the plot in the previous slide called?
+:::
+
 ## Livecoding {.smaller}
 
 Reveal below for code developed during live coding session.
@@ -421,46 +740,5 @@ Reveal below for code developed during live coding session.
 #| ref.label: scientists-gantt-plot
 #| fig-show: hide
 #| code-fold: true
+#| warning: false
 ```
-
-## 
-
-<center>
-
-<blockquote class="twitter-tweet" width="400" height="600">
-
-<p lang="en" dir="ltr">
-
-TIL: debug = TRUE argument for element_text() in <a href="https://twitter.com/hashtag/ggplot2?src=hash&amp;ref_src=twsrc%5Etfw">#ggplot2</a> "aids visual debugging by drawing a solid rectangle behind the complete text area, and a point where each label is anchored" 🤯 <br><br>I don't know how I've never seen this before, it's super helpful! <a href="https://t.co/87VVhMpeLm">pic.twitter.com/87VVhMpeLm</a>
-
-</p>
-
---- Mine Çetinkaya-Rundel (@minebocek) <a href="https://twitter.com/minebocek/status/1437844443588136960?ref_src=twsrc%5Etfw">September 14, 2021</a>
-
-</blockquote>
-
-```{=html}
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-```
-</center>
-
-## Gantt charts
-
-<center>
-
-<blockquote class="twitter-tweet">
-
-<p lang="en" dir="ltr">
-
-Oh! Also, if this is for a blogpost could I recommend noting that the datviz you've made is called a Gantt chart? <br><br>In my experience that name isn't very well known, but knowing it helps when googling how to customise these charts 😊
-
-</p>
-
---- Charlie 👩‍💻 (@charliejhadley) <a href="https://twitter.com/charliejhadley/status/1437849467793952775?ref_src=twsrc%5Etfw">September 14, 2021</a>
-
-</blockquote>
-
-```{=html}
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-```
-</center>
