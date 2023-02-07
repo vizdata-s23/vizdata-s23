@@ -62,6 +62,12 @@ knitr::opts_chunk$set(
 
 # HW 1 lessons learned
 
+## Highlights
+
+-   Review HW 1 issues, and show us you reviewed them by closing the issue.
+
+-   DO NOT hard code paths! Use the **here** package to help with relative paths, if you need.
+
 ## Checks
 
 ::: task
@@ -282,7 +288,7 @@ ggplot(penguins, aes(x = 1, fill = species)) +
   labs(title = "Bullseye chart")
 ```
 
-## {.center}
+##  {.center}
 
 ::: hand
 aside: about pie charts...
