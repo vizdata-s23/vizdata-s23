@@ -32,7 +32,7 @@ d |>
   ) |>
   gt() |>
   fmt_date(date, date_style = 31) |>
-  sub_missing(columns = c(week, topic, prepare, due), missing_text = "") |>
+  sub_missing(columns = c(week, what, topic, prepare, due), missing_text = "") |>
   cols_align(
     align = "center", 
     columns = c(week)
