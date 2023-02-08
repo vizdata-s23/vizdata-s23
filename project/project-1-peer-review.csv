@@ -1,0 +1,17 @@
+lab,reviewer,reviewee_1,reviewee_2
+1,the_tibbles,stats_fm,phans_of_statistics
+1,stats_fm,phans_of_statistics,skaz
+1,phans_of_statistics,skaz,messi
+1,skaz,messi,team_six
+1,messi,team_six,cia
+1,team_six,cia,blue_team
+1,cia,blue_team,the_tibbles
+1,blue_team,the_tibbles,stats_fm
+2,pipe_it_up,rgodz,marvel_cinematic_tidyverse
+2,co_medians,pipe_it_up,rgodz
+2,viz_villians,co_medians,pipe_it_up
+2,o_ggs,viz_villians,co_medians
+2,visualization_warriors,o_ggs,viz_villians
+2,ggplot_lessthan_3,visualization_warriors,o_ggs
+2,marvel_cinematic_tidyverse,ggplot_lessthan_3,visualization_warriors
+2,rgodz,marvel_cinematic_tidyverse,ggplot_lessthan_3

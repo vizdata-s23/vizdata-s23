@@ -47,11 +47,18 @@ Your proposal should include:
 
 #### Reviewer tasks {.unnumbered}
 
-Each team will review the proposals of two other teams. The peer review will be completed during the lab session on Wednesday, February 8. On that day teams will have access to the project repos of the two teams whose work they're reviewing.
+Each team will review the proposals of two other teams. The peer review will be completed during the lab session on Wednesday, February 8. On that day teams will have access to the project repos of the two teams whose work they're reviewing. Reviews should start by cloning the team's repo, re-rendering it locally to make sure you can reproduce their work, and then adding an issue to their repo with your peer review feedback.
 
-::: callout-note
-Reviewer/reviewee pairings will be posted here.
-:::
+The reviewer / reviewee assignments can be found below:
+
+```{r}
+#| message: false
+#| echo: false
+library(tidyverse)
+library(gt)
+p1_pr <- read_csv("project-1-peer-review.csv")
+gt(p1_pr)
+```
 
 Teams will develop the review together, with discussion among all team members, but only one team member will submit it as an issue on the project repo. To do so, go to the *Issues* tab, click on the green *New issue* button on the top right, and then click on the green *Get started* button for the issue template titled *Peer review*.
 
