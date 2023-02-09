@@ -40,11 +40,11 @@ options(width = 65)
 
 # set figure parameters for knitr
 knitr::opts_chunk$set(
-  fig.width = 7,        # 7" width
-  fig.asp = 0.618,      # the golden ratio
-  fig.retina = 3,       # dpi multiplier for displaying HTML output on retina
+  fig.width = 7, # 7" width
+  fig.asp = 0.618, # the golden ratio
+  fig.retina = 3, # dpi multiplier for displaying HTML output on retina
   fig.align = "center", # center align figures
-  dpi = 300             # higher dpi, sharper image
+  dpi = 300 # higher dpi, sharper image
 )
 ```
 
@@ -182,9 +182,9 @@ dch_2022 |>
 #| include: false
 
 dch_2022 <- read_csv(
-  here::here("slides/08/", "data/durham-chapel-hill/ad_aqi_tracker_data-2022.csv"), 
+  here::here("slides/08/", "data/durham-chapel-hill/ad_aqi_tracker_data-2022.csv"),
   na = c(".", "")
-  )
+)
 ```
 
 ```{r}
@@ -193,7 +193,7 @@ dch_2022 <- read_csv(
 dch_2022 <- read_csv(
   here::here("data/durham-chapel-hill/ad_aqi_tracker_data-2022.csv"),
   na = c(".", "")
-  )
+)
 ```
 
 ```{r}
@@ -248,29 +248,43 @@ aqi_levels <- aqi_levels |>
 dch_2022 |>
   filter(!is.na(aqi_value)) |>
   ggplot(aes(x = date, y = aqi_value, group = 1)) +
-  geom_rect(data = aqi_levels,
-            aes(ymin = aqi_min, ymax = aqi_max,
-                xmin = as.Date(-Inf), xmax = as.Date(Inf),
-                fill = color, y = NULL, x = NULL)) +
+  geom_rect(
+    data = aqi_levels,
+    aes(
+      ymin = aqi_min, ymax = aqi_max,
+      xmin = as.Date(-Inf), xmax = as.Date(Inf),
+      fill = color, y = NULL, x = NULL
+    )
+  ) +
   geom_line(linewidth = 1) +
   scale_fill_identity() +
-  scale_x_date(name = NULL, date_labels = "%b",
-               limits = c(ymd("2022-01-01"), ymd("2023-01-01"))) +
-  geom_text(data = aqi_levels,
-            aes(x = ymd("2022-12-31"), y = aqi_mid, label = level),
-            hjust = 1, size = 6, fontface = "bold", color = "white") +
-  annotate(geom = "text",
-           x = c(ymd("2022-01-01"), ymd("2023-01-01")), y = -100,
-           label = c("2022", "2023"), size = 4) +
+  scale_x_date(
+    name = NULL, date_labels = "%b",
+    limits = c(ymd("2022-01-01"), ymd("2023-01-01"))
+  ) +
+  geom_text(
+    data = aqi_levels,
+    aes(x = ymd("2022-12-31"), y = aqi_mid, label = level),
+    hjust = 1, size = 6, fontface = "bold", color = "white"
+  ) +
+  annotate(
+    geom = "text",
+    x = c(ymd("2022-01-01"), ymd("2023-01-01")), y = -100,
+    label = c("2022", "2023"), size = 4
+  ) +
   coord_cartesian(clip = "off", ylim = c(0, 400)) +
-  labs(x = NULL, y = "AQI",
-       title = "Ozone and PM2.5 Daily AQI Values",
-       subtitle = "Durham-Chapel Hill, NC",
-       caption = "\nSource: EPA Daily Air Quality Tracker") +
-  theme(plot.title.position = "plot",
-        panel.grid.minor.y = element_blank(),
-        panel.grid.minor.x = element_blank(),
-        plot.margin = unit(c(1, 1, 3, 1), "lines"))
+  labs(
+    x = NULL, y = "AQI",
+    title = "Ozone and PM2.5 Daily AQI Values",
+    subtitle = "Durham-Chapel Hill, NC",
+    caption = "\nSource: EPA Daily Air Quality Tracker"
+  ) +
+  theme(
+    plot.title.position = "plot",
+    panel.grid.minor.y = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    plot.margin = unit(c(1, 1, 3, 1), "lines")
+  )
 ```
 
 
@@ -288,24 +302,34 @@ dch_2022 |>
   filter(!is.na(aqi_value)) |>
   ggplot(aes(x = date, y = aqi_value, group = 1)) +
   geom_line(size = 1) +
-  scale_x_date(name = NULL, date_labels = "%b",
-               limits = c(ymd("2022-01-01"), ymd("2023-01-01"))) +
+  scale_x_date(
+    name = NULL, date_labels = "%b",
+    limits = c(ymd("2022-01-01"), ymd("2023-01-01"))
+  ) +
   scale_y_continuous(breaks = c(0, 50, 100, 150, 200, 300, 400)) +
-  geom_text(data = aqi_levels,
-            aes(x = ymd("2022-12-31"), y = aqi_mid, label = level, color = color),
-            hjust = 1, size = 6, fontface = "bold") +
+  geom_text(
+    data = aqi_levels,
+    aes(x = ymd("2022-12-31"), y = aqi_mid, label = level, color = color),
+    hjust = 1, size = 6, fontface = "bold"
+  ) +
   scale_color_identity() +
-  annotate(geom = "text",
-           x = c(ymd("2022-01-01"), ymd("2023-01-01")), y = -100,
-           label = c("2022", "2023"), size = 4) +
+  annotate(
+    geom = "text",
+    x = c(ymd("2022-01-01"), ymd("2023-01-01")), y = -100,
+    label = c("2022", "2023"), size = 4
+  ) +
   coord_cartesian(clip = "off", ylim = c(0, 400)) +
-  labs(x = NULL, y = "AQI",
-       title = "Ozone and PM2.5 Daily AQI Values",
-       subtitle = "Durham-Chapel Hill, NC",
-       caption = "\nSource: EPA Daily Air Quality Tracker") +
-  theme(plot.title.position = "plot",
-        panel.grid.minor.y = element_blank(),
-        panel.grid.minor.x = element_blank()) 
+  labs(
+    x = NULL, y = "AQI",
+    title = "Ozone and PM2.5 Daily AQI Values",
+    subtitle = "Durham-Chapel Hill, NC",
+    caption = "\nSource: EPA Daily Air Quality Tracker"
+  ) +
+  theme(
+    plot.title.position = "plot",
+    panel.grid.minor.y = element_blank(),
+    panel.grid.minor.x = element_blank()
+  )
 ```
 
 ## Highlights
@@ -359,7 +383,7 @@ dch_2022 |>
   mutate(
     good_aqi = if_else(aqi_value <= 50, 1, 0),
     cum_good_aqi = cumsum(good_aqi)
-    )
+  )
 ```
 
 ## Plotting cumulatives
@@ -377,7 +401,7 @@ dch_2022 |>
   mutate(
     good_aqi = if_else(aqi_value <= 50, 1, 0),
     cum_good_aqi = cumsum(good_aqi)
-    ) |>
+  ) |>
   ggplot(aes(x = date, y = cum_good_aqi, group = 1)) +
   geom_line() +
   scale_x_date(date_labels = "%b %Y") +
@@ -446,7 +470,7 @@ dch |>
   scale_x_date(
     expand = expansion(mult = 0.07),
     date_labels = "%Y"
-    ) +
+  ) +
   labs(
     x = NULL, y = "Number of days",
     title = "Cumulative number of good AQI days (AQI < 50)",
@@ -509,7 +533,7 @@ dch_aug |>
   scale_x_date(
     expand = expansion(mult = 0.07),
     date_labels = "%Y"
-    ) +
+  ) +
   labs(
     x = NULL, y = "Number of days (detrended)",
     title = "Cumulative number of good AQI days (AQI < 50)",
@@ -579,7 +603,7 @@ sf |>
   scale_x_date(
     expand = expansion(mult = 0.07),
     date_labels = "%Y"
-    ) +
+  ) +
   labs(
     x = NULL, y = "Number of days",
     title = "Cumulative number of good AQI days (AQI < 50)",
@@ -636,7 +660,7 @@ sf_aug |>
   scale_x_date(
     expand = expansion(mult = 0.07),
     date_labels = "%Y"
-    ) +
+  ) +
   labs(
     x = NULL, y = "Number of days (detrended)",
     title = "Cumulative number of good AQI days (AQI < 50)",
