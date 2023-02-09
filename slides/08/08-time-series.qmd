@@ -31,6 +31,8 @@ library(countdown)
 library(tidyverse)
 library(lubridate)
 library(janitor)
+library(colorspace)
+library(tidymodels)
 
 # set theme for ggplot2
 ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14))
@@ -260,16 +262,16 @@ dch_2022 |>
   scale_fill_identity() +
   scale_x_date(
     name = NULL, date_labels = "%b",
-    limits = c(ymd("2022-01-01"), ymd("2023-01-01"))
+    limits = c(ymd("2022-01-01"), ymd("2023-03-01"))
   ) +
   geom_text(
     data = aqi_levels,
-    aes(x = ymd("2022-12-31"), y = aqi_mid, label = level),
+    aes(x = ymd("2023-02-28"), y = aqi_mid, label = level),
     hjust = 1, size = 6, fontface = "bold", color = "white"
   ) +
   annotate(
     geom = "text",
-    x = c(ymd("2022-01-01"), ymd("2023-01-01")), y = -100,
+    x = c(ymd("2022-01-01"), ymd("2023-03-01")), y = -100,
     label = c("2022", "2023"), size = 4
   ) +
   coord_cartesian(clip = "off", ylim = c(0, 400)) +
@@ -295,27 +297,27 @@ Recreate the following visualization.
 :::
 
 ```{r}
-#| label: durham-aqi-2
+#| label: dch-2022-3
 #| echo: false
 
 dch_2022 |>
   filter(!is.na(aqi_value)) |>
   ggplot(aes(x = date, y = aqi_value, group = 1)) +
-  geom_line(size = 1) +
+  geom_line(linewidth = 1) +
   scale_x_date(
     name = NULL, date_labels = "%b",
-    limits = c(ymd("2022-01-01"), ymd("2023-01-01"))
+    limits = c(ymd("2022-01-01"), ymd("2023-03-01"))
   ) +
   scale_y_continuous(breaks = c(0, 50, 100, 150, 200, 300, 400)) +
   geom_text(
     data = aqi_levels,
-    aes(x = ymd("2022-12-31"), y = aqi_mid, label = level, color = color),
+    aes(x = ymd("2023-02-28"), y = aqi_mid, label = level, color = darken(color, 0.3)),
     hjust = 1, size = 6, fontface = "bold"
   ) +
   scale_color_identity() +
   annotate(
     geom = "text",
-    x = c(ymd("2022-01-01"), ymd("2023-01-01")), y = -100,
+    x = c(ymd("2022-01-01"), ymd("2023-03-01")), y = -100,
     label = c("2022", "2023"), size = 4
   ) +
   coord_cartesian(clip = "off", ylim = c(0, 400)) +
@@ -335,6 +337,8 @@ dch_2022 |>
 ## Highlights
 
 - The **lubridate** package is useful for converting to dates from character strings in a given format, e.g. `mdy()`, `ymd()`, etc.
+
+- The **colorspace** package is useful for programmatically darkening / lightening colors
 
 - `scale_x_date`: Set `date_labels` as `"%b %y"` for month-2 digit year, `"%D"` for date format such as `%m/%d/%y`, etc. See help for `strptime()` for more.
 
@@ -431,15 +435,21 @@ dch_2022 |>
 
 ## Read in multiple years of Durham-Chapel Hill data {.smaller}
 
-```{r include = FALSE}
-dch_files <- fs::dir_ls(here::here("11-visualize-time-series/", "data/durham-chapel-hill"))
+```{r}
+#| include: false
+
+dch_files <- fs::dir_ls(here::here("slides/08/", "data/durham-chapel-hill"))
 ```
 
-```{r eval = FALSE}
+```{r}
+#| eval: false
+
 dch_files <- fs::dir_ls(here::here("data/durham-chapel-hill"))
 ```
 
-```{r message = FALSE}
+```{r}
+#| message: false
+
 dch <- read_csv(dch_files, na = c(".", ""))
 
 dch <- dch |>
@@ -515,6 +525,7 @@ Step 3. Divide the observed value of `cum_good_aqi` by the respective value in t
 dch_aug <- dch_aug |>
   mutate(ratio = cum_good_aqi / .fitted, .after = .fitted)
 
+
 dch_aug
 ```
 
@@ -550,13 +561,13 @@ dch_aug |>
 ```
 :::
 
-## {.center}
+## Air Quality in Durham
 
 ::: hand
 barely anything interesting happening!
 :::
 
-## {.center}
+. . .
 
 ::: hand
 let's look at data from somewhere with a bit more "interesting" air quality data...
@@ -565,7 +576,7 @@ let's look at data from somewhere with a bit more "interesting" air quality data
 ## Read in multiple years of SF data {.smaller}
 
 ```{r include = FALSE}
-sf_files <- fs::dir_ls(here::here("11-visualize-time-series/", "data/san-francisco"))
+sf_files <- fs::dir_ls(here::here("slides/08/", "data/san-francisco"))
 ```
 
 ```{r eval = FALSE}
