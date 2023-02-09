@@ -18,7 +18,11 @@ editor_options:
 
 ## Announcements
 
--   ...
+-   Project 1 proposal due Friday, 5pm
+
+-   RQ 3 due Tuesday by class, covers everything since last reading quiz
+
+-   Project 1 presentations -- Feb 22 in lab, all team members must be there
 
 ## Setup {.smaller}
 
@@ -32,7 +36,8 @@ library(tidyverse)
 library(lubridate)
 library(janitor)
 library(colorspace)
-library(tidymodels)
+library(broom)
+library(fs)
 
 # set theme for ggplot2
 ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14))
@@ -54,9 +59,9 @@ knitr::opts_chunk$set(
 
 ## Air Quality Index
 
-- The AQI is the Environmental Protection Agency's index for reporting air quality
+-   The AQI is the Environmental Protection Agency's index for reporting air quality
 
-- Higher values of AQI indicate worse air quality
+-   Higher values of AQI indicate worse air quality
 
 ```{r}
 #| echo: false
@@ -87,15 +92,15 @@ aqi_levels <- tribble(
 
 ## AQI data
 
-- Source: [EPA's  Daily Air Quality Tracker](https://www.epa.gov/outdoor-air-quality-data/air-data-daily-air-quality-tracker)
+-   Source: [EPA's Daily Air Quality Tracker](https://www.epa.gov/outdoor-air-quality-data/air-data-daily-air-quality-tracker)
 
-- 2016 - 2022 AQI (Ozone and PM2.5 combined) for Durham-Chapel Hill, NC core-based statistical area (CBSA), one file per year
+-   2016 - 2022 AQI (Ozone and PM2.5 combined) for Durham-Chapel Hill, NC core-based statistical area (CBSA), one file per year
 
-- 2016 - 2022 AQI (Ozone and PM2.5 combined) for San Francisco-Oakland-Hayward, CA CBSA, one file per year
+-   2016 - 2022 AQI (Ozone and PM2.5 combined) for San Francisco-Oakland-Hayward, CA CBSA, one file per year
 
 ## 2022 Durham-Chapel Hill
 
-- Load data
+-   Load data
 
 ```{r}
 #| include: false
@@ -111,7 +116,7 @@ dch_2022 <- read_csv(here::here("data/durham-chapel-hill/ad_aqi_tracker_data-202
 
 . . .
 
-- Metadata
+-   Metadata
 
 ```{r}
 dim(dch_2022)
@@ -138,7 +143,6 @@ ggplot(dch_2022, aes(x = date, y = aqi_value, group = 1)) +
   geom_line()
 ```
 
-
 ## Peek at data
 
 ```{r}
@@ -162,13 +166,25 @@ What does this warning mean?
 :::
 
 ```{r}
+#| include: false
+
+options(dplyr.print_min = 3, dplyr.print_max = 3)
+```
+
+```{r}
 dch_2022 |>
   mutate(aqi_value = as.numeric(aqi_value))
 ```
 
+```{r}
+#| include: false
+
+options(dplyr.print_min = 10, dplyr.print_max = 10)
+```
+
 ## Investigating AQI values
 
-- Take a peek at distinct values of AQI
+-   Take a peek at distinct values of AQI
 
 ```{r}
 dch_2022 |>
@@ -176,7 +192,7 @@ dch_2022 |>
   pull()
 ```
 
-- `"."` likely indicates `NA`, and it's causing the entire column to be read in as characters
+-   `"."` likely indicates `NA`, and it's causing the entire column to be read in as characters
 
 ## Rewind, and start over
 
@@ -216,6 +232,7 @@ dch_2022
 
 ```{r}
 #| label: dch-2022-1
+#| fig-asp: 0.5
 
 ggplot(dch_2022, aes(x = date, y = aqi_value, group = 1)) +
   geom_line()
@@ -227,14 +244,16 @@ How would you improve this visualization?
 
 ::: panel-tabset
 ### Plot
+
 ```{r ref.label = "dch-2022-1", echo = FALSE}
 ```
 
 ### Discuss
+
 TO DO: Add Slido
 :::
 
-## Livecoding
+## Visualizing Durham AQI
 
 ::: task
 Recreate the following visualization.
@@ -289,8 +308,17 @@ dch_2022 |>
   )
 ```
 
+## Livecoding {.smaller}
 
-## Livecoding
+Reveal below for code developed during live coding session.
+
+```{r}
+#| ref.label: dch-2022-2
+#| fig-show: hide
+#| code-fold: true
+```
+
+## Another visualization of Durham AQI
 
 ::: task
 Recreate the following visualization.
@@ -317,7 +345,7 @@ dch_2022 |>
   scale_color_identity() +
   annotate(
     geom = "text",
-    x = c(ymd("2022-01-01"), ymd("2023-03-01")), y = -100,
+    x = c(ymd("2022-01-01"), ymd("2023-03-01")), y = -80,
     label = c("2022", "2023"), size = 4
   ) +
   coord_cartesian(clip = "off", ylim = c(0, 400)) +
@@ -334,23 +362,39 @@ dch_2022 |>
   )
 ```
 
+## Livecoding {.smaller}
+
+Reveal below for code developed during live coding session.
+
+```{r}
+#| ref.label: dch-2022-3
+#| fig-show: hide
+#| code-fold: true
+```
+
 ## Highlights
 
-- The **lubridate** package is useful for converting to dates from character strings in a given format, e.g. `mdy()`, `ymd()`, etc.
+-   The **lubridate** package is useful for converting to dates from character strings in a given format, e.g. `mdy()`, `ymd()`, etc.
 
-- The **colorspace** package is useful for programmatically darkening / lightening colors
+-   The **colorspace** package is useful for programmatically darkening / lightening colors
 
-- `scale_x_date`: Set `date_labels` as `"%b %y"` for month-2 digit year, `"%D"` for date format such as `%m/%d/%y`, etc. See help for `strptime()` for more.
+-   `scale_x_date`: Set `date_labels` as `"%b %y"` for month-2 digit year, `"%D"` for date format such as `%m/%d/%y`, etc. See help for `strptime()` for more.
 
-- `scale_color_identity()` or `scale_fill_identity()` can be useful when your data already represents aesthetic values that ggplot2 can handle directly. By default doesn't produce  a legend.
+-   `scale_color_identity()` or `scale_fill_identity()` can be useful when your data already represents aesthetic values that ggplot2 can handle directly. By default doesn't produce a legend.
 
 # Calculating cumulatives
 
 ## Cumulatives over time
 
-- When visualizing time series data, a somewhat common task is to calculate cumulatives over time and plot them
+-   When visualizing time series data, a somewhat common task is to calculate cumulatives over time and plot them
 
-- In our example we'll calculate the number of days with "good" AQI ($\le$ 50) and plot that value on the y-axis and the date on the x-axis
+-   In our example we'll calculate the number of days with "good" AQI ($\le$ 50) and plot that value on the y-axis and the date on the x-axis
+
+```{r}
+#| include: false
+
+options(dplyr.print_min = 5, dplyr.print_max = 5)
+```
 
 ## Calculating cumulatives
 
@@ -386,17 +430,19 @@ dch_2022 |>
   arrange(date) |>
   mutate(
     good_aqi = if_else(aqi_value <= 50, 1, 0),
-    cum_good_aqi = cumsum(good_aqi)
+    cumsum_good_aqi = cumsum(good_aqi)
   )
 ```
 
-## Plotting cumulatives
+## Plotting cumulatives {.smaller}
 
 ::: panel-tabset
 ### Plot
+
 ```{r}
 #| label: durham-aqi-3
 #| echo: false
+#| fig.asp: 0.5
 
 dch_2022 |>
   select(date, aqi_value) |>
@@ -404,9 +450,9 @@ dch_2022 |>
   arrange(date) |>
   mutate(
     good_aqi = if_else(aqi_value <= 50, 1, 0),
-    cum_good_aqi = cumsum(good_aqi)
+    cumsum_good_aqi = cumsum(good_aqi)
   ) |>
-  ggplot(aes(x = date, y = cum_good_aqi, group = 1)) +
+  ggplot(aes(x = date, y = cumsum_good_aqi, group = 1)) +
   geom_line() +
   scale_x_date(date_labels = "%b %Y") +
   labs(
@@ -419,6 +465,7 @@ dch_2022 |>
 ```
 
 ### Code
+
 ```{r}
 #| ref.label: durham-aqi-3
 #| fig-show: hide
@@ -429,11 +476,11 @@ dch_2022 |>
 
 ## Detrending
 
-- Detrending is removing prominent long-term trend in time series to specifically highlight any notable deviations
+-   Detrending is removing prominent long-term trend in time series to specifically highlight any notable deviations
 
-- Let's demonstrate using multiple years of AQI data
+-   Let's demonstrate using multiple years of AQI data
 
-## Read in multiple years of Durham-Chapel Hill data {.smaller}
+## Multiple years of Durham-Chapel Hill data {.smaller}
 
 ```{r}
 #| include: false
@@ -445,7 +492,15 @@ dch_files <- fs::dir_ls(here::here("slides/08/", "data/durham-chapel-hill"))
 #| eval: false
 
 dch_files <- fs::dir_ls(here::here("data/durham-chapel-hill"))
+dch_files
 ```
+
+```{r}
+#| echo: false
+dch_files
+```
+
+## Reading multiple files {.smaller}
 
 ```{r}
 #| message: false
@@ -460,21 +515,24 @@ dch <- dch |>
   ) |>
   filter(!is.na(aqi_value)) |>
   arrange(date) |>
-  mutate(cum_good_aqi = cumsum(good_aqi), .after = aqi_value)
+  mutate(cumsum_good_aqi = cumsum(good_aqi), .after = aqi_value)
 
 dch
 ```
 
-## Plot trend since 2016
+## Plot trend since 2016 {.smaller}
 
 ::: panel-tabset
 ### Plot
+
 ```{r}
 #| label: dch-3
 #| echo: false
+#| fig-asp: 0.5
+#| warning: false
 
 dch |>
-  ggplot(aes(x = date, y = cum_good_aqi, group = 1)) +
+  ggplot(aes(x = date, y = cumsum_good_aqi, group = 1)) +
   geom_smooth(method = "lm", color = "pink") +
   geom_line() +
   scale_x_date(
@@ -491,9 +549,11 @@ dch |>
 ```
 
 ### Code
+
 ```{r}
 #| ref.label: dch-3
 #| fig-show: hide
+#| code-line-numbers: "6|7"
 ```
 :::
 
@@ -502,7 +562,7 @@ dch |>
 Step 1. Fit a simple linear regression
 
 ```{r}
-m <- lm(cum_good_aqi ~ date, data = dch)
+m <- lm(cumsum_good_aqi ~ date, data = dch)
 
 m
 ```
@@ -519,11 +579,11 @@ dch_aug
 
 ## Detrend
 
-Step 3. Divide the observed value of `cum_good_aqi` by the respective value in the long-term trend (i.e., `.fitted`)
+Step 3. Divide the observed value of `cumsum_good_aqi` by the respective value in the long-term trend (i.e., `.fitted`)
 
 ```{r}
 dch_aug <- dch_aug |>
-  mutate(ratio = cum_good_aqi / .fitted, .after = .fitted)
+  mutate(ratio = cumsum_good_aqi / .fitted, .after = .fitted)
 
 
 dch_aug
@@ -533,9 +593,11 @@ dch_aug
 
 ::: panel-tabset
 ### Plot
+
 ```{r}
 #| label: dch-4
 #| echo: false
+#| fig-asp: 0.5
 
 dch_aug |>
   ggplot(aes(x = date, y = ratio, group = 1)) +
@@ -546,7 +608,7 @@ dch_aug |>
     date_labels = "%Y"
   ) +
   labs(
-    x = NULL, y = "Number of days (detrended)",
+    x = NULL, y = "Number of days\n(detrended)",
     title = "Cumulative number of good AQI days (AQI < 50)",
     subtitle = "Durham-Chapel Hill, NC",
     caption = "\nSource: EPA Daily Air Quality Tracker"
@@ -555,6 +617,7 @@ dch_aug |>
 ```
 
 ### Code
+
 ```{r}
 #| ref.label: dch-4
 #| fig-show: hide
@@ -562,6 +625,8 @@ dch_aug |>
 :::
 
 ## Air Quality in Durham
+
+<br><br>
 
 ::: hand
 barely anything interesting happening!
@@ -575,15 +640,20 @@ let's look at data from somewhere with a bit more "interesting" air quality data
 
 ## Read in multiple years of SF data {.smaller}
 
-```{r include = FALSE}
+```{r}
+#| include: false
 sf_files <- fs::dir_ls(here::here("slides/08/", "data/san-francisco"))
 ```
 
-```{r eval = FALSE}
+```{r}
+#| eval: false
+
 sf_files <- fs::dir_ls(here::here("data/san-francisco"))
 ```
 
-```{r message = FALSE}
+```{r}
+#| message: false
+
 sf <- read_csv(sf_files, na = c(".", ""))
 
 sf <- sf |>
@@ -594,21 +664,24 @@ sf <- sf |>
   ) |>
   filter(!is.na(aqi_value)) |>
   arrange(date) |>
-  mutate(cum_good_aqi = cumsum(good_aqi), .after = aqi_value)
+  mutate(cumsum_good_aqi = cumsum(good_aqi), .after = aqi_value)
 
 sf
 ```
 
-## Plot trend since 2016
+## Plot trend since 2016 {.smaller}
 
 ::: panel-tabset
 ### Plot
+
 ```{r}
 #| label: sf-1
 #| echo: false
+#| fig-asp: 0.5
+#| warning: false
 
 sf |>
-  ggplot(aes(x = date, y = cum_good_aqi, group = 1)) +
+  ggplot(aes(x = date, y = cumsum_good_aqi, group = 1)) +
   geom_smooth(method = "lm", color = "pink") +
   geom_line() +
   scale_x_date(
@@ -625,6 +698,7 @@ sf |>
 ```
 
 ### Code
+
 ```{r}
 #| ref.label: sf-1
 #| fig-show: hide
@@ -633,15 +707,15 @@ sf |>
 
 ## Detrend
 
-1. Fit a simple linear regression
+1.  Fit a simple linear regression
 
 ```{r}
-m_sf <- lm(cum_good_aqi ~ date, data = sf)
+m_sf <- lm(cumsum_good_aqi ~ date, data = sf)
 ```
 
 . . .
 
-2. Augment the data with model results
+2.  Augment the data with model results
 
 ```{r}
 sf_aug <- augment(m_sf)
@@ -649,20 +723,22 @@ sf_aug <- augment(m_sf)
 
 . . .
 
-3. Divide the observed value of `cum_good_aqi` by the respective value in the long-term trend (i.e., `.fitted`)
+3.  Divide the observed value of `cumsum_good_aqi` by the respective value in the long-term trend (i.e., `.fitted`)
 
 ```{r}
 sf_aug <- sf_aug |>
-  mutate(ratio = cum_good_aqi / .fitted, .after = .fitted)
+  mutate(ratio = cumsum_good_aqi / .fitted, .after = .fitted)
 ```
 
 ## Visualize detrended data
 
 ::: panel-tabset
 ### Plot
+
 ```{r}
 #| label: sf-2
 #| echo: false
+#| fig-asp: 0.5
 
 sf_aug |>
   ggplot(aes(x = date, y = ratio, group = 1)) +
@@ -673,7 +749,7 @@ sf_aug |>
     date_labels = "%Y"
   ) +
   labs(
-    x = NULL, y = "Number of days (detrended)",
+    x = NULL, y = "Number of days\n(detrended)",
     title = "Cumulative number of good AQI days (AQI < 50)",
     subtitle = "San Francisco-Oakland-Hayward, CA",
     caption = "\nSource: EPA Daily Air Quality Tracker"
@@ -682,6 +758,7 @@ sf_aug |>
 ```
 
 ### Code
+
 ```{r}
 #| ref.label: sf-2
 #| fig-show: hide
@@ -690,11 +767,11 @@ sf_aug |>
 
 ## Detrending
 
-- In step 2 we fit a very simple model
+-   In step 2 we fit a very simple model
 
-- Depending on the complexity you're trying to capture you might choose to fit a much more complex model
+-   Depending on the complexity you're trying to capture you might choose to fit a much more complex model
 
-- You can also decompose the trend into multiple trends, e.g. monthly, long-term, seasonal, etc.
+-   You can also decompose the trend into multiple trends, e.g. monthly, long-term, seasonal, etc.
 
 ::: aside
 Interested in learning more? Take STA 344 - Spatio-temporal analysis!
