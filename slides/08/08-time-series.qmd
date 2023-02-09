@@ -1,0 +1,666 @@
+---
+title: Visualizing time series data
+subtitle: Lecture 8
+title-slide-attributes:
+  data-background-image: ../vizdata-bg.png
+  data-background-size: stretch
+  data-slide-number: none
+format: revealjs
+highlight-style: a11y
+execute:
+  code-link: true
+  warning: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# Warm up
+
+## Announcements
+
+-   ...
+
+## Setup {.smaller}
+
+```{r}
+#| label: setup
+#| message: false
+
+# load packages
+library(countdown)
+library(tidyverse)
+library(lubridate)
+library(janitor)
+
+# set theme for ggplot2
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14))
+
+# set width of code output
+options(width = 65)
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 7,        # 7" width
+  fig.asp = 0.618,      # the golden ratio
+  fig.retina = 3,       # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300             # higher dpi, sharper image
+)
+```
+
+# Working with dates
+
+## Air Quality Index
+
+- The AQI is the Environmental Protection Agency's index for reporting air quality
+
+- Higher values of AQI indicate worse air quality
+
+```{r}
+#| echo: false
+#| fig-alt: AQI Basics for Ozone and Particle Pollution
+#| out-width: "100%"
+knitr::include_graphics("images/aqi-levels.png")
+```
+
+::: aside
+Source: https://www.airnow.gov/aqi-basics
+:::
+
+## AQI levels
+
+The previous graphic in tibble form, to be used later...
+
+```{r}
+aqi_levels <- tribble(
+  ~aqi_min, ~aqi_max, ~color,    ~level,
+  0,        50,       "#D8EEDA", "Good",
+  51,       100,      "#F1E7D4", "Moderate",
+  101,      150,      "#F8E4D8", "Unhealthy for sensitive groups",
+  151,      200,      "#FEE2E1", "Unhealthy",
+  201,      300,      "#F4E3F7", "Very unhealthy",
+  301,      400,      "#F9D0D4", "Hazardous"
+)
+```
+
+## AQI data
+
+- Source: [EPA's  Daily Air Quality Tracker](https://www.epa.gov/outdoor-air-quality-data/air-data-daily-air-quality-tracker)
+
+- 2016 - 2022 AQI (Ozone and PM2.5 combined) for Durham-Chapel Hill, NC core-based statistical area (CBSA), one file per year
+
+- 2016 - 2022 AQI (Ozone and PM2.5 combined) for San Francisco-Oakland-Hayward, CA CBSA, one file per year
+
+## 2022 Durham-Chapel Hill
+
+- Load data
+
+```{r}
+#| include: false
+
+dch_2022 <- read_csv(here::here("slides/08/", "data/durham-chapel-hill/ad_aqi_tracker_data-2022.csv"))
+```
+
+```{r}
+#| eval: false
+
+dch_2022 <- read_csv(here::here("data/durham-chapel-hill/ad_aqi_tracker_data-2022.csv"))
+```
+
+. . .
+
+- Metadata
+
+```{r}
+dim(dch_2022)
+names(dch_2022)
+```
+
+## Clean variable names
+
+```{r}
+dch_2022 <- dch_2022 |>
+  janitor::clean_names()
+
+names(dch_2022)
+```
+
+## First look
+
+::: task
+This plot looks quite bizarre. What might be going on?
+:::
+
+```{r}
+ggplot(dch_2022, aes(x = date, y = aqi_value, group = 1)) +
+  geom_line()
+```
+
+
+## Peek at data
+
+```{r}
+dch_2022 |>
+  select(date, aqi_value, site_name, site_id)
+```
+
+## Transforming date
+
+Using `lubridate::mdy()`:
+
+```{r}
+dch_2022 |>
+  mutate(date = mdy(date))
+```
+
+## Transforming AQI values
+
+::: task
+What does this warning mean?
+:::
+
+```{r}
+dch_2022 |>
+  mutate(aqi_value = as.numeric(aqi_value))
+```
+
+## Investigating AQI values
+
+- Take a peek at distinct values of AQI
+
+```{r}
+dch_2022 |>
+  distinct(aqi_value) |>
+  pull()
+```
+
+- `"."` likely indicates `NA`, and it's causing the entire column to be read in as characters
+
+## Rewind, and start over
+
+```{r}
+#| include: false
+
+dch_2022 <- read_csv(
+  here::here("slides/08/", "data/durham-chapel-hill/ad_aqi_tracker_data-2022.csv"), 
+  na = c(".", "")
+  )
+```
+
+```{r}
+#| eval: false
+
+dch_2022 <- read_csv(
+  here::here("data/durham-chapel-hill/ad_aqi_tracker_data-2022.csv"),
+  na = c(".", "")
+  )
+```
+
+```{r}
+glimpse(dch_2022)
+```
+
+## Data cleaning
+
+```{r}
+dch_2022 <- dch_2022 |>
+  janitor::clean_names() |>
+  mutate(date = mdy(date))
+
+dch_2022
+```
+
+## Another look
+
+```{r}
+#| label: dch-2022-1
+
+ggplot(dch_2022, aes(x = date, y = aqi_value, group = 1)) +
+  geom_line()
+```
+
+::: task
+How would you improve this visualization?
+:::
+
+::: panel-tabset
+### Plot
+```{r ref.label = "dch-2022-1", echo = FALSE}
+```
+
+### Discuss
+TO DO: Add Slido
+:::
+
+## Livecoding
+
+::: task
+Recreate the following visualization.
+:::
+
+```{r}
+#| label: dch-2022-2
+#| echo: false
+
+aqi_levels <- aqi_levels |>
+  mutate(aqi_mid = ((aqi_min + aqi_max) / 2))
+
+dch_2022 |>
+  filter(!is.na(aqi_value)) |>
+  ggplot(aes(x = date, y = aqi_value, group = 1)) +
+  geom_rect(data = aqi_levels,
+            aes(ymin = aqi_min, ymax = aqi_max,
+                xmin = as.Date(-Inf), xmax = as.Date(Inf),
+                fill = color, y = NULL, x = NULL)) +
+  geom_line(linewidth = 1) +
+  scale_fill_identity() +
+  scale_x_date(name = NULL, date_labels = "%b",
+               limits = c(ymd("2022-01-01"), ymd("2023-01-01"))) +
+  geom_text(data = aqi_levels,
+            aes(x = ymd("2022-12-31"), y = aqi_mid, label = level),
+            hjust = 1, size = 6, fontface = "bold", color = "white") +
+  annotate(geom = "text",
+           x = c(ymd("2022-01-01"), ymd("2023-01-01")), y = -100,
+           label = c("2022", "2023"), size = 4) +
+  coord_cartesian(clip = "off", ylim = c(0, 400)) +
+  labs(x = NULL, y = "AQI",
+       title = "Ozone and PM2.5 Daily AQI Values",
+       subtitle = "Durham-Chapel Hill, NC",
+       caption = "\nSource: EPA Daily Air Quality Tracker") +
+  theme(plot.title.position = "plot",
+        panel.grid.minor.y = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        plot.margin = unit(c(1, 1, 3, 1), "lines"))
+```
+
+
+## Livecoding
+
+::: task
+Recreate the following visualization.
+:::
+
+```{r}
+#| label: durham-aqi-2
+#| echo: false
+
+dch_2022 |>
+  filter(!is.na(aqi_value)) |>
+  ggplot(aes(x = date, y = aqi_value, group = 1)) +
+  geom_line(size = 1) +
+  scale_x_date(name = NULL, date_labels = "%b",
+               limits = c(ymd("2022-01-01"), ymd("2023-01-01"))) +
+  scale_y_continuous(breaks = c(0, 50, 100, 150, 200, 300, 400)) +
+  geom_text(data = aqi_levels,
+            aes(x = ymd("2022-12-31"), y = aqi_mid, label = level, color = color),
+            hjust = 1, size = 6, fontface = "bold") +
+  scale_color_identity() +
+  annotate(geom = "text",
+           x = c(ymd("2022-01-01"), ymd("2023-01-01")), y = -100,
+           label = c("2022", "2023"), size = 4) +
+  coord_cartesian(clip = "off", ylim = c(0, 400)) +
+  labs(x = NULL, y = "AQI",
+       title = "Ozone and PM2.5 Daily AQI Values",
+       subtitle = "Durham-Chapel Hill, NC",
+       caption = "\nSource: EPA Daily Air Quality Tracker") +
+  theme(plot.title.position = "plot",
+        panel.grid.minor.y = element_blank(),
+        panel.grid.minor.x = element_blank()) 
+```
+
+## Highlights
+
+- The **lubridate** package is useful for converting to dates from character strings in a given format, e.g. `mdy()`, `ymd()`, etc.
+
+- `scale_x_date`: Set `date_labels` as `"%b %y"` for month-2 digit year, `"%D"` for date format such as `%m/%d/%y`, etc. See help for `strptime()` for more.
+
+- `scale_color_identity()` or `scale_fill_identity()` can be useful when your data already represents aesthetic values that ggplot2 can handle directly. By default doesn't produce  a legend.
+
+# Calculating cumulatives
+
+## Cumulatives over time
+
+- When visualizing time series data, a somewhat common task is to calculate cumulatives over time and plot them
+
+- In our example we'll calculate the number of days with "good" AQI ($\le$ 50) and plot that value on the y-axis and the date on the x-axis
+
+## Calculating cumulatives
+
+Step 1. Arrange your data
+
+```{r}
+dch_2022 |>
+  select(date, aqi_value) |>
+  filter(!is.na(aqi_value)) |>
+  arrange(date)
+```
+
+## Calculating cumulatives
+
+Step 2. Identify good days
+
+```{r}
+dch_2022 |>
+  select(date, aqi_value) |>
+  filter(!is.na(aqi_value)) |>
+  arrange(date) |>
+  mutate(good_aqi = if_else(aqi_value <= 50, 1, 0))
+```
+
+## Calculating cumulatives
+
+Step 3. Sum over time
+
+```{r}
+dch_2022 |>
+  select(date, aqi_value) |>
+  filter(!is.na(aqi_value)) |>
+  arrange(date) |>
+  mutate(
+    good_aqi = if_else(aqi_value <= 50, 1, 0),
+    cum_good_aqi = cumsum(good_aqi)
+    )
+```
+
+## Plotting cumulatives
+
+::: panel-tabset
+### Plot
+```{r}
+#| label: durham-aqi-3
+#| echo: false
+
+dch_2022 |>
+  select(date, aqi_value) |>
+  filter(!is.na(aqi_value)) |>
+  arrange(date) |>
+  mutate(
+    good_aqi = if_else(aqi_value <= 50, 1, 0),
+    cum_good_aqi = cumsum(good_aqi)
+    ) |>
+  ggplot(aes(x = date, y = cum_good_aqi, group = 1)) +
+  geom_line() +
+  scale_x_date(date_labels = "%b %Y") +
+  labs(
+    x = NULL, y = "Number of days",
+    title = "Cumulative number of good AQI days (AQI < 50)",
+    subtitle = "Durham-Chapel Hill, NC",
+    caption = "\nSource: EPA Daily Air Quality Tracker"
+  ) +
+  theme(plot.title.position = "plot")
+```
+
+### Code
+```{r}
+#| ref.label: durham-aqi-3
+#| fig-show: hide
+```
+:::
+
+# Detrending
+
+## Detrending
+
+- Detrending is removing prominent long-term trend in time series to specifically highlight any notable deviations
+
+- Let's demonstrate using multiple years of AQI data
+
+## Read in multiple years of Durham-Chapel Hill data {.smaller}
+
+```{r include = FALSE}
+dch_files <- fs::dir_ls(here::here("11-visualize-time-series/", "data/durham-chapel-hill"))
+```
+
+```{r eval = FALSE}
+dch_files <- fs::dir_ls(here::here("data/durham-chapel-hill"))
+```
+
+```{r message = FALSE}
+dch <- read_csv(dch_files, na = c(".", ""))
+
+dch <- dch |>
+  janitor::clean_names() |>
+  mutate(
+    date = mdy(date),
+    good_aqi = if_else(aqi_value <= 50, 1, 0)
+  ) |>
+  filter(!is.na(aqi_value)) |>
+  arrange(date) |>
+  mutate(cum_good_aqi = cumsum(good_aqi), .after = aqi_value)
+
+dch
+```
+
+## Plot trend since 2016
+
+::: panel-tabset
+### Plot
+```{r}
+#| label: dch-3
+#| echo: false
+
+dch |>
+  ggplot(aes(x = date, y = cum_good_aqi, group = 1)) +
+  geom_smooth(method = "lm", color = "pink") +
+  geom_line() +
+  scale_x_date(
+    expand = expansion(mult = 0.07),
+    date_labels = "%Y"
+    ) +
+  labs(
+    x = NULL, y = "Number of days",
+    title = "Cumulative number of good AQI days (AQI < 50)",
+    subtitle = "Durham-Chapel Hill, NC",
+    caption = "\nSource: EPA Daily Air Quality Tracker"
+  ) +
+  theme(plot.title.position = "plot")
+```
+
+### Code
+```{r}
+#| ref.label: dch-3
+#| fig-show: hide
+```
+:::
+
+## Detrend
+
+Step 1. Fit a simple linear regression
+
+```{r}
+m <- lm(cum_good_aqi ~ date, data = dch)
+
+m
+```
+
+## Detrend
+
+Step 2. Augment the data with model results (using `broom::augment()`)
+
+```{r}
+dch_aug <- augment(m)
+
+dch_aug
+```
+
+## Detrend
+
+Step 3. Divide the observed value of `cum_good_aqi` by the respective value in the long-term trend (i.e., `.fitted`)
+
+```{r}
+dch_aug <- dch_aug |>
+  mutate(ratio = cum_good_aqi / .fitted, .after = .fitted)
+
+dch_aug
+```
+
+## Visualize detrended data
+
+::: panel-tabset
+### Plot
+```{r}
+#| label: dch-4
+#| echo: false
+
+dch_aug |>
+  ggplot(aes(x = date, y = ratio, group = 1)) +
+  geom_hline(yintercept = 1, color = "gray") +
+  geom_line() +
+  scale_x_date(
+    expand = expansion(mult = 0.07),
+    date_labels = "%Y"
+    ) +
+  labs(
+    x = NULL, y = "Number of days (detrended)",
+    title = "Cumulative number of good AQI days (AQI < 50)",
+    subtitle = "Durham-Chapel Hill, NC",
+    caption = "\nSource: EPA Daily Air Quality Tracker"
+  ) +
+  theme(plot.title.position = "plot")
+```
+
+### Code
+```{r}
+#| ref.label: dch-4
+#| fig-show: hide
+```
+:::
+
+## {.center}
+
+::: hand
+barely anything interesting happening!
+:::
+
+## {.center}
+
+::: hand
+let's look at data from somewhere with a bit more "interesting" air quality data...
+:::
+
+## Read in multiple years of SF data {.smaller}
+
+```{r include = FALSE}
+sf_files <- fs::dir_ls(here::here("11-visualize-time-series/", "data/san-francisco"))
+```
+
+```{r eval = FALSE}
+sf_files <- fs::dir_ls(here::here("data/san-francisco"))
+```
+
+```{r message = FALSE}
+sf <- read_csv(sf_files, na = c(".", ""))
+
+sf <- sf |>
+  janitor::clean_names() |>
+  mutate(
+    date = mdy(date),
+    good_aqi = if_else(aqi_value <= 50, 1, 0)
+  ) |>
+  filter(!is.na(aqi_value)) |>
+  arrange(date) |>
+  mutate(cum_good_aqi = cumsum(good_aqi), .after = aqi_value)
+
+sf
+```
+
+## Plot trend since 2016
+
+::: panel-tabset
+### Plot
+```{r}
+#| label: sf-1
+#| echo: false
+
+sf |>
+  ggplot(aes(x = date, y = cum_good_aqi, group = 1)) +
+  geom_smooth(method = "lm", color = "pink") +
+  geom_line() +
+  scale_x_date(
+    expand = expansion(mult = 0.07),
+    date_labels = "%Y"
+    ) +
+  labs(
+    x = NULL, y = "Number of days",
+    title = "Cumulative number of good AQI days (AQI < 50)",
+    subtitle = "San Francisco-Oakland-Hayward, CA",
+    caption = "\nSource: EPA Daily Air Quality Tracker"
+  ) +
+  theme(plot.title.position = "plot")
+```
+
+### Code
+```{r}
+#| ref.label: sf-1
+#| fig-show: hide
+```
+:::
+
+## Detrend
+
+1. Fit a simple linear regression
+
+```{r}
+m_sf <- lm(cum_good_aqi ~ date, data = sf)
+```
+
+. . .
+
+2. Augment the data with model results
+
+```{r}
+sf_aug <- augment(m_sf)
+```
+
+. . .
+
+3. Divide the observed value of `cum_good_aqi` by the respective value in the long-term trend (i.e., `.fitted`)
+
+```{r}
+sf_aug <- sf_aug |>
+  mutate(ratio = cum_good_aqi / .fitted, .after = .fitted)
+```
+
+## Visualize detrended data
+
+::: panel-tabset
+### Plot
+```{r}
+#| label: sf-2
+#| echo: false
+
+sf_aug |>
+  ggplot(aes(x = date, y = ratio, group = 1)) +
+  geom_hline(yintercept = 1, color = "gray") +
+  geom_line() +
+  scale_x_date(
+    expand = expansion(mult = 0.07),
+    date_labels = "%Y"
+    ) +
+  labs(
+    x = NULL, y = "Number of days (detrended)",
+    title = "Cumulative number of good AQI days (AQI < 50)",
+    subtitle = "San Francisco-Oakland-Hayward, CA",
+    caption = "\nSource: EPA Daily Air Quality Tracker"
+  ) +
+  theme(plot.title.position = "plot")
+```
+
+### Code
+```{r}
+#| ref.label: sf-2
+#| fig-show: hide
+```
+:::
+
+## Detrending
+
+- In step 2 we fit a very simple model
+
+- Depending on the complexity you're trying to capture you might choose to fit a much more complex model
+
+- You can also decompose the trend into multiple trends, e.g. monthly, long-term, seasonal, etc.
+
+::: aside
+Interested in learning more? Take STA 344 - Spatio-temporal analysis!
+:::
