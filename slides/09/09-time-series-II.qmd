@@ -1,6 +1,6 @@
 ---
-title: Visualizing time series data
-subtitle: Lecture 8
+title: Visualizing time series data II
+subtitle: Lecture 9
 title-slide-attributes:
   data-background-image: ../vizdata-bg.png
   data-background-size: stretch
@@ -18,11 +18,7 @@ editor_options:
 
 ## Announcements
 
--   Project 1 proposal due Friday, 5pm
-
--   RQ 3 due Tuesday by class, covers everything since last reading quiz
-
--   Project 1 presentations -- Feb 22 in lab, all team members must be there
+-   ...
 
 ## Setup {.smaller}
 
@@ -57,23 +53,6 @@ knitr::opts_chunk$set(
 
 # Working with dates
 
-## Air Quality Index
-
--   The AQI is the Environmental Protection Agency's index for reporting air quality
-
--   Higher values of AQI indicate worse air quality
-
-```{r}
-#| echo: false
-#| fig-alt: AQI Basics for Ozone and Particle Pollution
-#| out-width: "100%"
-knitr::include_graphics("images/aqi-levels.png")
-```
-
-::: aside
-Source: https://www.airnow.gov/aqi-basics
-:::
-
 ## AQI levels
 
 The previous graphic in tibble form, to be used later...
@@ -100,102 +79,6 @@ aqi_levels <- tribble(
 
 ## 2022 Durham-Chapel Hill
 
--   Load data
-
-```{r}
-#| include: false
-
-dch_2022 <- read_csv(here::here("slides/08/", "data/durham-chapel-hill/ad_aqi_tracker_data-2022.csv"))
-```
-
-```{r}
-#| eval: false
-
-dch_2022 <- read_csv(here::here("data/durham-chapel-hill/ad_aqi_tracker_data-2022.csv"))
-```
-
-. . .
-
--   Metadata
-
-```{r}
-dim(dch_2022)
-names(dch_2022)
-```
-
-## Clean variable names
-
-```{r}
-dch_2022 <- dch_2022 |>
-  janitor::clean_names()
-
-names(dch_2022)
-```
-
-## First look
-
-::: task
-This plot looks quite bizarre. What might be going on?
-:::
-
-```{r}
-ggplot(dch_2022, aes(x = date, y = aqi_value, group = 1)) +
-  geom_line()
-```
-
-## Peek at data
-
-```{r}
-dch_2022 |>
-  select(date, aqi_value, site_name, site_id)
-```
-
-## Transforming date
-
-Using `lubridate::mdy()`:
-
-```{r}
-dch_2022 |>
-  mutate(date = mdy(date))
-```
-
-## Transforming AQI values
-
-::: task
-What does this warning mean?
-:::
-
-```{r}
-#| include: false
-
-options(dplyr.print_min = 3, dplyr.print_max = 3)
-```
-
-```{r}
-dch_2022 |>
-  mutate(aqi_value = as.numeric(aqi_value))
-```
-
-```{r}
-#| include: false
-
-options(dplyr.print_min = 10, dplyr.print_max = 10)
-```
-
-## Investigating AQI values
-
--   Take a peek at distinct values of AQI
-
-```{r}
-dch_2022 |>
-  distinct(aqi_value) |>
-  pull()
-```
-
--   `"."` likely indicates `NA`, and it's causing the entire column to be read in as characters
-
-## Rewind, and start over
-
 ```{r}
 #| include: false
 
@@ -215,43 +98,12 @@ dch_2022 <- read_csv(
 ```
 
 ```{r}
-glimpse(dch_2022)
-```
-
-## Data cleaning
-
-```{r}
 dch_2022 <- dch_2022 |>
   janitor::clean_names() |>
   mutate(date = mdy(date))
 
 dch_2022
 ```
-
-## Another look
-
-```{r}
-#| label: dch-2022-1
-#| fig-asp: 0.5
-
-ggplot(dch_2022, aes(x = date, y = aqi_value, group = 1)) +
-  geom_line()
-```
-
-::: task
-How would you improve this visualization?
-:::
-
-::: panel-tabset
-### Plot
-
-```{r ref.label = "dch-2022-1", echo = FALSE}
-```
-
-### Discuss
-
-TO DO: Add Slido
-:::
 
 ## Visualizing Durham AQI
 
@@ -308,6 +160,8 @@ dch_2022 |>
   )
 ```
 
+<!-- 
+
 ## Livecoding {.smaller}
 
 Reveal below for code developed during live coding session.
@@ -317,6 +171,8 @@ Reveal below for code developed during live coding session.
 #| fig-show: hide
 #| code-fold: true
 ```
+
+-->
 
 ## Another visualization of Durham AQI
 
@@ -362,6 +218,8 @@ dch_2022 |>
   )
 ```
 
+<!-- 
+
 ## Livecoding {.smaller}
 
 Reveal below for code developed during live coding session.
@@ -371,6 +229,8 @@ Reveal below for code developed during live coding session.
 #| fig-show: hide
 #| code-fold: true
 ```
+
+-->
 
 ## Highlights
 

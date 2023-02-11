@@ -1,0 +1,317 @@
+---
+title: Visualizing time series data I
+subtitle: Lecture 8
+title-slide-attributes:
+  data-background-image: ../vizdata-bg.png
+  data-background-size: stretch
+  data-slide-number: none
+format: revealjs
+highlight-style: a11y
+execute:
+  code-link: true
+  warning: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# Warm up
+
+## Announcements
+
+-   Project 1 proposal due Friday, 5pm
+
+-   RQ 3 due Tuesday by class, covers everything since last reading quiz
+
+-   Project 1 presentations -- Feb 22 in lab, all team members must be there
+
+## Setup {.smaller}
+
+```{r}
+#| label: setup
+#| message: false
+
+# load packages
+library(countdown)
+library(tidyverse)
+library(lubridate)
+library(janitor)
+library(colorspace)
+library(broom)
+library(fs)
+
+# set theme for ggplot2
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14))
+
+# set width of code output
+options(width = 65)
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 7, # 7" width
+  fig.asp = 0.618, # the golden ratio
+  fig.retina = 3, # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300 # higher dpi, sharper image
+)
+```
+
+# Working with dates
+
+## Air Quality Index
+
+-   The AQI is the Environmental Protection Agency's index for reporting air quality
+
+-   Higher values of AQI indicate worse air quality
+
+```{r}
+#| echo: false
+#| fig-alt: AQI Basics for Ozone and Particle Pollution
+#| out-width: "100%"
+knitr::include_graphics("images/aqi-levels.png")
+```
+
+::: aside
+Source: https://www.airnow.gov/aqi-basics
+:::
+
+## AQI levels
+
+The previous graphic in tibble form, to be used later...
+
+```{r}
+aqi_levels <- tribble(
+  ~aqi_min, ~aqi_max, ~color,    ~level,
+  0,        50,       "#D8EEDA", "Good",
+  51,       100,      "#F1E7D4", "Moderate",
+  101,      150,      "#F8E4D8", "Unhealthy for sensitive groups",
+  151,      200,      "#FEE2E1", "Unhealthy",
+  201,      300,      "#F4E3F7", "Very unhealthy",
+  301,      400,      "#F9D0D4", "Hazardous"
+)
+```
+
+## AQI data
+
+-   Source: [EPA's Daily Air Quality Tracker](https://www.epa.gov/outdoor-air-quality-data/air-data-daily-air-quality-tracker)
+
+-   2016 - 2022 AQI (Ozone and PM2.5 combined) for Durham-Chapel Hill, NC core-based statistical area (CBSA), one file per year
+
+-   2016 - 2022 AQI (Ozone and PM2.5 combined) for San Francisco-Oakland-Hayward, CA CBSA, one file per year
+
+## 2022 Durham-Chapel Hill
+
+-   Load data
+
+```{r}
+#| include: false
+
+dch_2022 <- read_csv(here::here("slides/08/", "data/durham-chapel-hill/ad_aqi_tracker_data-2022.csv"))
+```
+
+```{r}
+#| eval: false
+
+dch_2022 <- read_csv(here::here("data/durham-chapel-hill/ad_aqi_tracker_data-2022.csv"))
+```
+
+. . .
+
+-   Metadata
+
+```{r}
+dim(dch_2022)
+names(dch_2022)
+```
+
+## Clean variable names
+
+```{r}
+dch_2022 <- dch_2022 |>
+  janitor::clean_names()
+
+names(dch_2022)
+```
+
+## First look
+
+::: task
+This plot looks quite bizarre. What might be going on?
+:::
+
+```{r}
+ggplot(dch_2022, aes(x = date, y = aqi_value, group = 1)) +
+  geom_line()
+```
+
+## Peek at data
+
+```{r}
+dch_2022 |>
+  select(date, aqi_value, site_name, site_id)
+```
+
+## Transforming date
+
+Using `lubridate::mdy()`:
+
+```{r}
+dch_2022 |>
+  mutate(date = mdy(date))
+```
+
+## Transforming AQI values
+
+::: task
+What does this warning mean?
+:::
+
+```{r}
+#| include: false
+
+options(dplyr.print_min = 3, dplyr.print_max = 3)
+```
+
+```{r}
+dch_2022 |>
+  mutate(aqi_value = as.numeric(aqi_value))
+```
+
+```{r}
+#| include: false
+
+options(dplyr.print_min = 10, dplyr.print_max = 10)
+```
+
+## Investigating AQI values
+
+-   Take a peek at distinct values of AQI
+
+```{r}
+dch_2022 |>
+  distinct(aqi_value) |>
+  pull()
+```
+
+-   `"."` likely indicates `NA`, and it's causing the entire column to be read in as characters
+
+## Rewind, and start over
+
+```{r}
+#| include: false
+
+dch_2022 <- read_csv(
+  here::here("slides/08/", "data/durham-chapel-hill/ad_aqi_tracker_data-2022.csv"),
+  na = c(".", "")
+)
+```
+
+```{r}
+#| eval: false
+
+dch_2022 <- read_csv(
+  here::here("data/durham-chapel-hill/ad_aqi_tracker_data-2022.csv"),
+  na = c(".", "")
+)
+```
+
+```{r}
+glimpse(dch_2022)
+```
+
+## Data cleaning
+
+```{r}
+dch_2022 <- dch_2022 |>
+  janitor::clean_names() |>
+  mutate(date = mdy(date))
+
+dch_2022
+```
+
+## Another look
+
+```{r}
+#| label: dch-2022-1
+#| fig-asp: 0.5
+
+ggplot(dch_2022, aes(x = date, y = aqi_value, group = 1)) +
+  geom_line()
+```
+
+::: task
+How would you improve this visualization?
+:::
+
+```{r ref.label = "dch-2022-1", echo = FALSE}
+```
+
+## Visualizing Durham AQI
+
+::: task
+Recreate the following visualization.
+:::
+
+```{r}
+#| label: dch-2022-2
+#| echo: false
+
+aqi_levels <- aqi_levels |>
+  mutate(aqi_mid = ((aqi_min + aqi_max) / 2))
+
+dch_2022 |>
+  filter(!is.na(aqi_value)) |>
+  ggplot(aes(x = date, y = aqi_value, group = 1)) +
+  geom_rect(
+    data = aqi_levels,
+    aes(
+      ymin = aqi_min, ymax = aqi_max,
+      xmin = as.Date(-Inf), xmax = as.Date(Inf),
+      fill = color, y = NULL, x = NULL
+    )
+  ) +
+  geom_line(linewidth = 1) +
+  scale_fill_identity() +
+  scale_x_date(
+    name = NULL, date_labels = "%b",
+    limits = c(ymd("2022-01-01"), ymd("2023-03-01"))
+  ) +
+  geom_text(
+    data = aqi_levels,
+    aes(x = ymd("2023-02-28"), y = aqi_mid, label = level),
+    hjust = 1, size = 6, fontface = "bold", color = "white"
+  ) +
+  annotate(
+    geom = "text",
+    x = c(ymd("2022-01-01"), ymd("2023-03-01")), y = -100,
+    label = c("2022", "2023"), size = 4
+  ) +
+  coord_cartesian(clip = "off", ylim = c(0, 400)) +
+  labs(
+    x = NULL, y = "AQI",
+    title = "Ozone and PM2.5 Daily AQI Values",
+    subtitle = "Durham-Chapel Hill, NC",
+    caption = "\nSource: EPA Daily Air Quality Tracker"
+  ) +
+  theme(
+    plot.title.position = "plot",
+    panel.grid.minor.y = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    plot.margin = unit(c(1, 1, 3, 1), "lines")
+  )
+```
+
+````{=html}
+<!--
+
+## Livecoding {.smaller}
+
+Reveal below for code developed during live coding session.
+
+```{r}
+#| ref.label: dch-2022-2
+#| fig-show: hide
+#| code-fold: true
+```
+
+-->
+````
