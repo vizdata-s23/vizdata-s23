@@ -18,7 +18,22 @@ editor_options:
 
 ## Announcements
 
--   ...
+-   Don't forget to watch the videos for Thursday's lecture
+
+## Project next steps I {.smaller}
+
+- Proposal feedback is available.
+  - Required: Address all issues and close them with keywords.
+  - Optional: Submit for regrade, by replying to the "Proposal feedback" issue and tagging me in your reply. Due 5pm tomorrow (Wednesday). Final proposal score will be average of original and updated score.
+
+- Within team peer evaluations due today at 5pm, so that we can share them with you before lab tomorrow. Please take 5 minutes to complete the survey (from TEAMMATES).
+
+## Project next steps II {.smaller}
+
+- Create a slide deck in `presentation.qmd`, replacing the placeholder text.
+- Add your writeup to `index.qmd`, replacing the placeholder text.
+- In both outputs, hide the code with `echo: false` prior to turning them in.
+- Due: Wednesday, February 22 at the beginning of your lab.
 
 ## Setup {.smaller}
 
@@ -77,7 +92,13 @@ aqi_levels <- tribble(
 
 -   2016 - 2022 AQI (Ozone and PM2.5 combined) for San Francisco-Oakland-Hayward, CA CBSA, one file per year
 
-## 2022 Durham-Chapel Hill
+## 2022 Durham-Chapel Hill {.smaller}
+
+```{r}
+#| include: false
+
+options(dplyr.print_min = 3, dplyr.print_max = 3)
+```
 
 ```{r}
 #| include: false
@@ -103,6 +124,12 @@ dch_2022 <- dch_2022 |>
   mutate(date = mdy(date))
 
 dch_2022
+```
+
+```{r}
+#| include: false
+
+options(dplyr.print_min = 3, dplyr.print_max = 3)
 ```
 
 ## Visualizing Durham AQI
