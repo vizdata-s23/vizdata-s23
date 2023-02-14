@@ -22,18 +22,49 @@ editor_options:
 
 ## Project next steps I {.smaller}
 
-- Proposal feedback is available.
-  - Required: Address all issues and close them with keywords.
-  - Optional: Submit for regrade, by replying to the "Proposal feedback" issue and tagging me in your reply. Due 5pm tomorrow (Wednesday). Final proposal score will be average of original and updated score.
-
-- Within team peer evaluations due today at 5pm, so that we can share them with you before lab tomorrow. Please take 5 minutes to complete the survey (from TEAMMATES).
+-   Proposal feedback is available.
+    -   Required: Address all issues and close them with keywords.
+    -   Optional: Submit for regrade, by replying to the "Proposal feedback" issue and tagging me in your reply. Due 5pm tomorrow (Wednesday). Final proposal score will be average of original and updated score.
+-   Within team peer evaluations due today at 5pm, so that we can share them with you before lab tomorrow. Please take 5 minutes to complete the survey (from TEAMMATES).
 
 ## Project next steps II {.smaller}
 
-- Create a slide deck in `presentation.qmd`, replacing the placeholder text.
-- Add your writeup to `index.qmd`, replacing the placeholder text.
-- In both outputs, hide the code with `echo: false` prior to turning them in.
-- Due: Wednesday, February 22 at the beginning of your lab.
+If you haven't yet done so, schedule meetings with your project mentor TA:
+
+::: columns
+::: {.column width="50%"}
+| Team                | TA      |
+|---------------------|---------|
+| the_tibbles         | Lorenzo |
+| stats_fm            | Lorenzo |
+| phans_of_statistics | Lorenzo |
+| skaz                | Lorenzo |
+| messi               | Lorenzo |
+| team_six            | Lorenzo |
+| cia                 | Jackie  |
+| blue_team           | Jackie  |
+:::
+
+::: {.column width="50%"}
+| Team                       | TA     |
+|----------------------------|--------|
+| pipe_it_up                 | Jackie |
+| co_medians                 | Jackie |
+| viz_villians               | Jackie |
+| o_ggs                      | Jackie |
+| visualization_warriors     | Sam    |
+| ggplot_lessthan_3          | Sam    |
+| marvel_cinematic_tidyverse | Sam    |
+| rgodz                      | Sam    |
+:::
+:::
+
+## Project next steps III {.smaller}
+
+-   Create a slide deck in `presentation.qmd`, replacing the placeholder text.
+-   Add your writeup to `index.qmd`, replacing the placeholder text.
+-   In both outputs, hide the code with `echo: false` prior to turning them in.
+-   Due: Wednesday, February 22 at the beginning of your lab.
 
 ## Setup {.smaller}
 
@@ -187,6 +218,7 @@ dch_2022 |>
   )
 ```
 
+````{=html}
 <!-- 
 
 ## Livecoding {.smaller}
@@ -200,6 +232,7 @@ Reveal below for code developed during live coding session.
 ```
 
 -->
+````
 
 ## Another visualization of Durham AQI
 
@@ -245,6 +278,7 @@ dch_2022 |>
   )
 ```
 
+````{=html}
 <!-- 
 
 ## Livecoding {.smaller}
@@ -258,6 +292,7 @@ Reveal below for code developed during live coding session.
 ```
 
 -->
+````
 
 ## Highlights
 
