@@ -1,0 +1,348 @@
+---
+title: Themes, axes, annotations
+subtitle: Lecture 10
+title-slide-attributes:
+  data-background-image: ../vizdata-bg.png
+  data-background-size: stretch
+  data-slide-number: none
+format: revealjs
+highlight-style: a11y
+execute:
+  code-link: true
+  warning: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# Warm up
+
+## Announcements
+
+-   ...
+
+## Setup {.smaller}
+
+```{r}
+#| label: setup
+#| message: false
+
+# load packages
+library(countdown)
+library(tidyverse)
+library(palmerpenguins)
+library(fs)
+library(lubridate)
+library(scales)
+library(openintro)
+library(colorspace)
+
+# set theme for ggplot2
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14))
+
+# set width of code output
+options(width = 65)
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 7, # 7" width
+  fig.asp = 0.618, # the golden ratio
+  fig.retina = 3, # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300 # higher dpi, sharper image
+)
+```
+
+# Themes
+
+## Complete themes {.smaller}
+
+```{r}
+#| message: false
+#| warning: false
+#| layout-ncol: 3
+
+p <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point()
+
+p + theme_gray() + labs(title = "Gray")
+p + theme_void() + labs(title = "Void")
+p + theme_dark() + labs(title = "Dark")
+```
+
+## Themes from ggthemes {.smaller}
+
+```{r}
+#| message: false
+#| warning: false
+#| layout-ncol: 3
+
+library(ggthemes)
+
+p + theme_fivethirtyeight() + labs(title = "FiveThirtyEight")
+p + theme_economist() + labs(title = "Economist")
+p + theme_wsj() + labs(title = "Wall Street Journal")
+```
+
+## Themes and color scales from ggthemes
+
+```{r}
+#| message: false
+#| warning: false
+
+p + 
+  aes(color = species) +
+  scale_color_wsj() +
+  theme_wsj() + 
+  labs(title = "Wall Street Journal")
+```
+
+## Modifying theme elements
+
+```{r}
+#| message: false
+#| warning: false
+#| fig-asp: 0.5
+
+p + 
+  labs(title = "Palmer penguins") +
+  theme(
+    plot.title = element_text(color = "red", face = "bold", family = "Comic Sans MS"),
+    plot.background = element_rect(color = "red", fill = "mistyrose")
+  )
+```
+
+# Axes
+
+## Axis breaks
+
+::: task
+How can the following figure be improved with custom breaks in axes, if at all?
+:::
+
+```{r}
+#| echo: false
+#| message: false
+
+# get a list of files with "Foreign Connected PAC" in their names
+list_of_files <- dir_ls(path = here::here("slides/10/data"), regexp = "Foreign Connected PAC")
+
+# read all files and row bind them
+# keeping track of the file name in a new column called year
+pac <- read_csv(list_of_files, id = "year")
+
+pac <- pac |>
+  janitor::clean_names() |>
+  mutate(
+    year = str_remove(year, "/Users/mine/Desktop/Teaching/Duke/sta313-s23/vizdata-s23/slides/10/data/Foreign Connected PACs, "),
+    year = str_remove(year, ".csv")
+  ) |>
+  separate(year, into = c("year_discard", "year"), convert = TRUE) |>
+  separate(country_of_origin_parent_company, into = c("country_of_origin", "parent_company"), sep = "\\/", extra = "merge") |>
+  select(-year_discard, -total) |>
+  mutate(
+    dems = str_remove(dems, "\\$"),
+    repubs = str_remove(repubs, "\\$"),
+    dems = as.numeric(dems),
+    repubs = as.numeric(repubs)
+  )
+
+pac_longer <- pac |>
+  pivot_longer(
+    cols = c(dems, repubs),
+    names_to = "party",
+    values_to = "amount"
+  ) |>
+  mutate(party = if_else(party == "dems", "Democrat", "Republican"))
+
+country_yearly_totals <- pac_longer |>
+  filter(country_of_origin == "UK") |>
+  group_by(year, party) |>
+  summarise(total_amount = sum(amount), .groups = "drop")
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-asp: 0.5
+
+pac_plot <- ggplot(country_yearly_totals, aes(x = year, y = total_amount, color = party)) +
+  geom_line(linewidth = 1) +
+  scale_color_manual(values = c("blue", "red")) +
+  scale_y_continuous(labels = label_dollar(scale = 1/1000000, suffix = "M")) +
+  labs(
+    x = "Year",
+    y = "Total amount",
+    color = "Party",
+    title = "Contributions to US political parties from UK-connected PACs",
+    caption = "Source: OpenSecrets.org"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = c(0.9, 0.15),
+    axis.title.x = element_text(hjust = 0),
+    axis.title.y = element_text(hjust = 0)
+  )
+
+pac_plot
+```
+
+## Context matters
+
+```{r}
+#| message: false
+#| warning: false
+#| fig-asp: 0.5
+#| code-line-numbers: "2"
+
+pac_plot +
+  scale_x_continuous(breaks = seq(from = 2000, to = 2022, by = 2))
+```
+
+## Conciseness matters
+
+```{r}
+#| message: false
+#| warning: false
+#| fig-asp: 0.5
+#| code-line-numbers: "2"
+
+pac_plot +
+  scale_x_continuous(breaks = seq(2000, 2022, 4))
+```
+
+## Precision matters
+
+```{r}
+#| message: false
+#| warning: false
+#| fig-asp: 0.5
+#| code-line-numbers: "3"
+
+pac_plot +
+  scale_x_continuous(breaks = seq(2000, 2022, 4)) +
+  labs(x = "Election year")
+```
+
+# Annotation
+
+## `geom_text()`
+
+Can be useful when individual observations are identifiable, but can also get overwhelming...
+
+::: task
+How would you improve this visualization?
+:::
+
+::: panel-tabset
+## Plots
+
+::: columns
+::: {.column width="50%"}
+```{r}
+ggplot(state_stats, aes(x = homeownership, y = pop2010)) + 
+  geom_point()
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+ggplot(state_stats, aes(x = homeownership, y = pop2010)) + 
+  geom_text(aes(label = abbr))
+```
+:::
+:::
+
+## Discuss
+
+TO DO: Add Slido.
+:::
+
+## Another visualization of Durham AQI
+
+::: task
+Recreate the following visualization.
+:::
+
+```{r}
+#| label: dch-2022-3-data-prep
+#| echo: false
+#| message: false
+
+aqi_levels <- tribble(
+  ~aqi_min, ~aqi_max, ~color,    ~level,
+  0,        50,       "#D8EEDA", "Good",
+  51,       100,      "#F1E7D4", "Moderate",
+  101,      150,      "#F8E4D8", "Unhealthy for sensitive groups",
+  151,      200,      "#FEE2E1", "Unhealthy",
+  201,      300,      "#F4E3F7", "Very unhealthy",
+  301,      400,      "#F9D0D4", "Hazardous"
+) |>
+  mutate(aqi_mid = ((aqi_min + aqi_max) / 2))
+
+dch_2022 <- read_csv(
+  here::here("slides/10/", "data/durham-chapel-hill/ad_aqi_tracker_data-2022.csv"),
+  na = c(".", "")
+) |>
+  janitor::clean_names() |>
+  mutate(date = mdy(date))
+```
+
+```{r}
+#| label: dch-2022-3-data-viz
+#| echo: false
+
+dch_2022 |>
+  filter(!is.na(aqi_value)) |>
+  ggplot(aes(x = date, y = aqi_value, group = 1)) +
+  geom_line(linewidth = 1) +
+  scale_x_date(
+    name = NULL, date_labels = "%b",
+    limits = c(ymd("2022-01-01"), ymd("2023-03-01"))
+  ) +
+  scale_y_continuous(breaks = c(0, 50, 100, 150, 200, 300, 400)) +
+  geom_text(
+    data = aqi_levels,
+    aes(x = ymd("2023-02-28"), y = aqi_mid, label = level, color = darken(color, 0.3)),
+    hjust = 1, size = 6, fontface = "bold"
+  ) +
+  scale_color_identity() +
+  annotate(
+    geom = "text",
+    x = c(ymd("2022-01-01"), ymd("2023-03-01")), y = -80,
+    label = c("2022", "2023"), size = 4
+  ) +
+  coord_cartesian(clip = "off", ylim = c(0, 400)) +
+  labs(
+    x = NULL, y = "AQI",
+    title = "Ozone and PM2.5 Daily AQI Values",
+    subtitle = "Durham-Chapel Hill, NC",
+    caption = "\nSource: EPA Daily Air Quality Tracker"
+  ) +
+  theme(
+    plot.title.position = "plot",
+    panel.grid.minor.y = element_blank(),
+    panel.grid.minor.x = element_blank()
+  )
+```
+
+## Livecoding {.smaller}
+
+Reveal below for code developed during live coding session.
+
+-   Prep
+
+```{r}
+#| ref.label: dch-2022-3-data-prep
+#| fig-show: hide
+#| code-fold: true
+#| message: false
+```
+
+-   Plot
+
+```{r}
+#| ref.label: dch-2022-3-data-viz
+#| fig-show: hide
+#| code-fold: true
+```

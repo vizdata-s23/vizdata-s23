@@ -218,9 +218,6 @@ dch_2022 |>
   )
 ```
 
-````{=html}
-<!-- 
-
 ## Livecoding {.smaller}
 
 Reveal below for code developed during live coding session.
@@ -230,9 +227,6 @@ Reveal below for code developed during live coding session.
 #| fig-show: hide
 #| code-fold: true
 ```
-
--->
-````
 
 ## Another visualization of Durham AQI
 

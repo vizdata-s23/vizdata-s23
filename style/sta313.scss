@@ -4,7 +4,7 @@
 
 $font-family: "Atkinson Hyperlegible", sans-serif;
 $link-color: #866fa3;
-$hover-color: darken($link-color, 40%);
+$hover-color: lighten($link-color, 40%);
 
 /*-- scss:rules --*/
 

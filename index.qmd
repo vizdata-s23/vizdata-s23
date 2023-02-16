@@ -21,8 +21,6 @@ gs4_deauth()
 d <- read_sheet("https://docs.google.com/spreadsheets/d/1Qj2rcIqFGwOosr9Yiyo-MaeFSZ7KOYNn8Ph1kebgDuY/edit?usp=sharing")
 ```
 
-<div>
-
 ```{r}
 #| echo: false
 
@@ -59,14 +57,14 @@ d |>
     columns = c(topic, prepare, due)
   ) |>
   cols_width(
-    week ~ px(40),
-    date ~ px(100), 
-    due ~ px(100),
-    topic ~ px(300)
+    week ~ px(30),
+    date ~ px(200), 
+    due ~ px(150),
+    topic ~ px(400),
+    topic ~ px(300),
+    due ~ px(200)
   ) |>
   cols_label(
     what = ""
   )
 ```
-
-</div>
