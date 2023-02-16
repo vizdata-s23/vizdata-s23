@@ -18,7 +18,8 @@ editor_options:
 
 ## Announcements
 
--   ...
+-   My office hours next week - Tuesday 8-9pm
+- Proposal regrades pending, but you can keep working
 
 ## Setup {.smaller}
 
@@ -35,6 +36,7 @@ library(lubridate)
 library(scales)
 library(openintro)
 library(colorspace)
+library(glue)
 
 # set theme for ggplot2
 ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14))
@@ -95,6 +97,14 @@ p +
   theme_wsj() + 
   labs(title = "Wall Street Journal")
 ```
+
+## Duke theme!
+
+::: callout-warning
+This package is a work in progress. Feedback and issues welcome! See <https://aidangildea.github.io/duke/> for more info.
+:::
+
+![](images/aidan-gildea-duke.png){fig-align="center" width="601"}
 
 ## Modifying theme elements
 
@@ -226,16 +236,33 @@ pac_plot +
 
 # Annotation
 
-## `geom_text()`
+## Why annotate?
+
+![](images/stocks.png)
+
+::: aside
+<https://bl.ocks.org/susielu/23dc3082669ee026c552b85081d90976>
+:::
+
+## Video recap
+
+::: task
+Discuss the main take aways from each of the videos assigned for today with your neighbor. Add one takeaway per video to the Slack thread.
+:::
+
+```{r}
+#| echo: false
+
+countdown(minutes = 3)
+```
+
+## `geom_text()` {.smaller}
 
 Can be useful when individual observations are identifiable, but can also get overwhelming...
 
 ::: task
-How would you improve this visualization?
+How would you improve this visualization? Discuss with your neighbor and add your ideas to the Slack thread.
 :::
-
-::: panel-tabset
-## Plots
 
 ::: columns
 ::: {.column width="50%"}
@@ -253,15 +280,22 @@ ggplot(state_stats, aes(x = homeownership, y = pop2010)) +
 :::
 :::
 
-## Discuss
+```{r}
+#| echo: false
 
-TO DO: Add Slido.
-:::
+countdown(minutes = 3)
+```
 
-## Another visualization of Durham AQI
+## Now go ahead and improve it!
 
 ::: task
-Recreate the following visualization.
+Open `ae-09` and implement the improvements you came up with in Part 1.
+:::
+
+## Revisit Durham AQI
+
+::: task
+Recreate the following visualization, in Part 2 of `ae-09`. This picks up where you left off in `ae-08`.
 :::
 
 ```{r}
@@ -309,7 +343,7 @@ dch_2022 |>
   scale_color_identity() +
   annotate(
     geom = "text",
-    x = c(ymd("2022-01-01"), ymd("2023-03-01")), y = -80,
+    x = c(ymd("2022-01-01"), ymd("2023-01-01")), y = -80,
     label = c("2022", "2023"), size = 4
   ) +
   coord_cartesian(clip = "off", ylim = c(0, 400)) +
@@ -325,6 +359,9 @@ dch_2022 |>
     panel.grid.minor.x = element_blank()
   )
 ```
+
+````{=html}
+<!--
 
 ## Livecoding {.smaller}
 
@@ -346,3 +383,177 @@ Reveal below for code developed during live coding session.
 #| fig-show: hide
 #| code-fold: true
 ```
+
+-->
+````
+
+## All of the data doesn't tell a story
+
+## 
+
+![](images/recession-1.png){fig-align="center" width="1001"}
+
+::: aside
+[How the Recession Reshaped the Economy, in 255 Charts](https://www.nytimes.com/interactive/2014/06/05/upshot/how-the-recession-reshaped-the-economy-in-255-charts.html), NY Times (2014)
+:::
+
+## 
+
+![](images/recession-2.png){fig-align="center" width="1001"}
+
+::: aside
+[How the Recession Reshaped the Economy, in 255 Charts](https://www.nytimes.com/interactive/2014/06/05/upshot/how-the-recession-reshaped-the-economy-in-255-charts.html), NY Times (2014)
+:::
+
+## 
+
+![](images/recession-3.png){fig-align="center" width="1001"}
+
+::: aside
+[How the Recession Reshaped the Economy, in 255 Charts](https://www.nytimes.com/interactive/2014/06/05/upshot/how-the-recession-reshaped-the-economy-in-255-charts.html), NY Times (2014)
+:::
+
+## Highlighting in ggplot2
+
+We have (at least) two options:
+
+1.  Native ggplot2 -- use layers
+
+2.  gghighlight: <https://yutannihilation.github.io/gghighlight/articles/gghighlight.html>
+
+## Data: SF AQI {.smaller}
+
+```{r}
+#| include: false
+sf_files <- fs::dir_ls(here::here("slides/10/", "data/san-francisco"))
+```
+
+```{r}
+#| eval: false
+
+sf_files <- fs::dir_ls(here::here("data/san-francisco"))
+```
+
+```{r}
+#| message: false
+
+sf <- read_csv(sf_files, na = c(".", ""))
+
+sf <- sf |>
+  janitor::clean_names() |>
+  mutate(date = mdy(date)) |>
+  arrange(date) |>
+  select(date, aqi_value)
+
+sf
+```
+
+## Data prep {.smaller}
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| code-line-numbers: "|3|4"
+sf <- sf |>
+  mutate(
+    year = year(date),
+    day_of_year = yday(date)
+  )
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+# check
+sf |>
+  filter(day_of_year < 3)
+```
+:::
+:::
+
+## Plot AQI over years
+
+```{r}
+ggplot(sf, aes(x = day_of_year, y = aqi_value, group = year)) +
+  geom_line()
+```
+
+## Plot AQI over years
+
+```{r}
+ggplot(sf, aes(x = day_of_year, y = aqi_value, group = year, color = year)) +
+  geom_line()
+```
+
+## Plot AQI over years
+
+```{r}
+ggplot(sf, aes(x = day_of_year, y = aqi_value, group = year, color = factor(year))) +
+  geom_line()
+```
+
+## Highlight 2016 {.smaller}
+
+```{r}
+#| code-line-numbers: "|3"
+
+ggplot(sf, aes(x = day_of_year, y = aqi_value, group = year)) +
+  geom_line(color = "gray") +
+  geom_line(data = sf |> filter(year == 2016), color = "red") +
+  labs(
+    title = "AQI levels in SF in 2016",
+    subtitle = "Versus all years 2016 - 2022",
+    x = "Day of year", y = "AQI value"
+    )
+```
+
+## Highlight 2017 {.smaller}
+
+```{r}
+ggplot(sf, aes(x = day_of_year, y = aqi_value, group = year)) +
+  geom_line(color = "gray") +
+  geom_line(data = sf |> filter(year == 2017), color = "red") +
+  labs(
+    title = "AQI levels in SF in 2017",
+    subtitle = "Versus all years 2016 - 2022",
+    x = "Day of year", y = "AQI value"
+    )
+```
+
+## Highlight 2018 {.smaller}
+
+```{r}
+ggplot(sf, aes(x = day_of_year, y = aqi_value, group = year)) +
+  geom_line(color = "gray") +
+  geom_line(data = sf |> filter(year == 2018), color = "red") +
+  labs(
+    title = "AQI levels in SF in 2018",
+    subtitle = "Versus all years 2016 - 2022",
+    x = "Day of year", y = "AQI value"
+    )
+```
+
+## Highlight any year {.smaller}
+
+```{r}
+#| code-line-numbers: "|1|5|7"
+
+year_to_highlight <- 2018
+
+ggplot(sf, aes(x = day_of_year, y = aqi_value, group = year)) +
+  geom_line(color = "gray") +
+  geom_line(data = sf |> filter(year == year_to_highlight), color = "red") +
+  labs(
+    title = glue("AQI levels in SF in {year_to_highlight}"),
+    subtitle = "Versus all years 2016 - 2022",
+    x = "Day of year", y = "AQI value"
+    )
+```
+
+## Highlight with gghighlight
+
+Time permitting!
+
+::: task
+Highlight years using **gghighlight** instead in Part 3 of `ae-09`.
+:::
