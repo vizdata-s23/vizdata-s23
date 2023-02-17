@@ -19,7 +19,7 @@ editor_options:
 ## Announcements
 
 -   My office hours next week - Tuesday 8-9pm
-- Proposal regrades pending, but you can keep working
+-   Proposal regrades pending, but you can keep working
 
 ## Setup {.smaller}
 
@@ -389,9 +389,7 @@ Reveal below for code developed during live coding session.
 
 ## All of the data doesn't tell a story
 
-## 
-
-![](images/recession-1.png){fig-align="center" width="1001"}
+![](images/recession-1.png){fig-align="center" width="900"}
 
 ::: aside
 [How the Recession Reshaped the Economy, in 255 Charts](https://www.nytimes.com/interactive/2014/06/05/upshot/how-the-recession-reshaped-the-economy-in-255-charts.html), NY Times (2014)
@@ -399,7 +397,7 @@ Reveal below for code developed during live coding session.
 
 ## 
 
-![](images/recession-2.png){fig-align="center" width="1001"}
+![](images/recession-2.png){fig-align="center" width="900"}
 
 ::: aside
 [How the Recession Reshaped the Economy, in 255 Charts](https://www.nytimes.com/interactive/2014/06/05/upshot/how-the-recession-reshaped-the-economy-in-255-charts.html), NY Times (2014)
@@ -407,7 +405,7 @@ Reveal below for code developed during live coding session.
 
 ## 
 
-![](images/recession-3.png){fig-align="center" width="1001"}
+![](images/recession-3.png){fig-align="center" width="900"}
 
 ::: aside
 [How the Recession Reshaped the Economy, in 255 Charts](https://www.nytimes.com/interactive/2014/06/05/upshot/how-the-recession-reshaped-the-economy-in-255-charts.html), NY Times (2014)
