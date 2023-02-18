@@ -1,10 +1,9 @@
 ---
 title: "Syllabus"
+format: 
+  html: default
+  pdf: default
 ---
-
-::: {.content-visible when-format="html"}
-[**Click here**](sta313-s23-syllabus.pdf) **to download a PDF copy of the syllabus.**
-:::
 
 ## Course description
 
