@@ -5,7 +5,9 @@ title-slide-attributes:
   data-background-image: ../vizdata-bg.png
   data-background-size: stretch
   data-slide-number: none
-format: revealjs
+format: 
+  revealjs: default
+  pdf: default
 auto-stretch: false
 ---
 
@@ -210,7 +212,7 @@ It is my intent that students from all diverse backgrounds and perspectives be w
 This course is assessed 100% on your coursework (there is no exam). We will be assessing you based on the following assignments,
 
 | Assignment                 | Type       | Value | n   | Due                                        |
-|:------------|:------------|:------------|:------------|--------------------|
+|:-------------|:-------------|:-------------|:-------------|----------------|
 | Attendance + participation | Individual | 5%    |     |                                            |
 | Reading quizzes            | Individual | 10%   | 7   | \~ Every other week                        |
 | Homeworks                  | Individual | 45%   | 6   | \~ Every other week                        |
