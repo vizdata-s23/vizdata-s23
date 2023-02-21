@@ -127,11 +127,11 @@ ggplot(d, aes(y = fct_reorder(category, value), x = value)) +
 
 ## Judging relative area
 
-![](images/pie-areas.png){fig-align="center"}
+![](images/pie-areas.png){fig-align="center" width="900"}
 
 . . .
 
-![](images/bar-areas.png){fig-align="center"}
+![](images/bar-areas.png){fig-align="center" width="900"}
 
 ::: aside
 From Data to Viz caveat collection - [The issue with pie chart](https://www.data-to-viz.com/caveat/pie.html)
@@ -265,7 +265,7 @@ https://bl.ocks.org/susielu/23dc3082669ee026c552b85081d90976
 <br><br>
 
 ::: task
-Visualize the data at https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-02-21/bob_ross.csv using ggplot2.
+Visualize the data at [\[url\]](https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-02-21/bob_ross.csv) using ggplot2.
 :::
 
 ## Demo {.smaller}
