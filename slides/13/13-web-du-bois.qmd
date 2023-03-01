@@ -114,15 +114,15 @@ For each of the following visualizations: Review the plot and provide an interpr
 
 ## Proportion of Freemen and Slaves
 
-![\"Proportion of Freemen and Slaves among American Negroes\", 1900, via Library of Congress Prints and Photographs Division](images/slaves.png)
+!["Proportion of Freemen and Slaves among American Negroes", 1900, via Library of Congress Prints and Photographs Division](images/slaves.png)
 
 ## Illiteracy
 
-![\"Illiteracy\" 1900, via Library of Congress Prints and Photographs Division](images/illiteracy.png)
+!["Illiteracy" 1900, via Library of Congress Prints and Photographs Division](images/illiteracy.png)
 
 ## City and rural population
 
-![\"City and Rural Population. 1890\" 1900, via Library of Congress Prints and Photographs Division](images/city-rural.png)
+!["City and Rural Population. 1890" 1900, via Library of Congress Prints and Photographs Division](images/city-rural.png)
 
 ## Inspiration for today's activity {.smaller}
 

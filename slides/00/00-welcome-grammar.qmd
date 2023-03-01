@@ -5,9 +5,7 @@ title-slide-attributes:
   data-background-image: ../vizdata-bg.png
   data-background-size: stretch
   data-slide-number: none
-format: 
-  revealjs: default
-  pdf: default
+format: revealjs
 auto-stretch: false
 ---
 
