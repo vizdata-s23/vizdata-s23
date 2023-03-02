@@ -1,0 +1,605 @@
+---
+title: Data visualization accessibility
+subtitle: Lecture 14
+title-slide-attributes:
+  data-background-image: ../vizdata-bg.png
+  data-background-size: stretch
+  data-slide-number: none
+format: revealjs
+highlight-style: a11y
+execute:
+  code-link: true
+  warning: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# Warm up
+
+## Announcements
+
+-   HW 3 is due next Thursday
+-   Make sure to reply to "Sharing your project" issues on Project 1
+
+## Setup {.smaller}
+
+```{r}
+#| label: setup
+#| message: false
+
+# load packages
+library(countdown)
+library(tidyverse)
+library(scales)
+library(ggthemes)
+library(coloratio) # devtools::install_github("matt-dray/coloratio")
+
+# set theme for ggplot2
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14))
+
+# set width of code output
+options(width = 65)
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 7,        # 7" width
+  fig.asp = 0.618,      # the golden ratio
+  fig.retina = 3,       # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300             # higher dpi, sharper image
+)
+```
+
+# Do you remember?
+
+## Flatten the curve
+
+![](images/flatten-the-curve.jpeg){fig-align="center"}
+
+::: aside
+Source: The New York Times. [Flattening the Coronavirus Curve](https://www.nytimes.com/article/flatten-curve-coronavirus.html)
+:::
+
+## Exponential spread
+
+![](images/wapo-covid.png){fig-align="center" width="1201"}
+
+::: aside
+Source: The Washington Post. [Why outbreaks like coronavirus spread exponentially, and how to "flatten the curve"](https://www.washingtonpost.com/graphics/2020/world/corona-simulator/)
+:::
+
+## JHU COVID-19 Dashboard
+
+![](images/jhu-dashboard.png){fig-align="center" width="1400"}
+
+::: aside
+Source: [COVID-19 Dashboard by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University (JHU)](https://coronavirus.jhu.edu/map.html)
+:::
+
+##  {.center}
+
+::: task
+What do they all have in common?
+:::
+
+## Accessible COVID-19 statistics tracker
+
+```{=html}
+<iframe width="1000" height="500" src="https://cvstats.net/" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen data-external="1">
+</iframe>
+```
+::: aside
+Source: [Accessible COVID-19 statistics tracker](https://cvstats.net/#page-top)
+:::
+
+# Accessibility and screen readers
+
+## Alternative text
+
+> It is read by screen readers in place of images allowing the content and function of the image to be accessible to those with visual or certain cognitive disabilities.
+>
+> It is displayed in place of the image in browsers if the image file is not loaded or when the user has chosen not to view images.
+>
+> It provides a semantic meaning and description to images which can be read by search engines or be used to later determine the content of the image from page context alone.
+
+::: aside
+Source: [WebAIM](https://webaim.org/techniques/alttext/)
+:::
+
+## Alt and surrounding text {.smaller}
+
+```         
+"CHART TYPE of TYPE OF DATA where REASON FOR INCLUDING CHART`
+
++ Link to data source somewhere in the text
+```
+
+. . .
+
+-   `CHART TYPE`: It's helpful for people with partial sight to know what chart type it is and gives context for understanding the rest of the visual.
+
+. . .
+
+-   `TYPE OF DATA`: What data is included in the chart? The x and y axis labels may help you figure this out.
+
+. . .
+
+-   `REASON FOR INCLUDING CHART`: Think about why you're including this visual. What does it show that's meaningful. There should be a point to every visual and you should tell people what to look for.
+
+. . .
+
+-   `Link to data source`: Don't include this in your alt text, but it should be included somewhere in the surrounding text.
+
+::: source
+Source: [Writing Alt Text for Data Visualization](https://medium.com/nightingale/writing-alt-text-for-data-visualization-2a218ef43f81)
+:::
+
+## Data {.smaller}
+
+-   Registered nurses by state and year
+-   Number of nurses, salaries, employment
+-   Source: [TidyTuesday](https://github.com/rfordatascience/tidytuesday/tree/master/data/2021/2021-10-05)
+
+```{r message = FALSE}
+nurses <- read_csv("data/nurses.csv") |> janitor::clean_names()
+names(nurses)
+```
+
+## Alt text for bar charts
+
+```{r echo = FALSE}
+nurses_subset <- nurses |>
+  filter(state %in% c("California", "New York", "North Carolina"))
+```
+
+::: columns
+::: {.column width="50%"}
+```{r echo = FALSE, out.width = "100%"}
+nurses_subset |>
+  filter(year %in% c(2000, 2010, 2020)) |>
+  ggplot(aes(x = state, y = total_employed_rn, fill = factor(year))) +
+  geom_col(position = "dodge") +
+  scale_fill_viridis_d(option = "E") +
+  scale_y_continuous(labels = label_number(scale = 1/1000, suffix = "K")) +
+  labs(
+    x = "State", y = "Number of Registered Nurses", fill = "Year",
+    title = "Total employed Registered Nurses"
+  ) +
+  theme(
+    legend.background = element_rect(fill = "white", color = "white"),
+    legend.position = c(0.85, 0.75)
+    )
+```
+:::
+
+::: {.column width="50%"}
+-   Provide title and axis labels
+-   Briefly describe the chart and give a summary of any trends it displays
+-   Convert bar charts to accessible tables or lists
+-   Avoid describing visual attributes of the bars (e.g., dark blue, gray, yellow) unless there's an explicit need to do so
+:::
+:::
+
+## Developing the alt text {.smaller}
+
+-   Total employed registered nurses in three states over time.
+
+. . .
+
+-   Total employed registered nurses in California, New York, and North Carolina, in 2000, 2010, and 2020.
+
+. . .
+
+-   A bar chart of total employed registered nurses in California, New York, and North Carolina, in 2000, 2010, and 2020, showing increasing numbers of nurses over time.
+
+. . .
+
+-   The figure is a bar chart titled "Total employed Registered Nurses" that displays the numbers of registered nurses in three states (California, New York, and North Carolina) over a 20 year period, with data recorded in three time points (2000, 2010, and 2020). In each state, the numbers of registered nurses increase over time. The following numbers are all approximate. California started off with 200K registered nurses in 2000, 240K in 2010, and 300K in 2020. New York had 150K in 2000, 160K in 2010, and 170K in 2020. Finally North Carolina had 60K in 2000, 90K in 2010, and 100K in 2020.
+
+## Alt text for line graphs
+
+::: columns
+::: {.column width="50%"}
+```{r echo = FALSE, out.width = "100%"}
+nurses_subset |>
+  ggplot(aes(x = year, y = annual_salary_median, color = state)) +
+  geom_line(show.legend = FALSE) +
+  geom_text(
+    data = nurses_subset |> filter(year == max(year)),
+    aes(label = state), hjust = 0, nudge_x = 1,
+    show.legend = FALSE
+  ) +
+  scale_color_viridis_d(option = "C", end = 0.5) +
+  scale_y_continuous(labels = label_dollar(scale = 1/1000, suffix = "K")) +
+  labs(
+    x = "Year", y = "Annual median salary", color = "State",
+    title = "Annual median salary of Registered Nurses"
+  ) +
+  coord_cartesian(clip = "off") +
+  theme(
+    plot.margin = margin(0.1, 0.9, 0.1, 0.1, "in")
+    )
+```
+
+::: task
+Write alt text for the line graph above.
+:::
+:::
+
+::: {.column width="50%"}
+-   Provide title and axis labels
+-   Briefly describe the graph and give a summary of any trends it displays
+-   Convert data represented in lines to accessible tables or lists where feasible
+-   Avoid describing visual attributes of the lines (e.g., purple, pink) unless there's an explicit need to do so
+:::
+:::
+
+```{=html}
+<!--
+The figure is titled "Annual median salary of Registered Nurses". There are three lines on the plot: the top labelled California, the middle New York, the bottom North Carolina. The vertical axis is labelled "Annual median salary", beginning with $40K, up to $120K. The horizontal axis is labelled "Year", beginning with couple years before 2000 up to 2020. The following numbers are all approximate. In the graph, the California line begins around $50K in 1998 and goes up to  $120K in 2020. The increase is steady, except for stalling for about couple years between 2015 to 2017. The New York line also starts around $50K, just below where the California line starts, and steadily goes up to $90K. And the North Carolina line starts around $40K and steadily goes up to $70K.
+-->
+```
+## Alt text for scatter plots
+
+::: columns
+::: {.column width="50%"}
+```{r echo = FALSE, out.width = "100%"}
+nurses_subset |>
+  ggplot(aes(x = year, y = hourly_wage_median, color = state, shape = state)) +
+  geom_point(size = 2) +
+  scale_color_viridis_d(option = "C", end = 0.5) +
+  scale_y_continuous(labels = label_dollar()) +
+  labs(
+    x = "Year", y = "Median hourly wage", color = "State", shape = "State",
+    title = "Median hourly wage of Registered Nurses"
+  ) +
+  theme(
+    legend.position = c(0.15, 0.75),
+    legend.background = element_rect(fill = "white", color = "white")
+    )
+```
+
+::: task
+Write alt text for the scatter plot above.
+:::
+:::
+
+::: {.column width="50%"}
+Scatter plots are among the more difficult graphs to describe, especially if there is a need to make specific data point accessible.
+
+-   Identify the image as a scatter plot
+-   Provide the title and axis labels
+-   Focus on the overall trend
+-   If it's necessary to be more specific, convert the data into an accessible table
+:::
+:::
+
+## Recommended reading {.smaller}
+
+[Accessible Visualization via Natural Language Descriptions: A Four-Level Model of Semantic Content](http://vis.csail.mit.edu/pubs/vis-text-model/)
+
+Alan Lundgard, MIT CSAIL\
+Arvind Satyanarayan, MIT CSAIL
+
+IEEE Transactions on Visualization & Computer Graphics (Proceedings of IEEE VIS), 2021
+
+> To demonstrate how our model can be applied to evaluate the effectiveness of visualization descriptions, we conduct a mixed-methods evaluation with 30 blind and 90 sighted readers, and find that these reader groups differ significantly on which semantic content they rank as most useful. Together, our model and findings suggest that access to meaningful information is strongly reader-specific, and that research in automatic visualization captioning should orient toward descriptions that more richly communicate overall trends and statistics, sensitive to reader preferences.
+
+# Accessibility and colors
+
+## Color scales
+
+Use colorblind friendly color scales (e.g., Okabe Ito, viridis)
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| label: cbf-color-scale
+#| echo: false
+#| code-line-numbers: "|4"
+
+nurses_subset |>
+  ggplot(aes(x = year, y = hourly_wage_median, color = state)) +
+  geom_point(size = 2) +
+  ggthemes::scale_color_colorblind() +
+  scale_y_continuous(labels = label_dollar()) +
+  labs(
+    x = "Year", y = "Median hourly wage", color = "State",
+    title = "Median hourly wage of Registered Nurses"
+  ) +
+  theme(
+    legend.position = c(0.15, 0.75),
+    legend.background = element_rect(fill = "white", color = "white")
+    )
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+#| ref.label: "cbf-color-scale"
+#| fig-show: hide 
+```
+:::
+:::
+
+## The default ggplot2 color scale + deuteranopia
+
+**Deuteranopia:** A type of red-green confusion
+
+::: columns
+::: {.column width="40%"}
+**Default ggplot2 scale**
+
+```{r default-ggplot2, echo = FALSE, out.width = "100%"}
+nurses_subset |>
+  ggplot(aes(x = year, y = hourly_wage_median, color = state)) +
+  geom_point(size = 2) +
+  scale_y_continuous(labels = label_dollar()) +
+  labs(
+    x = "Year", y = "Median hourly wage", color = "State",
+    title = "Median hourly wage of Registered Nurses"
+  ) +
+  theme(
+    legend.position = c(0.15, 0.75),
+    legend.background = element_rect(fill = "white", color = "white")
+    )
+```
+:::
+
+::: {.column width="60%"}
+**Default ggplot2 scale with deuteranopia**
+
+![](images/deuteranopia.png){fig-align="center"}
+:::
+:::
+
+## The default ggplot2 color scale + tritanopia
+
+**Tritanopia:** A type of yellow-blue confusion
+
+::: columns
+::: {.column width="40%"}
+**Default ggplot2 scale**
+
+```{r ref.label = "default-ggplot2", echo = FALSE, out.width = "100%"}
+```
+:::
+
+::: {.column width="60%"}
+**Default ggplot2 scale with tritanopia**
+
+![](images/tritanopia.png){fig-align="center"}
+:::
+:::
+
+## Testing for colorblind friendliness
+
+-   Best way to test is with users (or collaborators) who have these color deficiencies
+
+-   Simulation software also helps, e.g. Sim Daltonism for [Mac](https://michelf.ca/projects/sim-daltonism/) and [PC](https://pcmacstore.com/en/app/693112260/sim-daltonism)
+
+## Color contrast I
+
+-   Background and foreground text should have sufficient contrast to be distinguishable by users with different vision
+
+-   Web app for checking color contrast checking: [Colour Contrast Analyser](https://www.tpgi.com/color-contrast-checker/)
+
+## Color contrast II
+
+A WIP R package for checking for color contrast: [**coloratio**](https://matt-dray.github.io/coloratio)
+
+```{r}
+cr_get_ratio("black", "white")
+cr_get_ratio("#FFFFFF", "#000000")
+cr_get_ratio("black", "gray10")
+```
+
+## Double encoding
+
+Use shape *and* color where possible
+
+. . .
+
+::: columns
+::: {.column width="40%"}
+**Default ggplot2 scale**
+
+```{r echo = FALSE, out.width = "100%"}
+nurses_subset |>
+  ggplot(aes(x = year, y = hourly_wage_median, color = state, shape = state)) +
+  geom_point(size = 2) +
+  scale_y_continuous(labels = label_dollar()) +
+  labs(
+    x = "Year", y = "Median hourly wage", color = "State", shape = "State",
+    title = "Median hourly wage of Registered Nurses"
+  ) +
+  theme(
+    legend.position = c(0.15, 0.75),
+    legend.background = element_rect(fill = "white", color = "white")
+    )
+```
+:::
+
+::: {.column width="60%"}
+**Default ggplot2 scale with deuteranopia**
+
+![](images/deuteranopia-shape.png){fig-align="center"}
+:::
+:::
+
+## Use direct labeling
+
+-   Prefer direct labeling where color is used to display information over a legend
+
+-   Quicker to read
+
+-   Ensures graph can be understood without reliance on color
+
+## Without direct labeling
+
+::: columns
+::: {.column width="40%"}
+**Default ggplot2 scale**
+
+```{r echo = FALSE, out.width = "100%"}
+nurses_subset |>
+  ggplot(aes(x = year, y = annual_salary_median, color = state)) +
+  geom_line(linewidth = 2) +
+  scale_y_continuous(labels = label_dollar(scale = 1/1000, suffix = "K")) +
+  labs(
+    x = "Year", y = "Annual median salary", color = "State",
+    title = "Annual median salary of Registered Nurses"
+  ) +
+  theme(
+    legend.background = element_rect(fill = "white", color = "white"),
+    legend.position = c(0.2, 0.75)
+    )
+```
+:::
+
+::: {.column width="60%"}
+**Default ggplot2 scale with deuteranopia**
+
+![](images/deuteranopia-no-direct-labeling.png){fig-align="center"}
+:::
+:::
+
+## With direct labeling
+
+::: columns
+::: {.column width="40%"}
+**Default ggplot2 scale**
+
+```{r echo = FALSE, out.width = "100%"}
+nurses_subset |>
+  ggplot(aes(x = year, y = annual_salary_median, color = state)) +
+  geom_line(show.legend = FALSE, linewidth = 2) +
+  geom_text(
+    data = nurses_subset |> filter(year == max(year)),
+    aes(label = state), hjust = 0, nudge_x = 1,
+    show.legend = FALSE, size = 6
+  ) +
+  scale_y_continuous(labels = label_dollar(scale = 1/1000, suffix = "K")) +
+  labs(
+    x = "Year", y = "Annual median salary", color = "State",
+    title = "Annual median salary of Registered Nurses"
+  ) +
+  coord_cartesian(clip = "off") +
+  theme(
+    plot.margin = margin(0.1, 0.9, 0.1, 0.1, "in")
+    )
+```
+:::
+
+::: {.column width="60%"}
+**Default ggplot2 scale with deuteranopia**
+
+![](images/deuteranopia-direct-labeling.png){fig-align="center"}
+:::
+:::
+
+## Use whitespace or pattern to separate elements
+
+-   Separate elements with whitespace or pattern
+
+-   Allows for distinguishing between data without entirely relying on contrast between colors
+
+## Without whitespace
+
+::: columns
+::: {.column width="40%"}
+**Default ggplot2 scale**
+
+```{r echo = FALSE, out.width = "100%"}
+nurses_subset |>
+  filter(year %in% c(2000, 2010, 2020)) |>
+  ggplot(aes(x = factor(year), y = total_employed_rn, fill = state)) +
+  geom_col(position = "fill") +
+  labs(
+    x = "Year", y = "Proportion of Registered Nurses", fill = "State",
+    title = "Total employed Registered Nurses"
+  )
+```
+:::
+
+::: {.column width="60%"}
+**Default ggplot2 scale with tritanopia**
+
+![](images/tritanopia-no-separate.png){fig-align="center"}
+:::
+:::
+
+## With whitespace
+
+::: columns
+::: {.column width="40%"}
+**Default ggplot2 scale**
+
+```{r echo = FALSE, out.width = "100%"}
+nurses_subset |>
+  filter(year %in% c(2000, 2010, 2020)) |>
+  ggplot(aes(x = factor(year), y = total_employed_rn, fill = state)) +
+  geom_col(position = "fill", color = "white", linewidth = 1) +
+  labs(
+    x = "Year", y = "Proportion of Registered Nurses", 
+    fill = "State",
+    title = "Total employed Registered Nurses"
+  )
+```
+:::
+
+::: {.column width="60%"}
+**Default ggplot2 scale with tritanopia**
+
+![](images/tritanopia-with-separate.png){fig-align="center"}
+:::
+:::
+
+## {.center}
+
+::: .task
+Find a colorblind friendly color palette other than viridis and those in the colorblindr package. This could be an R package that offers a colorblind friendly color palette or it could be just a palette you find online. Apply it to the scatterplot you previously wrote alt text for.
+:::
+
+# Accessibility and fonts
+
+## Accessibility and fonts
+
+-   Use a font that has been tested for accessibility (e.g., [Atkinson Hyperlegible](https://fonts.google.com/specimen/Atkinson+Hyperlegible))
+
+. . .
+
+-   Keep plot labels and annotations similarly sized as the rest of your text (e.g., `ggplot2::theme_set(ggplot2::theme_minimal(base_size = 16))`)
+
+. . .
+
+::: task
+Demo: Using custom fonts in ggplots!
+:::
+
+## {.center}
+
+::: large
+::: hand
+When you design for accessibility, you benefit everyone
+:::
+:::
+
+::: source
+Source: [A Comprehensive Guide to Accessible Data Visualization](https://www.betterment.com/resources/accessible-data-visualization/)
+:::
+
+## Acknowledgements {.smaller}
+
+-   COVID visualization examples:
+
+    -   The New York Times. [Flattening the Coronavirus Curve](https://www.nytimes.com/article/flatten-curve-coronavirus.html)
+    -   The Washington Post. [Why outbreaks like coronavirus spread exponentially, and how to "flatten the curve"](https://www.washingtonpost.com/graphics/2020/world/corona-simulator/)
+    -   [COVID-19 Dashboard by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University (JHU)](https://coronavirus.jhu.edu/map.html)
+    -   T. Littlefield (2020) [COVID-19 Statistics Tracker](https://cvstats.net)
+
+-   Lundgard, Alan, and Arvind Satyanarayan. ["Accessible Visualization via Natural Language Descriptions: A Four-Level Model of Semantic Content."](https://ieeexplore.ieee.org/abstract/document/9555469) IEEE transactions on visualization and computer graphics (2021).
+
+-   [A Comprehensive Guide to Accessible Data Visualization](https://www.betterment.com/resources/accessible-data-visualization/)
+
+-   Silvia Canelón and Liz Hare. [Revealing Room for Improvement in Accessibility within a Social Media Data Visualization Learning Community](https://spcanelon.github.io/csvConf2021/slides/#1)
