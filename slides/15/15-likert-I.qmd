@@ -1,0 +1,251 @@
+---
+title: Project 2 preview + <br>Visualizing Likert data I
+subtitle: Lecture 15
+title-slide-attributes:
+  data-background-image: ../vizdata-bg.png
+  data-background-size: stretch
+  data-slide-number: none
+format: revealjs
+highlight-style: a11y
+execute:
+  code-link: true
+  warning: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# Warm up
+
+## Announcements
+
+-   HW 3 is due Thursday
+    -   Question 2: Include old figure from project as starting point
+    -   All questions: Add alt text with `fig-alt`
+-   Make sure to reply to "Sharing your project" issues on Project 1 if you haven't already
+
+## Setup {.smaller}
+
+```{r}
+#| label: setup
+#| message: false
+
+# load packages
+library(countdown)
+library(tidyverse)
+library(colorspace)
+library(cowplot)
+
+# set theme for ggplot2
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14))
+
+# set width of code output
+options(width = 65)
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 7,        # 7" width
+  fig.asp = 0.618,      # the golden ratio
+  fig.retina = 3,       # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300             # higher dpi, sharper image
+)
+```
+
+# Quiz review
+
+##  {.center}
+
+::: large
+::: hand
+Let's imagine we're playing a game <br><br> The odds are in your favor: <br> You have a 90% chance of winning!
+:::
+:::
+
+##  {background-image="images/Disappearing_dots.gif" background-size="contain" background-color="#cccccc"}
+
+::: large
+::: hand
+playing...
+:::
+:::
+
+##  {.center}
+
+::: large
+::: hand
+Sorry, you lost. 😞
+:::
+:::
+
+##  {.center}
+
+::: large
+::: hand
+How does that make you feel?
+:::
+:::
+
+## We are bad at judging uncertainty
+
+-   You had a 10% chance of losing
+
+. . .
+
+-   One in ten playing this game will lose
+
+. . .
+
+-   90% chance of winning is nowhere near a certain win
+
+## It helps to visualize a set of possible outcomes
+
+Possible outcomes from 100 individual games played
+
+```{r freq-waffle, fig.width = 4.5, fig.asp = 1, echo = FALSE, out.width = "45%"}
+g <- expand.grid(x = 1:10, y = 1:10)
+
+set.seed(84520)
+data <- data.frame(ratio = c(0.99, 0.9, 0.7)) %>%
+  mutate(
+    out = purrr::map(
+      ratio,
+      ~g %>% mutate(
+        value = {
+          n <- n()
+          i <- round(n*.x)
+          sample(c(rep("W", i), rep("L", n - i)), n)
+        }
+      )
+    )
+  ) %>%
+  unnest(cols = out) %>%
+  mutate(
+    label = paste0(round(100*ratio), "% chance")
+  )
+
+data %>% filter(ratio == .9) %>%
+  ggplot(aes(x, y, fill = value)) +
+  geom_tile(color = "white", linewidth = 2) +
+  coord_fixed(expand = FALSE, clip = "off") +
+  scale_x_continuous(name = NULL, breaks = NULL) +
+  scale_y_continuous(name = NULL, breaks = NULL) +
+  scale_fill_manual(
+    name = NULL,
+    breaks = c("W", "L"),
+    labels = c("win   ", "loss"),
+    values = c(
+      "L" = desaturate(darken("#0072B2", .4), .5),
+      "W" = desaturate(lighten("#0072B2", .7), .5)
+    ),
+    guide = guide_legend(override.aes = list(size = 0))
+  ) +
+  facet_wrap(~label) +
+  theme_minimal_grid(20) +
+  theme(
+    legend.position = "bottom",
+    legend.direction = "horizontal",
+    legend.justification = "right",
+    legend.box.spacing = unit(12, "pt"),
+    legend.spacing.x = unit(3, "pt"),
+    legend.key.size = unit(18, "pt")
+  )
+```
+
+## Frequency framing
+
+This type of visualization is called **frequency framing**
+
+```{r freq-waffle2, fig.width = 10, fig.asp = 0.45, echo = FALSE, out.width = "90%"}
+ggplot(data, aes(x, y, fill = value)) +
+  geom_tile(color = "white", linewidth = 1.5) +
+  coord_fixed(expand = FALSE, clip = "off") +
+  scale_x_continuous(name = NULL, breaks = NULL) +
+  scale_y_continuous(name = NULL, breaks = NULL) +
+  scale_fill_manual(
+    name = NULL,
+    breaks = c("W", "L"),
+    labels = c("win   ", "loss"),
+    values = c(
+      "L" = desaturate(darken("#0072B2", .4), .5),
+      "W" = desaturate(lighten("#0072B2", .7), .5)
+    ),
+    guide = guide_legend(override.aes = list(size = 0))
+  ) +
+  facet_wrap(~label) +
+  theme_minimal_grid(20) +
+  theme(
+    panel.spacing = unit(36, "pt"),
+    legend.position = "bottom",
+    legend.direction = "horizontal",
+    legend.justification = "right",
+    legend.box.spacing = unit(6, "pt"),
+    legend.spacing.x = unit(3, "pt"),
+    legend.key.size = unit(16, "pt")
+  )
+```
+
+# Project 2
+
+## Project 2 - potential directions {.smaller}
+
+::: incremental
+-   Present and visualize a technical topic in statistics or mathematics, e.g., Gradient descent, quadrature, autoregressive (AR) models, etc.
+
+-   Build a Shiny app that that has an Instagram-like user interface for applying filters, except not filters but themes for ggplots.
+
+-   Create an R package that provides functionality for a set of ggplot2 themes and/or color palettes.
+
+-   Build a generative art system.
+
+-   Do a deep dive into accessibility for data visualization and build a lesson plan for creating accessible visualizations with ggplot2, R Markdown, and generally within the R ecosystem.
+
+-   Create an interactive and/or animated spatio-temporal visualization on a topic of interest to you, e.g., redistricting, COVID-19, voter suppression, etc.
+
+-   Recreate art pieces with ggplot2.
+
+-   Make a data visualization telling a story and convert it to an illustration, presenting both the computational and artistic piece side by side.
+
+-   Build a dashboard.
+
+-   Or... Visualize a (non-TidyTuesday) dataset, answering a research question of interest to you.
+:::
+
+## Project 2 - all the details
+
+::: large
+<https://vizdata.org/project/project-2.html>
+:::
+
+<br>
+
+::: callout-tip
+Brainstorm a bunch of ideas and discard them until you settle on a topic that everyone in the team is happy with and feels like a good choice for showcasing what you've learned in the class and how you can use that to learn something new and implement for your project.
+:::
+
+## Project 2 - inspiration
+
+-   Evan - ???
+
+-   Mine - Saatli Maarif Takvimi
+
+# Visualizing Likert data
+
+## 2020 Durham City and County Resident Survey
+
+![](images/durham-survey.png){fig-align="center" width="400"}
+
+## Sample survey questions I
+
+![](images/services.png){fig-align="center" width="800"}
+
+## Sample survey questions II
+
+![](images/safety.png){fig-align="center" width="800"}
+
+## Sample survey questions III
+
+![](images/demographics.png){fig-align="center" width="800"}
+
+## `ae-13`
+
+Let's go to `ae-13` and dive in!
