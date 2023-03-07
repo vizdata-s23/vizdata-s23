@@ -20,12 +20,11 @@ Your first task is to come up with a goal for your project. Here are a few ideas
 -   Build a Shiny app that that has an Instagram-like user interface for applying filters, except not filters but themes for ggplots.
 -   Create an R package that provides functionality for a set of ggplot2 themes and/or color palettes.[^1]
 -   Build a generative art system.
--   Do a deep dive into accessibility for data visualization and build a lesson plan for creating accessible visualizations with ggplot2, R Markdown, and generally within the R ecosystem.
+-   Do a deep dive into accessibility for data visualization and build a lesson plan for creating accessible visualizations with ggplot2, Quarto, and generally within the R ecosystem.
 -   Create an interactive and/or animated spatio-temporal visualization on a topic of interest to you, e.g., redistricting, COVID-19, voter suppression, etc.
 -   Recreate art pieces with ggplot2.
 -   Make a data visualization telling a story and convert it to an illustration, presenting both the computational and artistic piece side by side.
 -   Build a dashboard.
--   More TBA...
 
 [^1]: Never built an R package before? See <https://r-pkgs.org/whole-game.html> for a great introduction.
 
@@ -35,25 +34,32 @@ Most importantly, be prepared to brainstorm a bunch of ideas and discard them un
 
 ## Workflow
 
--   Week 1 of project (week of \[TBA\]): Pick a focus for your project.
+-   Week 1 of project (week of March 6): Pick a focus for your project.
 
--   Week 2 of project (week of \[TBA\]): Work on developing your project proposal and setting up the structure for your repository.
+-   Week 2 of project (week of March 13): 🏖️ Spring Break
 
--   Week 3 of project (week of \[TBA\]): Finalize your project proposal.
+-   Week 3 of project (week of March 20): Work on developing your project proposal and setting up the structure for your repository.
 
--   Week 4 of project (week of \[TBA\]): Conduct peer review on project proposals, and optionally, submit in an updated version of your proposal.
+-   Week 4 of project (week of March 27): Finalize your project proposal + Conduct peer review on project proposals, and optionally, submit in an updated version of your proposal.
 
--   Week 5 of project (week of \[TBA\]): Continue working on your project.
+-   Week 5 of project (week of April 3): Continue working on your project.
 
--   Week 6 of project (week of \[TBA\]): Continue working on your project.
+-   Week 6 of project (week of April 10): Conduct another round of peer review.
 
--   Week 7 of project (week of \[TBA\]): Conduct another round of peer review.
+-   Week 7 of project (week of April 17): Continue working on your project.
+
+-   Week 8 of project (week of April 24): Conduct code review.
+
+-   Week 9 of project (week of May 1 - finals week): Present projects and turn in final write-up.
 
 ## Due dates
 
--   Proposals for peer review: due \[TBA\] at 5pm.
--   Revised proposals for instructor review: due \[TBA\] at 5pm.
--   Write-up and presentation: due \[TBA\] (scheduled final date).
+-   Proposals for peer review: due Tue, March 28 at 5pm.
+-   Peer review of proposals: Wed, March 29 in lab
+-   Revised proposals for instructor review: due Tue, March 31 at 5pm.
+-   Peer review of project progress: Wed, April 12 in lab
+-   Code review of projects: Wed, April 26 in lab
+-   Write-up and presentation: due Thu, May 4 (scheduled final date).
 
 ## Deliverables
 
@@ -77,7 +83,7 @@ Your proposal should include:
 
 #### Reviewer tasks
 
-Each team will review the proposals of two other teams twice during the project. The peer reviews will be completed during the lab session on \[TBA\] and \[TBA\]. On those days teams will have access to the project repos of the two teams whose work they're reviewing. The peer review assignments are as follows:
+Each team will review the proposals of two other teams twice during the project. The peer reviews will be completed during the lab sessions as indicated above. On those days teams will have access to the project repos of the two teams whose work they're reviewing. The peer review assignments are as follows:
 
 \[TBA\]
 
@@ -93,7 +99,7 @@ Once you receive feedback from your peers, you should address them. You should d
 
 ### Write-up
 
-Your have a lot more freedom in how you structure your write-up for this project compared to Project 1. This also comes with responsibility. You should make sure you have a clear introduction and a clear conclusion. You should also have other interim section headings that help the reader. Your write-up should be somewhere between 1000 and 2000 words. There is no expectation that you get close to the upper limit, anywhere in that range is fine as long as you have clearly explained yourself. The limits are provided to help you, not to set stresful expectations.
+Your have a lot more freedom in how you structure your write-up for this project compared to Project 1. This also comes with responsibility. You should make sure you have a clear introduction and a clear conclusion. You should also have other interim section headings that help the reader. Your write-up should be somewhere between 1000 and 2000 words. There is no expectation that you get close to the upper limit, anywhere in that range is fine as long as you have clearly explained yourself. The limits are provided to help you, not to set stressful expectations.
 
 ### Presentation
 
@@ -111,7 +117,7 @@ Each of your projects will have a website. You can use the same workflow as for 
 
 Since you have complete freedom on the focus of your project, you also have complete freedom on the organization of your repository. But... it should be organized in a logical way!
 
-At a minimum each project should have a `README`. This can be a `README.md` that you edit directly or a `README.qmd` that you edit and knit to `README.md`. If your project is analyzing a dataset, you'll probably want to structure your repo similar to your Project 1 repo. If you're building a package, it should be structured like a package.
+At a minimum each project should have an `index.qmd`. If your project is analyzing a dataset, you'll probably want to structure your repo similar to your Project 1 repo. If you're building a package, it should be structured like a package.
 
 ## Grading
 
@@ -203,7 +209,7 @@ Note that there will be points allocated to commits from each team member for th
 
 ### Reproducibility, style, and organization (10 points)
 
--   All required files are provided. R Markdown files knit without issues and reproduce the necessary outputs. If building a package, the checks pass. (3 points)
+-   All required files are provided. Quarto files render without issues and reproduce the necessary outputs. If building a package, the checks pass. (3 points)
 -   If there's a dataset, it's provided in a data folder, a codebook is provided, and a local copy of the data file is used where needed. (3 points)
 -   Documents are well structured and easy to follow. No extraneous materials. (2 points)
 -   All issues are closed, mostly with specific commits addressing them. (2 points)
@@ -212,7 +218,7 @@ Note that there will be points allocated to commits from each team member for th
 
 Please use the project repository that has been created for your team to complete your project. Everything should be done reproducibly. This means that I should be able to clone your repo and reproduce everything you've submitted as part of your project.
 
-All results presented must have corresponding code. If you do calculations by hand instead of using R and then report the results from the calculations, you will not receive credit for those calculations. Any answers/results given without the corresponding R code that generated the result will not be considered. For example, if you're reporting the number of observations in your dataset, don't just write the number manually, use inline R code to calculate the number. All code reported in your final project document should work properly. Please do not include any extraneous code or code which produces error messages. Code which produces certain warnings and messages is acceptable, as long as you understand what the warnings mean. In such cases you can add `warning = FALSE` and `message = FALSE` in the relevant R chunks. Warnings that signal lifecycle changes (e.g., a function is deprecated and there's a newer/better function out there) should generally be addressed by updating your code, not just by hiding the warning.
+All results presented must have corresponding code. If you do calculations by hand instead of using R and then report the results from the calculations, you will not receive credit for those calculations. Any answers/results given without the corresponding R code that generated the result will not be considered. For example, if you're reporting the number of observations in your dataset, don't just write the number manually, use inline R code to calculate the number. All code reported in your final project document should work properly. Please do not include any extraneous code or code which produces error messages. Code which produces certain warnings and messages is acceptable, as long as you understand what the warnings mean. In such cases you can add `warning: false` and `message: false` in the relevant R chunks. Warnings that signal lifecycle changes (e.g., a function is deprecated and there's a newer/better function out there) should generally be addressed by updating your code, not just by hiding the warning.
 
 ## Tips
 
@@ -228,7 +234,7 @@ All results presented must have corresponding code. If you do calculations by ha
 
 -   Code:
 
-    -   In your presentation your code should be hidden (`echo = FALSE`) so that your slides are neat and easy to read. However your document should include all your code such that if I re-knit your R Markdown file I should be able to obtain the results you presented. **Exception:** If you want to highlight something specific about a piece of code, you're welcomed to show that portion.
+    -   In your presentation your code should be hidden (`echo: false`) so that your slides are neat and easy to read. However your document should include all your code such that if I re-render your Quarto file I should be able to obtain the results you presented. **Exception:** If you want to highlight something specific about a piece of code, you're welcomed to show that portion.
 
     -   In your write-up your code should be visible.
 
