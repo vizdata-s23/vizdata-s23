@@ -1,0 +1,50 @@
+original,updated
+id,id
+overall_quality_of_services_3_01,Services (City)
+overall_quality_of_services_3_02,Services (County)
+overall_appearance_of_durham_3_03,Appearance
+overall_management_of_develo_3_04,Management
+overall_image_of_durham_3_05,Image
+overall_quality_of_life_in_d_3_06,QOL (Durham)
+overall_quality_of_life_in_y_3_07,QOL (Neighborhood)
+overall_value_you_receive_fo_3_08,Value from Taxes
+do_your_monthly_housing_cost_12_01,High Rent
+are_you_able_to_find_housing_12_02,Find Affordable Housing
+do_you_have_major_home_repai_12_03,Cannot Repair Home
+ease_of_travel_by_walking_18_01,Ease of Walking
+ease_of_travel_by_biking_18_02,Ease of Biking
+ease_of_travel_by_bus_godu_18_03,Ease of Bus
+quality_of_downtown_parking_18_04,Downtown Parking
+the_ability_in_your_neighbo_18_05,Neighborhood Exercise
+as_a_place_to_live_24_01,Living
+as_a_place_to_work_24_02,Working
+as_a_place_to_play_24_03,Playing
+as_a_place_to_raise_childre_24_04,Raise Children
+as_a_place_to_educate_child_24_05,Educate Children
+as_a_place_to_retire_24_06,Retire
+as_a_place_to_visit_24_07,Visit
+as_a_place_to_start_a_busin_24_08,Start Business
+as_a_community_that_is_movi_24_09,Future Direction
+have_you_or_someone_in_your_househol_26,Healhcare Access Trouble
+approximately_how_many_years_have_yo_28,Years Living in Durham
+what_is_your_age_29,Age
+what_is_your_gender_30,Gender
+do_you_own_or_rent_your_current_resi_31,Own or Rent
+asianpacific_islander_32_01,API
+white_32_02,White
+native_americaninuit_32_03,Native American
+blackafrican_american_32_04,Black
+other_32_05,Other
+please_define_other_32_5,Other Race or Ethnicity (Define)
+are_you_of_hispanic_latino_or_spa_33,Hispanic or Latino
+what_is_the_primary_language_used_in_34,Primary Language
+please_define_other_34_3,Other Language (Define)
+how_might_we_better_provide_service_34a,Service Language
+would_you_say_your_total_annual_hous_35,Annual Household Income
+city,city
+state,state
+zip,zip
+pac_zone,pac_zone
+inside_city_of_durham,inside_city_of_durham
+block_lon,block_lon
+block_lat,block_lat

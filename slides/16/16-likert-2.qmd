@@ -1,0 +1,285 @@
+---
+title: Visualizing Likert data II
+subtitle: Lecture 16
+title-slide-attributes:
+  data-background-image: ../vizdata-bg.png
+  data-background-size: stretch
+  data-slide-number: none
+format: revealjs
+highlight-style: a11y
+execute:
+  code-link: true
+  warning: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# Warm up
+
+## Announcements
+
+-   Teams
+
+## Setup {.smaller}
+
+```{r}
+#| label: setup
+#| message: false
+
+# load packages
+library(countdown)
+library(tidyverse)
+library(colorspace)
+library(waffle)
+
+# set theme for ggplot2
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14))
+
+# set width of code output
+options(width = 65)
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 7,        # 7" width
+  fig.asp = 0.618,      # the golden ratio
+  fig.retina = 3,       # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300             # higher dpi, sharper image
+)
+```
+
+# Durham City and County Resident Survey
+
+## Data
+
+```{r}
+#| message: false
+
+durham <- read_csv(here::here("slides/16", "data/durham-2020.csv"))
+glimpse(durham)
+```
+
+## Quality
+
+![](images/quality.png){fig-align="center" width="800"}
+
+## Quality {.smaller}
+
+```{r}
+durham |>
+  select(contains("_3_")) |>
+  glimpse()
+```
+
+## Transportation
+
+![](images/transportation.png){fig-align="center" width="799"}
+
+## Transportation {.smaller}
+
+```{r}
+durham |>
+  select(contains("_18_")) |>
+  glimpse()
+```
+
+## Ratings
+
+![](images/ratings.png){fig-align="center" width="799"}
+
+## Ratings {.smaller}
+
+```{r}
+durham |>
+  select(contains("_24_")) |>
+  glimpse()
+```
+
+## Housing
+
+![](images/housing.png){fig-align="center" width="800"}
+
+## Housing {.smaller}
+
+```{r}
+durham |>
+  select(contains("_12_")) |>
+  glimpse()
+```
+
+## Demographics
+
+![](images/demographics.png){fig-align="center" width="800"}
+
+## Demographics {.smaller}
+
+```{r}
+durham |>
+  select(
+    !contains("_3_") & !contains("_12_") & 
+    !contains("_18_") & !contains("_24_")) |>
+  glimpse()
+```
+
+# Visualizing categorical data
+
+## Language
+
+::: {.callout-note appearance="minimal" icon="false"}
+What is the primary language used in your household?
+:::
+
+```{r}
+durham |> distinct(primary_language)
+```
+
+. . .
+
+```{r}
+durham <- durham |>
+  mutate(
+    primary_language = fct_relevel(primary_language, "English", "Spanish", "Other")
+  )
+```
+
+## Bar chart {.smaller}
+
+```{r}
+durham |>
+  filter(!is.na(primary_language)) |>
+  ggplot(aes(x = primary_language)) +
+  geom_bar()
+```
+
+## Pie chart
+
+```{r}
+#| echo: false
+
+durham |>
+  filter(!is.na(primary_language)) |>
+  count(primary_language) |>
+  ggplot(aes(x = 1, y = n, fill = primary_language)) +
+  geom_col(width = 1, color = "white") +
+  coord_polar("y", start = 0) +
+  theme_void()
+```
+
+## Waffle chart
+
+Using [waffle](https://github.com/hrbrmstr/waffle)
+
+```{r}
+#| echo: false
+
+durham |>
+  filter(!is.na(primary_language)) |>
+  count(primary_language) |>
+  ggplot(aes(fill = primary_language, values = n)) +
+  geom_waffle(
+    n_rows = 50, size = 0.33, 
+    color = "white", flip = TRUE
+  ) +
+  labs(fill = str_wrap("What is the primary language used in your household?", 20)) +
+  coord_equal() +
+  theme_void() +
+  theme_enhance_waffle()
+```
+
+## Proportional waffle chart
+
+Waffles work best when they are square -- makes it easier to compare parts to whole which is the purpose of the chart
+
+::: task
+But what happened to "Other"?
+:::
+
+```{r}
+#| echo: false
+
+durham |>
+  filter(!is.na(primary_language)) |>
+  count(primary_language) |>
+  ggplot(aes(fill = primary_language, values = n)) +
+  geom_waffle(
+    n_rows = 10, size = 0.33, 
+    color = "white", flip = TRUE, make_proportional = TRUE
+  ) +
+  labs(fill = str_wrap("What is the primary language used in your household?", 30)) +
+  coord_equal() +
+  theme_void() + 
+  theme_enhance_waffle()
+```
+
+## Proportional waffle chart, take 2
+
+With a bit of fudging...
+
+```{r}
+#| echo: false
+#| fig-width: 4
+
+durham |>
+  filter(!is.na(primary_language)) |>
+  count(primary_language) |>
+  mutate(
+    prop = n / sum(n),
+    n_norm = 100 * prop,
+    n_norm = ceiling(n_norm),
+    n_norm = if_else(primary_language == "English", 96, n_norm)
+  ) |>
+  ggplot(aes(fill = primary_language, values = n_norm)) +
+  geom_waffle(
+    n_rows = 10, size = 1,
+    color = "white", flip = TRUE, make_proportional = TRUE
+  ) +
+  labs(fill = str_wrap("What is the primary language used in your household?", 30)) +
+  coord_equal() +
+  theme_void() +
+  theme_enhance_waffle()
+```
+
+## Let's actually make these figures!
+
+Go to `ae-14`.
+
+# Visualizing Likert data
+
+## Quality {.smaller}
+
+```{r}
+durham |>
+  select(contains("_3_")) |>
+  glimpse()
+```
+
+## Services visualized
+
+A very rough starting point:
+
+```{r}
+#| echo: false
+#| fig-width: 7
+#| fig-asp: 0.5
+
+durham |>
+  select(contains("_3_")) |>
+  pivot_longer(
+    cols = everything(),
+    names_to = "question", 
+    values_to = "response",
+    values_transform = as.character
+  ) |>
+  ggplot(aes(y = question)) +
+  geom_bar(aes(fill = fct_rev(response))) +
+  scale_fill_viridis_d(na.value = "gray") +
+  labs(
+    title = "Overall Quality", 
+    fill = "Response", 
+    y = "Number of Reponses"
+  )
+```
+
+## Let's improve!
+
+Go back to `ae-14`.
