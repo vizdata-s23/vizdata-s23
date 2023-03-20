@@ -18,7 +18,8 @@ editor_options:
 
 ## Announcements
 
--   Teams
+-   Teams emailed at the end of class
+-   HW 4 will be posted before Monday
 
 ## Setup {.smaller}
 

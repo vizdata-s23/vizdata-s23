@@ -8,10 +8,6 @@ This is intentionally vague -- part of the challenge is to design a project that
 
 One requirement is that your project should feature some element that you had to learn on your own. This could be a package you use that we didn't teach in class (e.g., a package for building 3D visualizations) or a workflow (e.g., making a package) or anything else. If you're not sure if your "new" thing counts, just ask!
 
-::: callout-important
-The details will be updated as the project date approaches.
-:::
-
 ## Ideas
 
 Your first task is to come up with a goal for your project. Here are a few ideas to help you get started thinking:
