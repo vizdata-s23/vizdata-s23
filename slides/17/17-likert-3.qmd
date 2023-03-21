@@ -1,0 +1,70 @@
+---
+title: Visualizing Likert data III
+subtitle: Lecture 17
+title-slide-attributes:
+  data-background-image: ../vizdata-bg.png
+  data-background-size: stretch
+  data-slide-number: none
+format: revealjs
+highlight-style: a11y
+execute:
+  code-link: true
+  warning: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# Warm up
+
+## Announcements
+
+-   HW 4 due Thursday
+-   Project 2 proposals for peer review due next Tuesday -- start working on them in lab tomorrow at the latest
+
+## Setup {.smaller}
+
+```{r}
+#| label: setup
+#| message: false
+
+# load packages
+library(countdown)
+library(tidyverse)
+
+# set theme for ggplot2
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14))
+
+# set width of code output
+options(width = 65)
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 7,        # 7" width
+  fig.asp = 0.618,      # the golden ratio
+  fig.retina = 3,       # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300             # higher dpi, sharper image
+)
+```
+
+# Likert data visualizations
+
+## Considerations
+
+-   Diverging charts
+
+-   100% charts
+
+-   `NA`s vs. neutrals/neithers
+
+::: question
+What have you learned from the reading about these considerations?
+:::
+
+## Let's make some!
+
+Go to `ae-15`.
+
+![](images/durham-100perc-1.png){fig-align="center" width="500"}
+
+![](images/durham-div-1.png){fig-align="center" width="500"}
