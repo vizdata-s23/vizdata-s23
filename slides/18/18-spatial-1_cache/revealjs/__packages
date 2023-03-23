@@ -1,0 +1,15 @@
+countdown
+tidyverse
+ggplot2
+tibble
+tidyr
+readr
+purrr
+dplyr
+stringr
+forcats
+maps
+mapproj
+sf
+geofacet
+lubridate

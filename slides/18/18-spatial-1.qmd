@@ -1,0 +1,712 @@
+---
+title: Visualizing geospatial data I
+subtitle: Lecture 18
+title-slide-attributes:
+  data-background-image: ../vizdata-bg.png
+  data-background-size: stretch
+  data-slide-number: none
+format: revealjs
+highlight-style: a11y
+execute:
+  code-link: true
+  warning: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# Warm up
+
+## Announcements
+
+-   Project 2 proposals due
+    -   Tuesday at 5 pm for peer review
+    -   Friday at 5pm for instructor review
+-   Lab next week: Project 2 proposal peer review
+-   RQ 5 due Tuesday at noon
+
+## Note
+
+::: {.callout-important icon="false"}
+## tidyverse is a meta-package
+
+Loading the tidyverse loads the following packages:
+
+```{r}
+#| message: true
+
+library(tidyverse)
+```
+
+So you never need to load `dplyr`, `ggplot2`, `readr`, etc. separately if you've already loaded the `tidyverse` package.
+:::
+
+## Setup {.smaller}
+
+```{r}
+#| label: setup
+#| message: false
+
+# load packages
+library(countdown)
+# library(tidyverse) - already loaded
+library(mapproj)
+library(sf)
+library(geofacet)
+
+# set theme for ggplot2
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14))
+
+# set width of code output
+options(width = 65)
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 7,        # 7" width
+  fig.asp = 0.618,      # the golden ratio
+  fig.retina = 3,       # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300             # higher dpi, sharper image
+)
+```
+
+# Projections
+
+## Visualizing geographic areas {.smaller}
+
+Without any projection, on the cartesian coordinate system
+
+```{r}
+world_map <- ggplot(map_data("world"), aes(x = long, y = lat, group = group)) +
+  geom_polygon(fill = "white", color = "#3c3b6e", linewidth = 0.3) +
+  labs(x = NULL, y = NULL)
+
+world_map
+```
+
+## Mercator projection {.smaller}
+
+Meridians are equally spaced and vertical, parallels are horizontal lines whose spacing increases the further we move away from the equator
+
+```{r}
+#| code-line-numbers: "|2"
+
+world_map +
+  coord_map(projection = "mercator")
+```
+
+## Mercator projection
+
+::: hand
+without the weird straight lines through the earth!
+:::
+
+```{r}
+#| out-width: "55%"
+#| code-line-numbers: "4"
+
+world_map +
+  coord_map(
+    projection = "mercator", 
+    xlim = c(-180, 180)
+    )
+```
+
+## Sinusoidal projection
+
+Parallels are equally spaced
+
+```{r}
+#| code-line-numbers: "2"
+
+world_map +
+  coord_map(projection = "sinusoidal", xlim = c(-180, 180))
+```
+
+## Orthographic projection
+
+Viewed from infinity
+
+```{r}
+#| code-line-numbers: "2"
+
+world_map +
+  coord_map(projection = "orthographic")
+```
+
+## Mollweide projection
+
+Equal-area, hemisphere is a circle
+
+```{r}
+#| code-line-numbers: "2"
+
+world_map +
+  coord_map(projection = "mollweide", xlim = c(-180, 180))
+```
+
+## Visualizing distances
+
+::: task
+Draw a line between Istanbul and Los Angeles.
+:::
+
+```{r}
+#| label: define-cities
+
+cities <- tribble(
+  ~city,         ~long,    ~lat,
+  "istanbul",    28.9784,  41.0082,
+  "los angeles", -118.243, 34.0522,
+)
+```
+
+```{r}
+#| echo: false
+#| out-width: "50%"
+
+world_map +
+  geom_point(
+    data = cities, aes(x = long, y = lat, group = NULL),
+    size = 2, color = "red"
+  ) +
+  coord_map(projection = "mercator", xlim = c(-180, 180))
+```
+
+## Visualizing distances
+
+As if the earth is flat:
+
+```{r}
+#| echo: false
+
+world_map +
+  geom_point(
+    data = cities, aes(x = long, y = lat, group = NULL),
+    size = 2, color = "red"
+  ) +
+  geom_line(
+    data = cities, aes(x = long, y = lat, group = NULL),
+    linewidth = 1, color = "red"
+  ) +
+  coord_map(projection = "mercator", xlim = c(-180, 180))
+```
+
+## Visualizing distances
+
+Based on a spherical model of the earth:
+
+```{r}
+#| label: ist-la-intermediate
+#| include: false
+
+gc <- geosphere::gcIntermediate(
+  p1 = cities |> filter(city == "istanbul")    |> select(-city), 
+  p2 = cities |> filter(city == "los angeles") |> select(-city), 
+  n = 100, 
+  addStartEnd = TRUE
+  ) |>
+  as_tibble()
+```
+
+```{r}
+#| label: both-distances
+#| echo: false
+
+world_map +
+  geom_point(
+    data = cities, aes(x = long, y = lat, group = NULL),
+    size = 2, color = "red"
+  ) +
+  geom_line(
+    data = cities, aes(x = long, y = lat, group = NULL),
+    linewidth = 1, color = "red"
+  ) +
+  geom_line(
+    data = gc, aes(x = lon, y = lat, group = NULL),
+    linewidth = 1, color = "red", linetype = "dashed"
+  ) +
+  coord_map(projection = "mercator", xlim = c(-180, 180))
+```
+
+## Intermediate points on the great circle
+
+```{r}
+#| ref.label: define-cities
+```
+
+```{r}
+#| ref.label: ist-la-intermediate
+```
+
+## Intermediate points on the great circle
+
+```{r}
+gc
+```
+
+## Plotting both distances
+
+```{r}
+#| ref.label: both-distances
+#| output-location: slide
+```
+
+## Another distance between two points
+
+::: task
+How long does it take to fly from the Western most point in the US to the Eastern most point? Guess.
+:::
+
+## Dateline
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| out-width: "75%"
+
+ak <- st_read(here::here("slides/18", "data/ak/states.shp"), quiet = TRUE, stringsAsFactors = FALSE)
+
+par(mar = c(3, 3, 1, 1))
+
+ak_geom <- st_geometry(ak)
+
+west_hem <- st_polygon(list(matrix(c(-180, 90, -180, -90, 0, -90, 0, 90, -180, 90), ncol = 2, byrow = TRUE))) |>
+  st_sfc() |>
+  st_set_crs("+proj=longlat +datum=WGS84")
+
+east_hem <- st_polygon(list(matrix(c(180, 90, 180, -90, 0, -90, 0, 90, 180, 90), ncol = 2, byrow = TRUE))) |>
+  st_sfc() |>
+  st_set_crs("+proj=longlat +datum=WGS84")
+
+ak_west <- st_intersection(ak_geom, west_hem)
+ak_east <- st_intersection(ak_geom, east_hem)
+
+ak_east_shift <- (ak_east - c(360, 0)) |> st_set_crs("+proj=longlat +datum=WGS84")
+
+ak_shift <- st_union(ak_east_shift, ak_west)
+
+plot(ak_shift, axes = TRUE, col = "black", border = NA, xlim = c(-190, -130))
+points(c(-360 + 179.776, -179.146), c(51.952, 51.273), col = "red")
+abline(v = -180, col = "blue", lty = 2)
+```
+
+# Geospatial data in the real world: <br> Freedom index
+
+## Freedom index
+
+-   Since 1973, Freedom House has assessed the condition of political rights and civil liberties around the world.
+
+-   It is used on a regular basis by policymakers, journalists, academics, activists, and many others.
+
+. . .
+
+::: {.callout-warning icon="false"}
+## Bias warning
+
+"Freedom Index" from any source have potential bias and is prone to miscalculations. While the index appears to cover many social issues including freedom of religion, expression, etc. this data (like any data) should be approached with skepticism. Quantifying complex issues like these is difficult and the process can oversimplify difficult to record/measure political nuances.
+:::
+
+::: aside
+Source: <https://freedomhouse.org/report/freedom-world>
+:::
+
+## Data {.smaller}
+
+```{r}
+#| include: false
+
+freedom <- read_csv(here::here("slides/18", "data/freedom-2022.csv"), na = c("", "-")) |>
+  drop_na()
+```
+
+```{r}
+#| eval: false
+
+freedom <- read_csv("data/freedom-2022.csv", na = c("", "-")) |>
+  drop_na()
+```
+
+. . .
+
+::: columns
+::: {.column width="50%"}
+```{r}
+freedom
+```
+:::
+
+::: {.column width="50%"}
+-   `pr`: Political rights rating
+-   `cl`: Civil liberties rating
+-   `status`: The average of each pair of ratings on political rights and civil liberties determines the overall status of F (Free, 1.0 - 2.5), PF (Partly Free, 3.0 - 5.0), or NF (Not Free, 5.5 - 7.0)
+:::
+:::
+
+## Improve {.smaller}
+
+::: task
+The following visualization shows the distribution civil liberties ratings (1 - greatest degree of freedom to 7 - smallest degree of freedom). This is, undoubtedly, not the best visualization we can make of these data. How can we improve it?
+:::
+
+```{r}
+#| echo: false
+
+ggplot(freedom, aes(x = factor(cl))) +
+  geom_bar() +
+  labs(x = "Civil Liberties Rating")
+```
+
+## Mapping the freedom data
+
+-   Obtain country boundaries and store as a data frame
+-   Join the freedom and country boundaries data frames
+-   Plot the country boundaries, and fill by freedom scores
+
+## `map_data()`
+
+The `map_data()` function easily turns data from the maps package in to a data frame suitable for plotting with ggplot2:
+
+```{r}
+world_map <- map_data("world") |> as_tibble()
+world_map
+```
+
+## Mapping the world {.smaller}
+
+```{r}
+#| out-width: "70%"
+
+ggplot(world_map, aes(x = long, y = lat, group = group)) +
+  geom_polygon(fill = "gray") +
+  coord_quickmap()
+```
+
+## Freedom and world map
+
+::: columns
+::: {.column width="50%"}
+```{r}
+freedom |> select(country)
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+world_map |> select(region)
+```
+:::
+:::
+
+## Join freedom and world map
+
+```{r}
+freedom_map <- freedom |>
+  left_join(world_map, by = c("country" = "region"), multiple = "all")
+```
+
+```{r}
+glimpse(freedom_map)
+```
+
+## Mapping freedom {.smaller}
+
+::: task
+What is missing/misleading about the following map?
+:::
+
+```{r}
+#| out.width = "70%"
+
+ggplot(freedom_map, mapping = aes(x = long, y = lat, group = group)) +
+  geom_polygon(aes(fill = cl)) +
+  coord_map(projection = "mercator", xlim = c(-180, 180))
+```
+
+## Missing countries {.smaller}
+
+```{r}
+freedom |> 
+  anti_join(world_map, by = c("country" = "region")) |>
+  select(country) |>
+  print(n = 14)
+```
+
+## Data cleanup - `freedom`
+
+```{r}
+freedom_updated <- freedom |>
+  mutate(country = case_when(
+    country == "Cabo Verde" ~ "Cape Verde",
+    country == "Congo (Brazzaville)" ~ "Republic of Congo",
+    country == "Congo (Kinshasa)" ~ "Democratic Republic of the Congo",
+    country == "Cote d'Ivoire" ~ "Ivory Coast",
+    country == "St. Lucia" ~ "Saint Lucia",
+    country == "The Gambia" ~ "Gambia",
+    country == "United Kingdom" ~ "UK",
+    country == "United States" ~ "USA",
+    TRUE ~ country
+    )
+  )
+```
+
+## Data cleanup - `world_map`
+
+```{r}
+world_map_updated <- world_map |>
+  mutate(region = case_when(
+    region == "Antigua" ~ "Antigua and Barbuda",
+    region == "Barbuda" ~ "Antigua and Barbuda",
+    region == "Saint Kitts" ~ "St. Kitts and Nevis",
+    region == "Nevis" ~ "St. Kitts and Nevis",
+    region == "Saint Vincent" ~ "St. Vincent and the Grenadines",
+    region == "Grenadines" ~ "St. Vincent and the Grenadines",
+    region == "Trinidad" ~ "Trinidad and Tobago",
+    region == "Tobago" ~ "Trinidad and Tobago",
+    region == "Swaziland" ~ "Eswatini",
+    TRUE ~ region
+    )
+  )
+```
+
+## Check again
+
+```{r}
+freedom_updated |> 
+  anti_join(world_map_updated, by = c("country" = "region")) |>
+  select(country)
+```
+
+. . .
+
+Tuvalu, formerly known as the Ellice Islands, is an island country and microstate in the Polynesian subregion of Oceania in the Pacific Ocean. Its islands are situated about midway between Hawaii and Australia. Tuvalu is composed of three reef islands and six atolls.
+
+::: aside
+Source: <https://en.wikipedia.org/wiki/Tuvalu>
+:::
+
+## Let's map! {background-color="#104E8B"}
+
+```{r}
+#| echo: false
+#| out-width: "95%"
+
+freedom_map <- freedom_updated |>
+  left_join(world_map_updated, by = c("country" = "region"), relationship
+  = "many-to-many") |>
+  mutate(
+    cl = factor(cl, ordered = TRUE),
+    pr = factor(pr, ordered = TRUE)
+  )
+
+freedom_map |>
+  ggplot(mapping = aes(x = long, y = lat, group = group)) +
+  geom_polygon(aes(fill = cl), color = "gray", linewidth = 0.1) +
+  scale_fill_viridis_d(name = NULL, option = "B", na.value = "gray") +
+  guides(fill = guide_legend(nrow = 1)) +
+  coord_map(projection = "mercator", xlim = c(-180, 180)) +
+  theme_void() +
+  theme(
+    text = element_text(color = "white"),
+    legend.position = "top",
+    plot.background = element_rect(fill = "#104E8B", color = "#104E8B"),
+    plot.title = element_text(hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5)
+  ) +
+  labs(
+    title = "Civil Liberties Ratings, 2022",
+    subtitle = "1 - Greatest to 7 - Smallest degree of freedom\n",
+    caption = "Source: Freedom House"
+  )
+```
+
+## Highlights from livecoding
+
+-   When working through non-matching unique identifiers in a join, you might need to clean the data in both data frames being merged, depending on the context
+
+-   Two ways to surface polygons with `NA`s:
+
+    -   `left_join()` map to data, layering with map at the bottom, data on top
+    -   `left_join()` data to map, set `na.value` in `scale_fill_*()` to desired color
+
+-   Use `na.value = "red"` (or some other color that will stand out) to easily spot polygons with `NA`s
+
+# Geofaceting
+
+## 
+
+```{r}
+#| echo: false
+#| message: false
+
+us_state_vaccinations <- read_csv(here::here("slides/18", "data/us_state_vaccinations.csv"))
+
+us_state_vaccinations <- us_state_vaccinations |>
+  mutate(location = if_else(location == "New York State", "New York", location)) |>
+  filter(location %in% c(state.name, "District of Columbia"))
+```
+
+```{r}
+#| label: geofacet-state
+#| echo: false
+#| message: false
+#| warning: false
+#| out-width: "90%"
+#| fig-width: 12
+#| cache: true
+
+ggplot(us_state_vaccinations, aes(x = date, y = people_fully_vaccinated_per_hundred, group = location)) +
+  geom_area() +
+  facet_geo(~location) +
+  scale_y_continuous(
+    limits = c(0, 100),
+    breaks = c(0, 50, 100),
+    minor_breaks = c(25, 75)
+    ) +
+  scale_x_date(breaks = c(ymd("2021-01-01", "2021-05-01", "2021-09-01")), date_labels = "%b") +
+  labs(
+    x = NULL, y = NULL,
+    title = "Covid-19 vaccination rate in the US",
+    subtitle = "Daily number of people fully vaccinated, per hundred",
+    caption = "Source: Our World in Data"
+  ) +
+  theme(
+    strip.text.x = element_text(size = 7),
+    axis.text = element_text(size = 8),
+    plot.title.position = "plot"
+  )
+```
+
+## Daily US vaccine data by state {.smaller}
+
+```{r}
+#| include: false
+
+us_state_vaccinations <- read_csv(here::here("slides/18", "data/us_state_vaccinations.csv"))
+```
+
+```{r}
+#| eval: false
+
+us_state_vaccinations <- read_csv(here::here("data/us_state_vaccinations.csv"))
+```
+
+```{r}
+us_state_vaccinations
+```
+
+::: aside
+Source: https://ourworldindata.org/us-states-vaccinations
+:::
+
+## Facet by location
+
+```{r}
+#| output-location: slide
+#| out-width: "100%"
+#| fig-width: 12
+
+ggplot(
+  us_state_vaccinations,
+  aes(x = date, y = people_fully_vaccinated_per_hundred)
+) +
+  geom_area() +
+  facet_wrap(~location)
+```
+
+## Data cleaning
+
+```{r}
+us_state_vaccinations <- us_state_vaccinations |>
+  mutate(location = if_else(location == "New York State", "New York", location)) |>
+  filter(location %in% c(state.name, "District of Columbia"))
+```
+
+## Geofacet by state
+
+Using `geofacet::facet_geo()`:
+
+```{r}
+#| output-location: slide
+#| warning: false
+#| out-width: "100%"
+#| fig-width: 12
+#| cache: true
+
+ggplot(us_state_vaccinations, 
+       aes(x = date, y = people_fully_vaccinated_per_hundred)) +
+  geom_area() +
+  facet_geo(~ location) +
+  labs(
+    x = NULL, y = NULL,
+    title = "Covid-19 vaccination rate in the US",
+    subtitle = "Daily number of people fully vaccinated, per hundred",
+    caption = "Source: Our World in Data"
+  )
+```
+
+## Geofacet by state, with improvements
+
+```{r}
+#| ref.label: "geofacet-state"
+#| output-location: slide
+#| message: false
+#| warning: false
+#| out-width: "100%"
+#| fig-width: 12
+#| code-line-numbers: "|4-8|9"
+```
+
+## Bring in 2020 Presidential election results
+
+```{r}
+#| include: false
+
+election_2020 <- read_csv(here::here("slides/18", "data/us-election-2020.csv"))
+```
+
+```{r}
+#| eval: false
+
+election_2020 <- read_csv(here::here("data/us-election-2020.csv"))
+```
+
+```{r}
+election_2020
+```
+
+## Geofacet by state + presidential election result {.smaller}
+
+```{r}
+#| output-location: slide
+#| out-width: "100%"
+#| fig-width: 12
+#| warning: false
+#| cache: true
+#| code-line-numbers: "|6|8|23"
+
+us_state_vaccinations |>
+  left_join(election_2020, by = c("location" = "state")) |>
+  ggplot(aes(x = date, y = people_fully_vaccinated_per_hundred)) +
+  geom_area(aes(fill = win)) +
+  facet_geo(~location) +
+  scale_y_continuous(limits = c(0, 100), breaks = c(0, 50, 100), minor_breaks = c(25, 75)) +
+  scale_x_date(breaks = c(ymd("2021-01-01", "2021-05-01", "2021-09-01")), date_labels = "%b") +
+  scale_fill_manual(values = c("#2D69A1", "#BD3028")) +
+  labs(
+    x = NULL, y = NULL,
+    title = "Covid-19 vaccination rate in the US",
+    subtitle = "Daily number of people fully vaccinated, per hundred",
+    caption = "Source: Our World in Data",
+    fill = "2020 Presidential\nElection"
+  ) +
+  theme(
+    strip.text.x = element_text(size = 7),
+    axis.text = element_text(size = 8),
+    plot.title.position = "plot",
+    legend.position = c(0.93, 0.15),
+    legend.text = element_text(size = 9), 
+    legend.title = element_text(size = 11), 
+    legend.background = element_rect(color = "gray", size = 0.5) 
+  )
+```

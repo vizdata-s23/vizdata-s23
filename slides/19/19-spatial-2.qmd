@@ -1,0 +1,177 @@
+---
+title: Visualizing geospatial data I
+subtitle: Lecture 18
+title-slide-attributes:
+  data-background-image: ../vizdata-bg.png
+  data-background-size: stretch
+  data-slide-number: none
+format: revealjs
+highlight-style: a11y
+execute:
+  code-link: true
+  warning: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# Warm up
+
+## Announcements
+
+-   
+
+## Setup {.smaller}
+
+```{r}
+#| label: setup
+#| message: false
+
+# load packages
+library(countdown)
+library(tidyverse)
+
+# set theme for ggplot2
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14))
+
+# set width of code output
+options(width = 65)
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 7,        # 7" width
+  fig.asp = 0.618,      # the golden ratio
+  fig.retina = 3,       # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300             # higher dpi, sharper image
+)
+```
+
+class: middle, inverse
+
+# Using \*\*sf\*\*
+
+\-\--
+
+## Simple Features for R
+
+\`\`\`{r echo = FALSE, fig.alt = "Simple features for R", out.width = "60%"}
+knitr::include_graphics("images/sf.jpeg")
+\`\`\`
+
+.footnote\[
+Illustration by Allison Horst
+\]
+
+\-\--
+
+## Simple features
+
+\`\`\`{r echo = FALSE, fig.alt = "Simple features", out.width = "70%"}
+knitr::include_graphics("images/simple-features.png")
+\`\`\`
+
+.footnote\[
+Source: \[Simple Features for R\](https://r-spatial.github.io/sf/articles/sf1.html#sf-objects-with-simple-features-1)
+\]
+
+\-\--
+
+## The sf package
+
+.pull-left\[
+A package that provides simple features access for R
+
+- represents simple features as records in a \`data.frame\` or \`tibble\` with a \`geometry\` list-column
+- represents natively in R all 17 simple feature types for all dimensions
+- ...
+
+\<br\>
+
+Learn more at \[r-spatial.github.io/sf\](https://r-spatial.github.io/sf).
+\]
+.pull-right\[
+\`\`\`{r echo = FALSE, fig.alt = "Hex logo for sf", out.width = "50%"}
+knitr::include_graphics("images/sf-hex.gif")
+\`\`\`
+\]
+
+\-\--
+
+## Get world data
+
+Using the \*\*rnaturalearth\*\* package
+
+\`\`\`{r}
+world \<- ne_countries(scale = "medium", returnclass = "sf")
+class(world)
+\`\`\`
+
+\-\--
+
+## sf geometry
+
+.small\[
+\`\`\`{r}
+world %\>% select(geometry)
+\`\`\`
+\]
+
+\-\--
+
+## Map the world with sf
+
+\`\`\`{r}
+ggplot(data = world) +
+ geom_sf() #\<\<
+\`\`\`
+
+\-\--
+
+## Plays nicely with ggplot2
+
+\`\`\`{r}
+ggplot(data = world) +
+ geom_sf(fill = "cornsilk", size = 0.2) +
+ labs(x = "Longitude", y = "Latitude", title = "World map") +
+ theme(panel.background = element_rect("lightblue"))
+\`\`\`
+
+\-\--
+
+## Plays nicely with ggplot2
+
+\`\`\`{r}
+ggplot(data = world) +
+ geom_sf(aes(fill = pop_est)) +
+ scale_fill_viridis_c(option = "plasma", trans = "sqrt")
+\`\`\`
+
+\-\--
+
+## Projections with sf
+
+\`\`\`{r}
+ggplot(data = world) +
+ geom_sf() +
+ coord_sf( #\<\<
+ crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs " #\<\<
+ ) #\<\<
+\`\`\`
+
+\-\--
+
+## Scale bar and North arrow
+
+Using the \*\*ggspatial\*\* package
+
+\`\`\`{r}
+ggplot(data = world) +
+ geom_sf(fill = "cornsilk") +
+ annotation_scale(location = "bl", width_hint = 0.4) +
+ annotation_north_arrow(
+ location = "bl", which_north = "true", 
+ pad_x = unit(0.5, "in"), pad_y = unit(0.3, "in"),
+ style = north_arrow_fancy_orienteering) +
+ coord_sf(xlim = c(24, 45), ylim = c(32, 43))
+\`\`\`
+
