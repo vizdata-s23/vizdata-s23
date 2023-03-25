@@ -489,7 +489,8 @@ Source: <https://en.wikipedia.org/wiki/Tuvalu>
 
 ```{r}
 #| echo: false
-#| out-width: "95%"
+#| out-width: "105%"
+#| fig-width: 10
 
 freedom_map <- freedom_updated |>
   left_join(world_map_updated, by = c("country" = "region"), relationship
