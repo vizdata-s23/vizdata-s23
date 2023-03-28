@@ -22,7 +22,15 @@ editor_options:
 
 ## Large data advice
 
--   
+-   A note on how R / memory usage
+
+-   [`rm()` and `gc()`](https://stackoverflow.com/questions/8813753/what-is-the-difference-between-gc-and-rm)
+
+-   Options:
+
+    -   Data larger than can be uploaded to container: (Maybe) Adding to the container directly (via OIT)
+
+    -   Data too large for Github, but not too large to be uploaded to container: `gitignore`ing and adding to each container individually
 
 ## Setup {.smaller}
 
