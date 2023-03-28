@@ -80,7 +80,15 @@ website:
             text: HW 01
           - href: https://github.com/vizdata-s23/hw-02#homework-02
             text: HW 02
-
+          - href: https://github.com/vizdata-s23/hw-03#homework-03
+            text: HW 03
+          - href: https://github.com/vizdata-s23/hw-04#homework-04
+            text: HW 04
+      - section: "Student work"
+        contents:
+          - href: thank-you.qmd
+            text: Thank you cards
+            
   page-footer:
     right: "This page is built with 💛 and [Quarto](https://quarto.org/)."
     left: "&copy; Copyright 2023, Mine Çetinkaya-Rundel"

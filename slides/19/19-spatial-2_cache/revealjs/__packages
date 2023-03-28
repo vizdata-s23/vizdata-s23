@@ -1,0 +1,16 @@
+countdown
+tidyverse
+ggplot2
+tibble
+tidyr
+readr
+purrr
+dplyr
+stringr
+forcats
+lubridate
+ggspatial
+patchwork
+sf
+rnaturalearth
+rnaturalearthdata

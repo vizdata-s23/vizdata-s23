@@ -1,6 +1,6 @@
 ---
-title: Visualizing geospatial data I
-subtitle: Lecture 18
+title: Visualizing geospatial data II
+subtitle: Lecture 19
 title-slide-attributes:
   data-background-image: ../vizdata-bg.png
   data-background-size: stretch
@@ -18,6 +18,10 @@ editor_options:
 
 ## Announcements
 
+-   Project proposals for peer review due today at 5pm
+
+## Large data advice
+
 -   
 
 ## Setup {.smaller}
@@ -29,6 +33,12 @@ editor_options:
 # load packages
 library(countdown)
 library(tidyverse)
+library(ggrepel)
+library(ggspatial)
+library(patchwork)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(sf)
 
 # set theme for ggplot2
 ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14))
@@ -38,140 +48,594 @@ options(width = 65)
 
 # set figure parameters for knitr
 knitr::opts_chunk$set(
-  fig.width = 7,        # 7" width
-  fig.asp = 0.618,      # the golden ratio
-  fig.retina = 3,       # dpi multiplier for displaying HTML output on retina
+  fig.width = 7, # 7" width
+  fig.asp = 0.618, # the golden ratio
+  fig.retina = 3, # dpi multiplier for displaying HTML output on retina
   fig.align = "center", # center align figures
-  dpi = 300             # higher dpi, sharper image
+  dpi = 300 # higher dpi, sharper image
 )
 ```
 
-class: middle, inverse
+# Spatial data in R
 
-# Using \*\*sf\*\*
+## Packages for geospatial data in R {.smaller}
 
-\-\--
+::: medium
+R has a rich package ecosystem for read/writing, manipulating, and analyzing geospatial data.
 
-## Simple Features for R
+Some core packages:
 
-\`\`\`{r echo = FALSE, fig.alt = "Simple features for R", out.width = "60%"}
-knitr::include_graphics("images/sf.jpeg")
-\`\`\`
+-   **sp** - core classes for handling spatial data, additional utility functions - **Deprecated**
 
-.footnote\[
-Illustration by Allison Horst
-\]
+-   **rgdal** - R interface to `gdal` (Geospatial Data Abstraction Library) for reading and writing spatial data - **Deprecated**
 
-\-\--
+-   **rgeos** - R interface to `geos` (Geometry Engine Open Source) library for querying and manipulating spatial data. Reading and writing WKT. - **Deprecated**
 
-## Simple features
+-   **sf** - Combines the functionality of `sp`, `rgdal`, and `rgeos` into a single package based on tidy simple features.
 
-\`\`\`{r echo = FALSE, fig.alt = "Simple features", out.width = "70%"}
-knitr::include_graphics("images/simple-features.png")
-\`\`\`
+-   **raster** - classes and tools for handling spatial raster data.
 
-.footnote\[
-Source: \[Simple Features for R\](https://r-spatial.github.io/sf/articles/sf1.html#sf-objects-with-simple-features-1)
-\]
+-   **stars** - Reading, manipulating, writing and plotting spatiotemporal arrays (rasters)
+:::
 
-\-\--
+::: aside
+See more - [Spatial task view](http://cran.r-project.org/web/views/Spatial.html)
+:::
 
 ## The sf package
 
-.pull-left\[
-A package that provides simple features access for R
+::: columns
+::: {.column width="70%"}
+A package that provides simple features access for R:
 
-- represents simple features as records in a \`data.frame\` or \`tibble\` with a \`geometry\` list-column
-- represents natively in R all 17 simple feature types for all dimensions
-- ...
+-   represents simple features as records in a `data.frame` or `tibble` with a `geometry` list-column
+-   represents natively in R all 17 simple feature types for all dimensions
 
-\<br\>
+Learn more at [r-spatial.github.io/sf](https://r-spatial.github.io/sf).
+:::
 
-Learn more at \[r-spatial.github.io/sf\](https://r-spatial.github.io/sf).
-\]
-.pull-right\[
-\`\`\`{r echo = FALSE, fig.alt = "Hex logo for sf", out.width = "50%"}
+::: {.column width="30%"}
+```{r}
+#| echo: false
+#| fig-alt: Hex logo for sf
+
 knitr::include_graphics("images/sf-hex.gif")
-\`\`\`
-\]
+```
+:::
+:::
 
-\-\--
+## Installing **sf** {.smaller}
+
+This is the hardest part of using the **sf** package, difficulty comes from is dependence on several external libraries (`geos`, `gdal`, and `proj`).
+
+-   If using the containers, **sf** is already installed for you.
+-   If using your own machine:
+    -   *Windows* - installing from source works when Rtools is installed (system requirements are downloaded from rwinlib)
+    -   *MacOS* - install dependencies via homebrew: `gdal2`, `geos`, `proj`.
+    -   *Linux* - Install development packages for GDAL (\>= 2.0.0), GEOS (\>= 3.3.0) and Proj.4 (\>= 4.8.0) from your package manager of choice.
+
+More specific details are included in the [package README on github](https://github.com/r-spatial/sf#installing).
+
+## Simple Features for R
+
+```{r}
+#| echo: false
+#| fig-alt: Simple features for R
+#| out-width: "60%"
+
+knitr::include_graphics("images/sf.jpeg")
+```
+
+::: aside
+Illustration by Allison Horst.
+:::
+
+## Simple Features
+
+```{r}
+#| echo: false
+
+par(mar = c(1, 1, 2, 1), mfrow = c(2, 4))
+
+## Single Geometries
+
+pt <- st_point(c(30, 10))
+ls <- st_linestring(matrix(c(30, 10, 10, 30, 40, 40), byrow = TRUE, ncol = 2))
+poly <- st_polygon(list(matrix(c(30, 10, 40, 40, 20, 40, 10, 20, 30, 10), ncol = 2, byrow = TRUE)))
+poly_hole <- st_polygon(
+  list(
+    matrix(c(35, 10, 45, 45, 15, 40, 10, 20, 35, 10), ncol = 2, byrow = TRUE),
+    matrix(c(20, 30, 35, 35, 30, 20, 20, 30), ncol = 2, byrow = TRUE)
+  )
+)
+
+plot(pt, axes = FALSE, main = "Point", pch = 16)
+box()
+plot(ls, axes = FALSE, main = "Linestring")
+box()
+plot(poly, axes = FALSE, col = "lightgrey", main = "Polygon")
+box()
+plot(poly_hole, axes = FALSE, col = "lightgrey", main = "Polygon w/ Hole(s)")
+box()
+
+
+## Multi Geometries
+
+pts <- st_multipoint(matrix(c(10, 40, 40, 30, 20, 20, 30, 10), ncol = 2, byrow = TRUE))
+lss <- st_multilinestring(list(
+  matrix(c(10, 10, 20, 20, 10, 40), ncol = 2, byrow = TRUE),
+  matrix(c(40, 40, 30, 30, 40, 20, 30, 10), ncol = 2, byrow = TRUE)
+))
+
+polys <- st_multipolygon(list(
+  list(matrix(c(30, 20, 45, 40, 10, 40, 30, 20), ncol = 2, byrow = TRUE)),
+  list(matrix(c(15, 5, 40, 10, 10, 20, 5, 10, 15, 5), ncol = 2, byrow = TRUE))
+))
+polys_hole <- st_multipolygon(list(
+  list(matrix(c(40, 40, 20, 45, 45, 30, 40, 40), ncol = 2, byrow = TRUE)),
+  list(
+    matrix(c(20, 35, 10, 30, 10, 10, 30, 5, 45, 20, 20, 35), ncol = 2, byrow = TRUE),
+    matrix(c(30, 20, 20, 15, 20, 25, 30, 20), ncol = 2, byrow = TRUE)
+  )
+))
+
+plot(pts, axes = FALSE, main = "Multipoint", pch = 16)
+box()
+plot(lss, axes = FALSE, main = "Multilinestring")
+box()
+plot(polys, axes = FALSE, col = "lightgrey", main = "Multipolygon")
+box()
+plot(polys_hole, axes = FALSE, col = "lightgrey", main = "Multipolygon w/ Hole(s)")
+box()
+```
+
+# Using sf
 
 ## Get world data
 
-Using the \*\*rnaturalearth\*\* package
+Using the **rnaturalearth** package
 
-\`\`\`{r}
-world \<- ne_countries(scale = "medium", returnclass = "sf")
+```{r}
+world <- ne_countries(scale = "medium", returnclass = "sf")
 class(world)
-\`\`\`
+```
 
-\-\--
+## What's in `world`?
+
+```{r}
+names(world)
+```
+
+## What's in `world`?
+
+```{r}
+attributes(world)
+```
 
 ## sf geometry
 
-.small\[
-\`\`\`{r}
-world %\>% select(geometry)
-\`\`\`
-\]
-
-\-\--
+```{r}
+world |>
+  select(geometry)
+```
 
 ## Map the world with sf
 
-\`\`\`{r}
+```{r}
+#| code-line-numbers: "|2"
 ggplot(data = world) +
- geom_sf() #\<\<
-\`\`\`
-
-\-\--
+  geom_sf()
+```
 
 ## Plays nicely with ggplot2
 
-\`\`\`{r}
-ggplot(data = world) +
- geom_sf(fill = "cornsilk", size = 0.2) +
- labs(x = "Longitude", y = "Latitude", title = "World map") +
- theme(panel.background = element_rect("lightblue"))
-\`\`\`
+```{r}
+#| fig-width: 8
 
-\-\--
+ggplot(data = world) +
+  geom_sf(fill = "cornsilk", size = 0.2) +
+  labs(x = "Longitude", y = "Latitude", title = "World map") +
+  theme(panel.background = element_rect("lightblue"))
+```
 
 ## Plays nicely with ggplot2
 
-\`\`\`{r}
-ggplot(data = world) +
- geom_sf(aes(fill = pop_est)) +
- scale_fill_viridis_c(option = "plasma", trans = "sqrt")
-\`\`\`
+```{r}
+#| fig-width: 8
 
-\-\--
+ggplot(data = world) +
+  geom_sf(aes(fill = pop_est)) +
+  scale_fill_viridis_c(option = "plasma", trans = "sqrt")
+```
 
 ## Projections with sf
 
-\`\`\`{r}
-ggplot(data = world) +
- geom_sf() +
- coord_sf( #\<\<
- crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs " #\<\<
- ) #\<\<
-\`\`\`
+```{r}
+#| code-line-numbers: "|3-5"
 
-\-\--
+ggplot(data = world) +
+  geom_sf() +
+  coord_sf(
+    crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs"
+  )
+```
 
 ## Scale bar and North arrow
 
-Using the \*\*ggspatial\*\* package
+Using the **ggspatial** package:
 
-\`\`\`{r}
+```{r}
+#| output-location: slide
+#| fig-width: 7
+#| out-width: "80%"
+
 ggplot(data = world) +
- geom_sf(fill = "cornsilk") +
- annotation_scale(location = "bl", width_hint = 0.4) +
- annotation_north_arrow(
- location = "bl", which_north = "true", 
- pad_x = unit(0.5, "in"), pad_y = unit(0.3, "in"),
- style = north_arrow_fancy_orienteering) +
- coord_sf(xlim = c(24, 45), ylim = c(32, 43))
-\`\`\`
+  geom_sf(fill = "cornsilk") +
+  annotation_scale(location = "bl", width_hint = 0.4) +
+  annotation_north_arrow(
+    location = "bl", which_north = "true",
+    pad_x = unit(0.5, "in"), pad_y = unit(0.3, "in"),
+    style = north_arrow_fancy_orienteering
+  ) +
+  coord_sf(xlim = c(24, 45), ylim = c(32, 43))
+```
 
+## The scale warning
+
+```         
+Scale on map varies by more than 10%, scale bar may be inaccurate
+```
+
+> Note the warning of the inaccurate scale bar: since the map uses unprojected data in longitude/latitude (WGS84) on an equidistant cylindrical projection (all meridians being parallel), length in (kilo)meters on the map directly depends mathematically on the degree of latitude. Plots of small regions or projected data will often allow for more accurate scale bars.
+
+::: aside
+Source: [Drawing beautiful maps programmatically with R, sf and ggplot2 --- Part 1: Basics](https://r-spatial.org/r/2018/10/25/ggplot2-sf.html)
+:::
+
+## Reading, writing, and converting
+
+-   `sf`
+    -   `st_read()` / `st_write()` - Shapefile, GeoJSON, KML, ...
+    -   `read_sf()` / `write_sf()` - Same, supports tibbles ...
+    -   `st_as_sfc()` / `st_as_wkt()` - sf \<-\> WKT
+    -   `st_as_sfc()` / `st_as_binary()` - sf \<-\> WKB
+    -   `st_as_sfc()` / `as(x, "Spatial")` - sf \<-\> sp
+
+::: aside
+See [sf vignette #2 - Reading, Writing and Converting Simple Features](https://cran.r-project.org/web/packages/sf/vignettes/sf2.html).
+:::
+
+## Example data
+
+North Carolina counties, US airports, and US highways:
+
+::: small
+```{r}
+nc <- read_sf("data/nc_counties/", quiet = TRUE)
+air <- read_sf("data/airports/", quiet = TRUE)
+hwy <- read_sf("data/us_interstates/", quiet = TRUE)
+```
+:::
+
+## NC Counties
+
+::: small
+```{r}
+nc
+```
+:::
+
+## US Airports
+
+::: small
+```{r}
+air
+```
+:::
+
+## US highways
+
+::: small
+```{r}
+hwy
+```
+:::
+
+## sf structure
+
+::: small
+```{r}
+str(nc)
+```
+:::
+
+## sf classes
+
+```{r}
+class(nc)
+```
+
+. . .
+
+```{r}
+class(nc$geometry)
+class(st_geometry(nc))
+```
+
+. . .
+
+```{r}
+class(nc$geometry[[1]])
+```
+
+## Projections / CRS
+
+::: small
+```{r}
+st_crs(nc)
+```
+:::
+
+::: aside
+[EPSG Geodetic Parameter Dataset](https://en.wikipedia.org/wiki/EPSG_Geodetic_Parameter_Dataset)
+:::
+
+## 
+
+::: small
+```{r}
+st_crs(hwy)
+```
+:::
+
+## Projections
+
+```{r}
+#| label: projs
+#| echo: false
+#| message: false
+#| warning: false
+lat_lines <- map(seq(9.999, 89.999, length.out = 9), ~ cbind(seq(-179.999, -9.999, length.out = 100), .))
+long_lines <- map(seq(-179.999, -9.999, length.out = 17), ~ cbind(., seq(9.999, 89.999, length.out = 100)))
+
+lat_long <- c(lat_lines, long_lines) |>
+  st_multilinestring() |>
+  st_sfc() |>
+  st_set_crs("+proj=longlat +datum=WGS84 +no_defs")
+
+data(wrld_simpl, package = "maptools")
+world <- st_as_sf(wrld_simpl)
+
+NAm <- world |> filter(FIPS %in% c("CA", "GL", "MX", "US"))
+NAm_google <- st_transform(NAm, "+init=epsg:3857")
+
+par(mar = c(3, 2, 2, 1), mfrow = c(2, 3))
+plot(lat_long, col = adjustcolor("grey", alpha.f = 0.5), axes = TRUE, main = "Lat/Long (epsg:4326)")
+plot(st_geometry(NAm), col = "black", add = TRUE)
+
+plot(st_transform(lat_long, "+init=epsg:3857"), col = adjustcolor("grey", alpha.f = 0.5), axes = TRUE, main = "Google / Web Mercator (epsg:3857)", ylim = c(0, 2e7))
+plot(st_transform(NAm, "+init=epsg:3857") |> st_geometry(), col = "black", add = TRUE)
+
+lcc <- "+proj=lcc +lat_1=20 +lat_2=60 +lat_0=40 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
+plot(st_transform(lat_long, lcc), col = adjustcolor("grey", alpha.f = 0.5), axes = TRUE, main = "Lambert Conformal Conic:")
+plot(st_transform(NAm, lcc) |> st_geometry(), col = "black", add = TRUE)
+
+aea <- "+proj=aea +lat_1=20 +lat_2=60 +lat_0=40 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
+plot(st_transform(lat_long, aea), col = adjustcolor("grey", alpha.f = 0.5), axes = TRUE, main = "Alberts Equal Area")
+plot(st_transform(NAm, aea) |> st_geometry(), col = "black", add = TRUE)
+
+robinson <- "+proj=robin +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
+plot(st_transform(lat_long, robinson), col = adjustcolor("grey", alpha.f = 0.5), axes = TRUE, main = "Robinson")
+plot(st_transform(NAm, robinson) |> st_geometry(), col = "black", add = TRUE)
+
+mollweide <- "+proj=moll +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
+plot(st_transform(lat_long, mollweide), col = adjustcolor("grey", alpha.f = 0.5), axes = TRUE, main = "Mollweide")
+plot(st_transform(NAm, mollweide) |> st_geometry(), col = "black", add = TRUE)
+```
+
+# Plotting with Base R
+
+## Base R plots
+
+-   Created with `plot()`
+-   Automatically applied methods based on class of object being plotted
+
+## All variables at once
+
+::: task
+Where did these variables come from? Which of these plots don't make sense?
+:::
+
+```{r}
+plot(nc)
+```
+
+## Geometry Plot
+
+```{r}
+plot(st_geometry(nc), axes = TRUE)
+```
+
+## Graticules
+
+```{r}
+plot(nc[, "AREA"], axes = TRUE)
+```
+
+## Graticules
+
+```{r}
+plot(nc[, "AREA"], graticule = st_crs(nc), axes = TRUE)
+```
+
+## Graticules (EPSG:3631)
+
+```{r}
+plot(st_transform(nc[, "AREA"], 3631), axes = TRUE)
+```
+
+## Graticules (EPSG:3631)
+
+```{r}
+plot(st_transform(nc[, "AREA"], 3631), graticule = st_crs(nc), axes = TRUE)
+```
+
+## Graticules (EPSG:3631)
+
+```{r}
+plot(st_transform(nc[, "AREA"], 3631), graticule = st_crs(3631), axes = TRUE)
+```
+
+# Plotting with ggplot2
+
+## `geom_sf()`
+
+No automatic plotting:
+
+```{r}
+ggplot(nc) +
+  geom_sf()
+```
+
+## `aes()`thetic mappings
+
+More expressive: to plot variables, use aesthetic mappings as usual:
+
+```{r}
+ggplot(nc) +
+  geom_sf(aes(fill = AREA))
+```
+
+## Many variables at once
+
+Using **patchwork:**
+
+```{r}
+#| fig-asp: 0.3
+#| fig-width: 10
+
+p_area <- ggplot(nc) + 
+  geom_sf(aes(fill = AREA))
+p_perimeter <- ggplot(nc) + 
+  geom_sf(aes(fill = SQUARE_MIL)) +
+  theme(axis.text.y = element_blank())
+p_area + p_perimeter
+```
+
+## ggplot2 + projections
+
+```{r}
+ggplot(st_transform(nc, 3631)) +
+  geom_sf(aes(fill = AREA))
+```
+
+## ggplot2 + viridis
+
+```{r}
+ggplot(st_transform(nc, 3631)) +
+  geom_sf(aes(fill = AREA)) +
+  scale_fill_viridis_c()
+```
+
+## ggplot2 + calculations
+
+```{r}
+ggplot(st_transform(nc, 3631)) +
+  geom_sf(aes(fill = AREA / PERIMETER^2)) +
+  scale_fill_viridis_c()
+```
+
+## Other color palettes (discrete)
+
+![](images/brewer.png){fig-align="center" width="50%"}
+
+::: aside
+[ColorBrewer 2.0](https://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3) - color advice for maps
+:::
+
+## Picking palette breaks
+
+![](images/breaks1.png){fig-align="center" width="80%"}
+
+::: aside
+From [How to choose an interpolation for your color scale](https://blog.datawrapper.de/interpolation-for-color-scales-and-maps/)
+:::
+
+## Picking palette breaks
+
+![](images/breaks2.png){fig-align="center" width="80%"}
+
+::: aside
+From [How to choose an interpolation for your color scale](https://blog.datawrapper.de/interpolation-for-color-scales-and-maps/)
+:::
+
+# Layering maps
+
+## Data {.smaller}
+
+```{r}
+#| layout-ncol: 3
+
+ggplot(data = nc) +
+  geom_sf() +
+  labs(title = "NC Counties")
+ggplot(data = air) +
+  geom_sf(color = "blue") +
+  labs(title = "US Airports")
+ggplot(data = hwy) +
+  geom_sf(color = "orange") +
+  labs(title = "US Highways")
+```
+
+## Layering
+
+::: task
+`ae-17`: Recreate the following visualization.
+:::
+
+```{r}
+#| echo: false
+#| fig-width: 10
+#| warning: false
+#| message: false
+
+nc_bounds <- st_bbox(nc)
+
+ggplot() +
+  geom_sf(data = nc, fill = "gainsboro") +
+  geom_sf(data = hwy, color = "#308446", linewidth = 0.75) +
+  geom_sf(data = air) +
+  ggrepel::geom_label_repel(
+    data = air,
+    aes(label = IATA, geometry = geometry),
+    stat = "sf_coordinates",
+    min.segment.length = 0
+  ) +
+  lims(
+    x = c(nc_bounds$xmin, nc_bounds$xmax), 
+    y = c(nc_bounds$ymin, nc_bounds$ymax)
+  ) +
+  labs(x = "Longitude", y = "Latitude")
+```
+
+## **Which counties have airports?**
+
+```{r}
+nc_airports <- st_intersects(nc, air)
+str(nc_airports)
+```
+
+## Which counties have airports?
+
+```{r}
+has_airport <- map_lgl(nc_airports, ~ length(.) > 0)
+nc |> 
+  slice(which(has_airport)) |> 
+  pull(COUNTY)
+```
+
+## Which counties have airports?
+
+::: task
+`ae-17`: On the map of NC you made previously, highlight the counties that have airports.
+:::
