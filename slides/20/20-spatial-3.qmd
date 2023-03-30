@@ -123,18 +123,16 @@ countdown(minutes = 10)
 
 ::: columns
 ::: {.column width="50%"}
-Three-dimensional cube:
-![](images/cube1.png){fig-align="center"}
+Three-dimensional cube: ![](images/cube1.png){fig-align="center"}
 :::
 
 ::: {.column width="50%"}
-Multi-dimensional hypercube:
-![](images/cube2.png){fig-align="center"}
+Multi-dimensional hypercube: ![](images/cube2.png){fig-align="center"}
 :::
 :::
 
-::: .aside
-Source: [https://r-spatial.github.io/stars/](https://r-spatial.github.io/stars/)
+::: aside
+Source: <https://r-spatial.github.io/stars/>
 :::
 
 ## Easter Island
@@ -149,15 +147,15 @@ Easter Island (Rapa Nui / Isla de Pascua), a Chilean territory, is a remote volc
 :::
 :::
 
-::: .aside
-Source: [https://en.wikipedia.org/wiki/Easter_Island](https://en.wikipedia.org/wiki/Easter_Island)
+::: aside
+Source: <https://en.wikipedia.org/wiki/Easter_Island>
 :::
 
 ## File types
 
-- `tif` files are geospatial raster data, e.g., elevation maps
+-   `tif` files are geospatial raster data, e.g., elevation maps
 
-- `gpkg` are geopackage files, modern version of shapefiles
+-   `gpkg` are geopackage files, modern version of shapefiles
 
 ## Reading `tif` files
 
@@ -195,9 +193,9 @@ ggplot() +
   geom_sf(data = border)
 ```
 
-## {.center}
+##  {.center}
 
-::: .hand
+::: hand
 A brief aside...
 :::
 
@@ -215,16 +213,16 @@ ei_flag_raster <- as.raster(ei_flag_image)
 ei_plot + annotation_raster(ei_flag_raster, xmin = 657000, xmax = 670000, ymin = 6996000, ymax = 7004000)
 ```
 
-::: .aside
-Source: [https://en.wikipedia.org/wiki/Easter_Island](https://en.wikipedia.org/wiki/Easter_Island)
+::: aside
+Source: <https://en.wikipedia.org/wiki/Easter_Island>
 :::
 
 ## Finding the "bounding box"
 
-- `ggplot_build()` takes the plot object, and performs all steps necessary to produce an object that can be rendered
-- Outputs: 
-  1. a list of data frames (one for each layer)
-  2. a panel object, which contain all information about axis limits, breaks etc.
+-   `ggplot_build()` takes the plot object, and performs all steps necessary to produce an object that can be rendered
+-   Outputs:
+    1.  a list of data frames (one for each layer)
+    2.  a panel object, which contain all information about axis limits, breaks etc.
 
 ```{r}
 ei_plot_build <- ggplot_build(ei_plot)
@@ -245,9 +243,9 @@ ei_plot_build$data[[1]]$ymin
 ei_plot_build$data[[1]]$ymax
 ```
 
-## {.center}
+##  {.center}
 
-::: .hand
+::: hand
 Back to Easter Island...
 :::
 
@@ -287,8 +285,8 @@ ggplot() +
 
 > tmap is an actively maintained open-source R-library for drawing thematic maps. The API is based on A Layered Grammar of Graphics and resembles the syntax of ggplot2, a popular R-library for drawing charts.
 
-::: {.aside}
-Source: [https://r-tmap.github.io/tmap/](https://r-tmap.github.io/tmap/)
+::: aside
+Source: <https://r-tmap.github.io/tmap/>
 :::
 
 ## Border
@@ -372,7 +370,6 @@ tm_shape(elev) +
   )
 ```
 
-
 ## Elevation + more
 
 ```{r}
@@ -454,7 +451,6 @@ tm_shape(elev) +
     bg.color = "lightblue"
   )
 ```
-
 
 ## Other stuff {.smaller}
 
