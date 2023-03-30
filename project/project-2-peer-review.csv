@@ -1,0 +1,17 @@
+lab,reviewer,reviewee_1,reviewee_2
+1,stat_stainable,team_aes,cana
+1,team_aes,cana,team_cookie
+1,cana,team_cookie,visual_wizards
+1,team_cookie,visual_wizards,i_spies
+1,visual_wizards,i_spies,ggbop
+1,i_spies,ggbop,220
+1,ggbop,220,co_medians
+1,220,co_medians,stats_r_us
+2,co_medians,stats_r_us,r_stars
+2,stats_r_us,r_stars,geom_student
+2,r_stars,geom_student,git_up
+2,geom_student,git_up,gg_twizzlers
+2,git_up,gg_twizzlers,gglegends
+2,gg_twizzlers,gglegends,the_graph_gremlins
+2,gglegends,the_graph_gremlins,stat_stainable
+2,the_graph_gremlins,stat_stainable,team_aes

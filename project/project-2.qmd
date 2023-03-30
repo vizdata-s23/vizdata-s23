@@ -81,7 +81,14 @@ Your proposal should include:
 
 Each team will review the proposals of two other teams twice during the project. The peer reviews will be completed during the lab sessions as indicated above. On those days teams will have access to the project repos of the two teams whose work they're reviewing. The peer review assignments are as follows:
 
-\[TBA\]
+```{r}
+#| message: false
+#| echo: false
+library(tidyverse)
+library(gt)
+p2_pr <- read_csv("project-2-peer-review.csv")
+gt(p2_pr)
+```
 
 Teams will develop the review together, with discussion among all team members, but only one team member will submit it as an issue on the project repo. To do so, go to the *Issues* tab, click on the green *New issue* button on the top right, and then click on the green *Get started* button for the issue template titled *Peer review*.
 

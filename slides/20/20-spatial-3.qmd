@@ -1,0 +1,570 @@
+---
+title: Visualizing geospatial data III
+subtitle: Lecture 20
+title-slide-attributes:
+  data-background-image: ../vizdata-bg.png
+  data-background-size: stretch
+  data-slide-number: none
+format: revealjs
+highlight-style: a11y
+execute:
+  code-link: true
+  warning: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# Warm up
+
+## Announcements
+
+-   Project proposals for my review due Friday at 5pm
+
+## Setup {.smaller}
+
+```{r}
+#| label: setup
+#| message: false
+
+# load packages
+library(countdown)
+library(tidyverse)
+library(ggnewscale)
+library(magick)
+library(sf)
+library(stars)
+library(tmap)
+
+# set theme for ggplot2
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14))
+
+# set width of code output
+options(width = 65)
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 7, # 7" width
+  fig.asp = 0.618, # the golden ratio
+  fig.retina = 3, # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300 # higher dpi, sharper image
+)
+```
+
+# Layering maps
+
+## From last time
+
+```{r}
+nc <- read_sf("data/nc_counties/", quiet = TRUE)
+air <- read_sf("data/airports/", quiet = TRUE)
+hwy <- read_sf("data/us_interstates/", quiet = TRUE)
+```
+
+## From last time...
+
+::: task
+`ae-17`: Recreate the following visualization.
+:::
+
+```{r}
+#| label: nc-highways-airports
+#| echo: false
+#| fig-width: 10
+#| warning: false
+#| message: false
+
+nc_bounds <- st_bbox(nc)
+
+ggplot() +
+  geom_sf(data = nc, fill = "gainsboro") +
+  geom_sf(data = hwy, color = "#308446", linewidth = 0.75) +
+  geom_sf(data = air) +
+  ggrepel::geom_label_repel(
+    data = air,
+    aes(label = IATA, geometry = geometry),
+    stat = "sf_coordinates",
+    min.segment.length = 0
+  ) +
+  lims(
+    x = c(nc_bounds$xmin, nc_bounds$xmax),
+    y = c(nc_bounds$ymin, nc_bounds$ymax)
+  ) +
+  labs(x = "Longitude", y = "Latitude")
+```
+
+## From last time...
+
+```{r}
+#| ref.label: nc-highways-airports
+#| fig-show: hide
+#| fig-width: 10
+#| warning: false
+#| message: false
+```
+
+## Which counties have airports?
+
+::: task
+`ae-17`: On the map of NC you made previously, highlight the counties that have airports.
+:::
+
+```{r}
+#| echo: false
+
+countdown(minutes = 10)
+```
+
+# Using stars
+
+## Spatiotemporal arrays with stars
+
+> The **stars** package provides infrastructure for data cubes, array data with labeled dimensions, with emphasis on arrays where some of the dimensions relate to time and/or space.
+
+::: columns
+::: {.column width="50%"}
+Three-dimensional cube:
+![](images/cube1.png){fig-align="center"}
+:::
+
+::: {.column width="50%"}
+Multi-dimensional hypercube:
+![](images/cube2.png){fig-align="center"}
+:::
+:::
+
+::: .aside
+Source: [https://r-spatial.github.io/stars/](https://r-spatial.github.io/stars/)
+:::
+
+## Easter Island
+
+::: columns
+::: {.column width="30%"}
+Easter Island (Rapa Nui / Isla de Pascua), a Chilean territory, is a remote volcanic island in Polynesia.
+:::
+
+::: {.column width="70%"}
+![](images/Easter_Island_map-en.png){fig-align="center"}
+:::
+:::
+
+::: .aside
+Source: [https://en.wikipedia.org/wiki/Easter_Island](https://en.wikipedia.org/wiki/Easter_Island)
+:::
+
+## File types
+
+- `tif` files are geospatial raster data, e.g., elevation maps
+
+- `gpkg` are geopackage files, modern version of shapefiles
+
+## Reading `tif` files
+
+```{r}
+elev <- read_stars("data/easter_island/ei_elev.tif")
+elev
+```
+
+## Plotting `tif` files
+
+```{r}
+ggplot() +
+  geom_stars(data = elev)
+```
+
+## Plays nicely with ggplot2
+
+```{r}
+ggplot() +
+  geom_stars(data = elev) +
+  scale_fill_distiller(palette = "RdYlGn", na.value = "transparent")
+```
+
+## Reading `gpkg` files
+
+```{r}
+border <- read_sf("data/easter_island/ei_border.gpkg")
+border
+```
+
+## Plotting `gpkg` files
+
+```{r}
+ggplot() +
+  geom_sf(data = border)
+```
+
+## {.center}
+
+::: .hand
+A brief aside...
+:::
+
+## Put a flag on it!
+
+Just for fun...
+
+```{r}
+ei_plot <- ggplot() +
+  geom_sf(data = border, fill = "white")
+
+ei_flag_image <- image_read("images/Flag_of_Rapa_Nui_Chile.png")
+ei_flag_raster <- as.raster(ei_flag_image)
+
+ei_plot + annotation_raster(ei_flag_raster, xmin = 657000, xmax = 670000, ymin = 6996000, ymax = 7004000)
+```
+
+::: .aside
+Source: [https://en.wikipedia.org/wiki/Easter_Island](https://en.wikipedia.org/wiki/Easter_Island)
+:::
+
+## Finding the "bounding box"
+
+- `ggplot_build()` takes the plot object, and performs all steps necessary to produce an object that can be rendered
+- Outputs: 
+  1. a list of data frames (one for each layer)
+  2. a panel object, which contain all information about axis limits, breaks etc.
+
+```{r}
+ei_plot_build <- ggplot_build(ei_plot)
+```
+
+## `ggplot_build()` {.smaller}
+
+```{r}
+ei_plot_build
+```
+
+## Diving into the output
+
+```{r}
+ei_plot_build$data[[1]]$xmin
+ei_plot_build$data[[1]]$xmax
+ei_plot_build$data[[1]]$ymin
+ei_plot_build$data[[1]]$ymax
+```
+
+## {.center}
+
+::: .hand
+Back to Easter Island...
+:::
+
+## Let's get more data
+
+```{r}
+roads <- read_sf("data/easter_island/ei_roads.gpkg")
+points <- read_sf("data/easter_island/ei_points.gpkg")
+```
+
+## Layering with ggplot2
+
+::: task
+`ae-18`: Recreate the visualization below.
+:::
+
+```{r}
+#| echo: false
+
+ggplot() +
+  geom_sf(data = border) +
+  geom_stars(data = elev) +
+  scale_fill_distiller(name = "Elevation", palette = "RdYlGn", na.value = "transparent") +
+  geom_sf(data = roads, aes(linewidth = strokelwd)) +
+  scale_linewidth_continuous(range = c(0.1, 1)) +
+  new_scale_fill() +
+  geom_sf(data = points, aes(fill = type), shape = 24, size = 3) +
+  scale_fill_manual(name = "Type", values = c("gray50", "gold", "firebrick3")) +
+  theme_minimal() +
+  guides(linewidth = "none") +
+  labs(x = NULL, y = NULL)
+```
+
+# Using tmap
+
+## Thematic maps with tmap
+
+> tmap is an actively maintained open-source R-library for drawing thematic maps. The API is based on A Layered Grammar of Graphics and resembles the syntax of ggplot2, a popular R-library for drawing charts.
+
+::: {.aside}
+Source: [https://r-tmap.github.io/tmap/](https://r-tmap.github.io/tmap/)
+:::
+
+## Border
+
+```{r}
+tm_shape(border) +
+  tm_borders()
+```
+
+## Border + more
+
+```{r}
+#| code-line-numbers: "|3-6"
+#| output-location: column-fragment
+
+tm_shape(border) +
+  tm_borders() +
+  tm_layout(
+    main.title = "Easter Island",
+    bg.color = "lightblue"
+  )
+```
+
+## Roads
+
+```{r}
+#| code-line-numbers: "|3-7"
+#| output-location: column-fragment
+
+tm_shape(border) +
+  tm_borders() +
+  tm_shape(roads) +
+  tm_lines(
+    lwd = "strokelwd",
+    legend.lwd.show = FALSE
+  ) +
+  tm_layout(
+    main.title = "Easter Island",
+    bg.color = "lightblue"
+  )
+```
+
+## Roads + more
+
+```{r}
+#| code-line-numbers: "|7"
+#| output-location: column-fragment
+
+tm_shape(border) +
+  tm_borders() +
+  tm_shape(roads) +
+  tm_lines(
+    lwd = "strokelwd",
+    legend.lwd.show = FALSE,
+    col = "type"
+  ) +
+  tm_layout(
+    main.title = "Easter Island",
+    bg.color = "lightblue"
+  )
+```
+
+## Elevation
+
+```{r}
+#| code-line-numbers: "|1-2"
+#| output-location: column-fragment
+
+tm_shape(elev) +
+  tm_raster() +
+  tm_shape(border) +
+  tm_borders() +
+  tm_shape(roads) +
+  tm_lines(
+    lwd = "strokelwd",
+    legend.lwd.show = FALSE
+  ) +
+  tm_layout(
+    main.title = "Easter Island",
+    bg.color = "lightblue"
+  )
+```
+
+
+## Elevation + more
+
+```{r}
+#| code-line-numbers: "|2-5"
+#| output-location: column-fragment
+
+tm_shape(elev) +
+  tm_raster(
+    style = "cont",
+    title = "Elevation (m)"
+  ) +
+  tm_shape(border) +
+  tm_borders() +
+  tm_shape(roads) +
+  tm_lines(
+    lwd = "strokelwd",
+    legend.lwd.show = FALSE
+  ) +
+  tm_layout(
+    main.title = "Easter Island",
+    bg.color = "lightblue"
+  )
+```
+
+## Elevation + even more
+
+```{r}
+#| code-line-numbers: "|5"
+#| output-location: column-fragment
+
+tm_shape(elev) +
+  tm_raster(
+    style = "cont",
+    title = "Elevation (m)",
+    palette = "-RdYlGn"
+  ) +
+  tm_shape(border) +
+  tm_borders() +
+  tm_shape(roads) +
+  tm_lines(
+    lwd = "strokelwd",
+    legend.lwd.show = FALSE
+  ) +
+  tm_layout(
+    main.title = "Easter Island",
+    bg.color = "lightblue"
+  )
+```
+
+## Volcanoes {.smaller}
+
+```{r}
+#| code-line-numbers: "|14-16"
+#| output-location: column-fragment
+
+tm_shape(elev) +
+  tm_raster(
+    style = "cont",
+    title = "Elevation (m)",
+    palette = "-RdYlGn"
+  ) +
+  tm_shape(border) +
+  tm_borders() +
+  tm_shape(roads) +
+  tm_lines(
+    lwd = "strokelwd",
+    legend.lwd.show = FALSE
+  ) +
+  tm_shape(
+    points |> filter(type == "volcano")
+  ) +
+  tm_symbols(
+    shape = 24,
+    size = "elevation",
+    title.size = "Volcanoes (m)"
+  ) +
+  tm_layout(
+    main.title = "Easter Island",
+    bg.color = "lightblue"
+  )
+```
+
+
+## Other stuff {.smaller}
+
+```{r}
+#| code-line-numbers: "|27-30"
+#| output-location: slide
+
+tm_graticules(alpha = 0.25) +
+  tm_shape(elev) +
+  tm_raster(
+    style = "cont",
+    title = "Elevation (m)",
+    palette = "-RdYlGn"
+  ) +
+  tm_shape(border) +
+  tm_borders() +
+  tm_shape(roads) +
+  tm_lines(
+    lwd = "strokelwd",
+    legend.lwd.show = FALSE
+  ) +
+  tm_shape(
+    points |> filter(type == "volcano")
+  ) +
+  tm_symbols(
+    shape = 24,
+    size = "elevation",
+    title.size = "Volcanoes (m)"
+  ) +
+  tm_layout(
+    main.title = "Easter Island",
+    bg.color = "lightblue"
+  ) +
+  tm_compass(position = c("right", "top")) +
+  tm_scale_bar() +
+  tm_credits("Author, 2021") +
+  tm_add_legend(type = "line", col = "black", title = "Roads")
+```
+
+## tmap modes {.smaller}
+
+```{r}
+map <- tm_graticules(alpha = 0.25) +
+  tm_shape(elev) +
+  tm_raster(
+    style = "cont",
+    title = "Elevation (m)",
+    palette = "-RdYlGn"
+  ) +
+  tm_shape(border) +
+  tm_borders() +
+  tm_shape(roads) +
+  tm_lines(
+    lwd = "strokelwd",
+    legend.lwd.show = FALSE
+  ) +
+  tm_shape(
+    points |> filter(type == "volcano")
+  ) +
+  tm_symbols(
+    shape = 24,
+    size = "elevation",
+    title.size = "Volcanoes (m)"
+  ) +
+  tm_layout(
+    main.title = "Easter Island",
+    bg.color = "lightblue"
+  ) +
+  tm_compass(position = c("right", "top")) +
+  tm_scale_bar() +
+  tm_credits("Author, 2021") +
+  tm_add_legend(type = "line", col = "black", title = "Roads")
+```
+
+## plot
+
+```{r}
+#| message: false
+
+tmap_mode("plot")
+map
+```
+
+## view
+
+```{r}
+#| message: false
+
+tmap_mode("view")
+map
+```
+
+## Tiles {.smaller}
+
+```{r}
+#| output-location: slide
+
+tm_basemap(c(osm = "OpenStreetMap", esri = "Esri.WorldStreetMap")) +
+  tm_shape(border, is.master = TRUE) +
+  tm_borders() +
+  tm_shape(roads) +
+  tm_lines(
+    lwd = "strokelwd",
+    legend.lwd.show = FALSE
+  ) +
+  tm_shape(
+    points |> filter(type == "volcano")
+  ) +
+  tm_symbols(
+    size = "elevation",
+    legend.size.show = FALSE
+  )
+```
