@@ -9,7 +9,6 @@
 $font-family-sans-serif: "Atkinson Hyperlegible", sans-serif;
 $font-family-monospace: "Source Code Pro", monospace;
 $presentation-heading-color: #866fa3; /* Pantone Midnight - Fall 2022 */
-$presentation-title-slide-text-align: "left";
 $link-color: #866fa3;
 $code-color: #866fa3;
 $code-block-font-size: 0.7em;
@@ -39,6 +38,7 @@ details>summary {
 
 #title-slide .institute {
   text-align: center;
+  padding-bottom: 200px;
 }
 
 .small {
