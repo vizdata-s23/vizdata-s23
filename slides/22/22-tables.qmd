@@ -1,0 +1,850 @@
+---
+title: Tables
+subtitle: Lecture 22
+title-slide-attributes:
+  data-background-image: ../vizdata-bg.png
+  data-background-size: stretch
+  data-slide-number: none
+format: revealjs
+highlight-style: a11y
+execute:
+  code-link: true
+  warning: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# Warm up
+
+## Announcements
+
+-   HW grading
+
+## Setup {.smaller}
+
+```{r}
+#| label: setup
+#| message: false
+
+# load packages
+library(countdown)
+library(tidyverse)
+library(sf)
+library(stars)
+library(tmap)
+library(gt)
+library(scales)
+library(colorspace)
+library(ggthemes)
+
+# set theme for ggplot2
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14))
+
+# set width of code output
+options(width = 65)
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 7, # 7" width
+  fig.asp = 0.618, # the golden ratio
+  fig.retina = 3, # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300 # higher dpi, sharper image
+)
+```
+
+# Using tmap
+
+## From last time
+
+```{r}
+elev <- read_stars("data/easter_island/ei_elev.tif")
+border <- read_sf("data/easter_island/ei_border.gpkg")
+roads <- read_sf("data/easter_island/ei_roads.gpkg")
+points <- read_sf("data/easter_island/ei_points.gpkg")
+```
+
+## Thematic maps with tmap
+
+> tmap is an actively maintained open-source R-library for drawing thematic maps. The API is based on A Layered Grammar of Graphics and resembles the syntax of ggplot2, a popular R-library for drawing charts.
+
+::: aside
+Source: <https://r-tmap.github.io/tmap/>
+:::
+
+## Border
+
+```{r}
+tm_shape(border) +
+  tm_borders()
+```
+
+## Border + more
+
+```{r}
+#| code-line-numbers: "|3-6"
+#| output-location: column-fragment
+
+tm_shape(border) +
+  tm_borders() +
+  tm_layout(
+    main.title = "Easter Island",
+    bg.color = "lightblue"
+  )
+```
+
+## Roads
+
+```{r}
+#| code-line-numbers: "|3-7"
+#| output-location: column-fragment
+
+tm_shape(border) +
+  tm_borders() +
+  tm_shape(roads) +
+  tm_lines(
+    lwd = "strokelwd",
+    legend.lwd.show = FALSE
+  ) +
+  tm_layout(
+    main.title = "Easter Island",
+    bg.color = "lightblue"
+  )
+```
+
+## Roads + more
+
+```{r}
+#| code-line-numbers: "|7"
+#| output-location: column-fragment
+
+tm_shape(border) +
+  tm_borders() +
+  tm_shape(roads) +
+  tm_lines(
+    lwd = "strokelwd",
+    legend.lwd.show = FALSE,
+    col = "type"
+  ) +
+  tm_layout(
+    main.title = "Easter Island",
+    bg.color = "lightblue"
+  )
+```
+
+## Elevation
+
+```{r}
+#| code-line-numbers: "|1-2"
+#| output-location: column-fragment
+
+tm_shape(elev) +
+  tm_raster() +
+  tm_shape(border) +
+  tm_borders() +
+  tm_shape(roads) +
+  tm_lines(
+    lwd = "strokelwd",
+    legend.lwd.show = FALSE
+  ) +
+  tm_layout(
+    main.title = "Easter Island",
+    bg.color = "lightblue"
+  )
+```
+
+## Elevation + more
+
+```{r}
+#| code-line-numbers: "|2-5"
+#| output-location: column-fragment
+
+tm_shape(elev) +
+  tm_raster(
+    style = "cont",
+    title = "Elevation (m)"
+  ) +
+  tm_shape(border) +
+  tm_borders() +
+  tm_shape(roads) +
+  tm_lines(
+    lwd = "strokelwd",
+    legend.lwd.show = FALSE
+  ) +
+  tm_layout(
+    main.title = "Easter Island",
+    bg.color = "lightblue"
+  )
+```
+
+## Elevation + even more
+
+```{r}
+#| code-line-numbers: "|5"
+#| output-location: column-fragment
+
+tm_shape(elev) +
+  tm_raster(
+    style = "cont",
+    title = "Elevation (m)",
+    palette = "-RdYlGn"
+  ) +
+  tm_shape(border) +
+  tm_borders() +
+  tm_shape(roads) +
+  tm_lines(
+    lwd = "strokelwd",
+    legend.lwd.show = FALSE
+  ) +
+  tm_layout(
+    main.title = "Easter Island",
+    bg.color = "lightblue"
+  )
+```
+
+## Volcanoes {.smaller}
+
+```{r}
+#| code-line-numbers: "|14-16"
+#| output-location: column-fragment
+
+tm_shape(elev) +
+  tm_raster(
+    style = "cont",
+    title = "Elevation (m)",
+    palette = "-RdYlGn"
+  ) +
+  tm_shape(border) +
+  tm_borders() +
+  tm_shape(roads) +
+  tm_lines(
+    lwd = "strokelwd",
+    legend.lwd.show = FALSE
+  ) +
+  tm_shape(
+    points |> filter(type == "volcano")
+  ) +
+  tm_symbols(
+    shape = 24,
+    size = "elevation",
+    title.size = "Volcanoes (m)"
+  ) +
+  tm_layout(
+    main.title = "Easter Island",
+    bg.color = "lightblue"
+  )
+```
+
+## Other stuff {.smaller}
+
+```{r}
+#| code-line-numbers: "|27-30"
+#| output-location: slide
+
+tm_graticules(alpha = 0.25) +
+  tm_shape(elev) +
+  tm_raster(
+    style = "cont",
+    title = "Elevation (m)",
+    palette = "-RdYlGn"
+  ) +
+  tm_shape(border) +
+  tm_borders() +
+  tm_shape(roads) +
+  tm_lines(
+    lwd = "strokelwd",
+    legend.lwd.show = FALSE
+  ) +
+  tm_shape(
+    points |> filter(type == "volcano")
+  ) +
+  tm_symbols(
+    shape = 24,
+    size = "elevation",
+    title.size = "Volcanoes (m)"
+  ) +
+  tm_layout(
+    main.title = "Easter Island",
+    bg.color = "lightblue"
+  ) +
+  tm_compass(position = c("right", "top")) +
+  tm_scale_bar() +
+  tm_credits("Author, 2021") +
+  tm_add_legend(type = "line", col = "black", title = "Roads")
+```
+
+## tmap modes {.smaller}
+
+```{r}
+map <- tm_graticules(alpha = 0.25) +
+  tm_shape(elev) +
+  tm_raster(
+    style = "cont",
+    title = "Elevation (m)",
+    palette = "-RdYlGn"
+  ) +
+  tm_shape(border) +
+  tm_borders() +
+  tm_shape(roads) +
+  tm_lines(
+    lwd = "strokelwd",
+    legend.lwd.show = FALSE
+  ) +
+  tm_shape(
+    points |> filter(type == "volcano")
+  ) +
+  tm_symbols(
+    shape = 24,
+    size = "elevation",
+    title.size = "Volcanoes (m)"
+  ) +
+  tm_layout(
+    main.title = "Easter Island",
+    bg.color = "lightblue"
+  ) +
+  tm_compass(position = c("right", "top")) +
+  tm_scale_bar() +
+  tm_credits("Author, 2021") +
+  tm_add_legend(type = "line", col = "black", title = "Roads")
+```
+
+## plot
+
+```{r}
+#| message: false
+
+tmap_mode("plot")
+map
+```
+
+## view
+
+```{r}
+#| message: false
+
+tmap_mode("view")
+map
+```
+
+## Tiles {.smaller}
+
+```{r}
+#| output-location: slide
+
+tm_basemap(c(osm = "OpenStreetMap", esri = "Esri.WorldStreetMap")) +
+  tm_shape(border, is.master = TRUE) +
+  tm_borders() +
+  tm_shape(roads) +
+  tm_lines(
+    lwd = "strokelwd",
+    legend.lwd.show = FALSE
+  ) +
+  tm_shape(
+    points |> filter(type == "volcano")
+  ) +
+  tm_symbols(
+    size = "elevation",
+    legend.size.show = FALSE
+  )
+```
+
+# Data in tables
+
+## Tables vs. plots
+
+::: columns
+::: {.column width="50%"}
+**Tables:**
+
+-   To look up or compare individual values
+-   To display precise values
+-   To include detail and summary values
+-   To display quantitative values including more than one unit of measure
+:::
+
+::: {.column width="50%"}
+**Plots:**
+
+-   To reveal relationships among whole sets of values
+-   To display a message that is contained in the shape of the values (e.g., patterns, trends, exceptions)
+:::
+:::
+
+## Bachelor's degrees
+
+```{r}
+#| include: false
+
+BA_degrees <- read_csv(here::here("slides/22", "data/BA_degrees.csv"))
+```
+
+```{r}
+#| eval: false
+
+BA_degrees <- read_csv("data/BA_degrees.csv")
+```
+
+```{r}
+BA_degrees
+```
+
+## In the next few slides...
+
+<br><br>
+
+::: hand
+Degrees awarded in 2015
+:::
+
+<br><br>
+
+##  {.smallest}
+
+::: columns
+::: {.column width="50%"}
+```{r echo = FALSE}
+BA_degrees |>
+  filter(year == 2015) |>
+  select(field, perc) |>
+  print(n = 33)
+```
+:::
+
+::: {.column width="50%"}
+```{r fig.asp = 1.1, out.width = "100%", echo = FALSE}
+ggplot(BA_degrees |> filter(year == 2015),
+       aes(y = fct_rev(fct_inorder(field)), x = perc)) +
+  geom_col() +
+  labs(y = NULL)
+```
+:::
+:::
+
+##  {.smallest}
+
+::: columns
+::: {.column width="50%"}
+```{r echo = FALSE}
+BA_degrees |>
+  filter(year == 2015) |>
+  select(field, perc) |>
+  arrange(desc(perc)) |>
+  print(n = 33)
+```
+:::
+
+::: {.column width="50%"}
+```{r fig.asp = 1.1, out.width = "100%", echo = FALSE}
+ggplot(BA_degrees |> filter(year == 2015),
+       aes(y = fct_reorder(field, perc), x = perc)) +
+  geom_col() +
+  labs(y = NULL)
+```
+:::
+:::
+
+## 
+
+::: columns
+::: {.column width="50%"}
+```{r degrees-2015-table, echo = FALSE}
+BA_degrees |>
+  filter(year == 2015) |>
+  select(field, perc) |>
+  arrange(desc(perc)) |>
+  gt() |>
+  tab_style(
+    style = "padding-top:0px;padding-bottom:0px;",
+    locations = cells_body(columns = everything())
+  ) |>
+  tab_style(
+    style = cell_text(size = "small"),
+    locations = cells_body(columns = everything())
+  ) |>
+  fmt_percent(
+    columns = perc,
+    decimals = 1
+  ) |>
+  cols_label(
+    field = "Field",
+    perc = "Percentage"
+  )
+```
+:::
+
+::: {.column width="50%"}
+```{r fig.asp = 1.2, out.width = "100%", echo = FALSE}
+ggplot(BA_degrees |> filter(year == 2015),
+       aes(y = fct_reorder(field, perc), x = perc, fill = perc)) +
+  geom_col(show.legend = FALSE) +
+  labs(y = NULL, x = "Percentage") +
+  scale_x_continuous(labels = label_percent(accuracy = 1)) +
+  scale_fill_continuous_sequential(palette = "Purples 3", begin = 0.5)
+```
+:::
+:::
+
+## In the next few slides...
+
+<br>
+
+::: hand
+Popular Bachelor's degrees over the years
+:::
+
+<br>
+
+::: task
+How should this information be displayed? And why?
+:::
+
+```{r echo = FALSE}
+BA_degrees_other <- BA_degrees |>
+  mutate(
+    field = if_else(field == "Health professions and related programs", "Health professions", field),
+    field = fct_other(field,
+      keep = c(
+        "Business",
+        "Health professions",
+        "Social sciences and history"
+      )
+    ),
+  ) |>
+  group_by(year, field) |>
+  summarize(perc = sum(perc), .groups = "drop")
+```
+
+##  {.smaller}
+
+::: task
+In a table?
+:::
+
+```{r echo = FALSE, results='asis'}
+BA_degrees_other |>
+  pivot_wider(names_from = field, values_from = perc) |>
+  rename(Year = year) |>
+  gt() |>
+  cols_align(
+    align = c("right"),
+    columns = everything()
+    ) |>
+  cols_width(
+    Year ~ px(50),
+    everything() ~ px(140)
+  ) |>
+  tab_style(
+    style = "padding-top:5px;padding-bottom:5px;",
+    locations = cells_body(columns = everything())
+  ) |>
+  fmt_percent(
+    columns = -Year,
+    decimals = 1
+  ) |>
+  tab_spanner(
+    label = "Popular Bachelor's degrees over the years",
+    columns = everything()
+  ) |>
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_column_spanners()
+  )
+```
+
+## 
+
+::: task
+Or in a plot?
+:::
+
+```{r degrees-years-plot, echo = FALSE, out.width = "100%", fig.asp = 0.5}
+degrees_years_plot <- ggplot(BA_degrees_other, aes(x = year, y = perc, 
+                             group = field, 
+                             color = field)) +
+  geom_line(linewidth = 1, show.legend = FALSE) +
+  geom_text(
+    data = BA_degrees_other |> filter(year == min(year)),
+    aes(
+      x = year,
+      y = perc,
+      label = str_wrap(field, 25)
+    ),
+    show.legend = FALSE,
+    hjust = "right",
+    nudge_x = -1,
+    nudge_y = c(-0.02, 0, 0.02, 0),
+    fontface = "bold"
+  ) +
+  coord_cartesian(clip = "off", xlim = c(1970, 2015)) +
+  scale_y_continuous(position = "right",  labels = label_percent()) +
+  scale_color_colorblind() +
+  theme(plot.margin = margin(0.1, 0.1, 0.1, 1.5, "in")) +
+  labs(x = "Year", y = NULL)
+
+degrees_years_plot +
+  labs(title = "Popular Bachelor's degrees over the years")
+```
+
+# Tables, the making of
+
+## Tables with **gt**
+
+::: columns
+::: {.column width="50%"}
+We will use the [**gt**](https://gt.rstudio.com/) (Grammar of Tables) package to create tables in R.
+
+> The **gt** philosophy: we can construct a wide variety of useful tables with a cohesive set of table parts.
+>
+> Source: [gt.rstudio.com](https://gt.rstudio.com/)
+:::
+
+::: {.column width="50%"}
+```{r echo = FALSE, out.width = "100%"}
+knitr::include_graphics("images/gt-parts.png")
+```
+:::
+:::
+
+##  {.smaller}
+
+::: columns
+::: {.column width="40%"}
+::: task
+Livecoding: Recreate this table of Bachelor's degrees awarded in 2015.
+
+-   Go to `ae-XX` repo and clone it
+-   Install the **gt** package: `install.packages("gt")`
+:::
+:::
+
+::: {.column width="60%"}
+```{r ref.label = "degrees-2015-table", echo = FALSE}
+```
+:::
+:::
+
+# Plots in tables
+
+## 
+
+::: task
+Should these data be displayed in a table or a plot?
+:::
+
+```{r echo = FALSE}
+BA_degrees_other |>
+  pivot_wider(names_from = year, values_from = perc) |>
+  gt() |>
+  cols_align(
+    align = "left",
+    columns = field
+  )|>
+  fmt_percent(
+    columns = -field,
+    decimals = 0
+  ) |>
+  cols_label(field = "Field") |>
+  tab_spanner(
+    label = "Popular Bachelor's degrees over the years",
+    columns = everything()
+  ) |>
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_column_spanners()
+  )
+```
+
+```{r out.width = "80%", fig.asp = 0.34, echo = FALSE, fig.align = "center", fig.width = 9}
+degrees_years_plot
+```
+
+## 
+
+```{r echo = FALSE, out.width = "100%", fig.align = "center"}
+knitr::include_graphics("images/why-not-both.jpg")
+```
+
+## Add visualizations to your table
+
+Example: Add **sparklines** to display trend alongside raw data
+
+<br>
+
+```{r sparklines-color, echo = FALSE}
+plot_spark_color <- function(df){
+  ggplot(df, aes(x = year, y = perc, color = line_color)) +
+    geom_line(linewidth = 20) +
+    theme_void() +
+    scale_color_identity()
+}
+
+BA_degrees_other_plots_color <- BA_degrees_other |>
+  mutate(line_color = case_when(
+    field == "Business" ~ "#9D6C06",
+    field == "Health professions" ~ "#077DAA",
+    field == "Social sciences and history" ~ "#026D4E",
+    field == "Other" ~ "#A39A09"
+  )) |>
+  nest(field_df = c(year, perc, line_color)) |>
+  mutate(plot = map(field_df, plot_spark_color))
+
+BA_degrees_other |> 
+  pivot_wider(names_from = year, values_from = perc) |>
+  mutate(ggplot = NA, .after = field) |> 
+  gt() |> 
+  text_transform(
+    locations = cells_body(columns = ggplot),
+    fn = function(x){
+      map(BA_degrees_other_plots_color$plot, ggplot_image, height = px(15), aspect_ratio = 4)
+    }
+  ) |> 
+  cols_width(
+    ggplot ~ px(1000)
+    ) |> 
+  cols_align(
+    align = "left",
+    columns = field
+  ) |>
+  fmt_percent(
+    columns = where(is.numeric),
+    decimals = 0
+  ) |>
+  tab_style(
+    style = cell_text(color = "#9D6C06"),
+    locations = cells_body(rows = 1, columns = field)
+  ) |>
+  tab_style(
+    style = cell_text(color = "#077DAA"),
+    locations = cells_body(rows = 2, columns = field)
+  ) |>
+  tab_style(
+    style = cell_text(color = "#026D4E"),
+    locations = cells_body(rows = 3, columns = field)
+  ) |>
+  tab_style(
+    style = cell_text(color = "#A39A09"),
+    locations = cells_body(rows = 4, columns = field)
+  ) |> 
+  cols_label(
+    field  = "Field",
+    ggplot = "Trend"
+  ) |>
+  tab_spanner(
+    label = "Popular Bachelor's degrees over the years",
+    columns = everything()
+  ) |>
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_column_spanners()
+  )
+```
+
+## 
+
+::: task
+Livecoding: Recreate this table of popular Bachelor's degrees awarded over time.
+:::
+
+<br>
+
+```{r sparklines, echo = FALSE}
+plot_spark <- function(df){
+  ggplot(df, aes(x = year, y = perc)) +
+    geom_line(linewidth = 20) +
+    theme_void()
+}
+
+BA_degrees_other_plots <- BA_degrees_other |>
+  nest(field_df = c(year, perc)) |>
+  mutate(plot = map(field_df, plot_spark))
+
+BA_degrees_other |> 
+  pivot_wider(names_from = year, values_from = perc) |>
+  mutate(ggplot = NA, .after = field) |> 
+  gt() |> 
+  text_transform(
+    locations = cells_body(columns = ggplot),
+    fn = function(x){
+      map(BA_degrees_other_plots$plot, ggplot_image, height = px(15), aspect_ratio = 4)
+    }
+  ) |> 
+  cols_width(
+    ggplot ~ px(1000)
+    ) |> 
+  cols_align(
+    align = "left",
+    columns = field
+  ) |>
+  fmt_percent(
+    columns = where(is.numeric),
+    decimals = 0
+  ) |>
+  cols_label(
+    field  = "Field",
+    ggplot = "Trend"
+  ) |>
+  tab_spanner(
+    label = "Popular Bachelor's degrees over the years",
+    columns = everything()
+  ) |>
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_column_spanners()
+  )
+```
+
+## 
+
+::: task
+Your turn: Add **color** to the previous table.
+:::
+
+<br>
+
+```{r ref.label = "sparklines-color", echo = FALSE}
+
+```
+
+```{r echo = FALSE}
+countdown(minutes = 10)
+```
+
+# Making better tables
+
+## 10 guidelines for better tables {.smaller}
+
+::: incremental
+1.  Offset the heads from the body
+2.  Use subtle dividers rather than heavy gridlines
+3.  Right-align numbers and heads
+4.  Left-align text and heads
+5.  Select the appropriate level of precision
+6.  Guide your reader with space between rows and columns
+7.  Remove unit repetition
+8.  Highlight outliers
+9.  Group similar data and increase white space
+10. Add visualizations when appropriate
+:::
+
+::: aside
+Source: Schwabish, Jonathan A. "Ten Guidelines for Better Tables." Journal of Benefit-Cost Analysis 11.2 (2020): 151-178.
+:::
+
+# Table resources
+
+## Other packages
+
+-   `knitr::kable()`: "Cheapest" pretty tables in R Markdown
+-   Other (than HTML) outputs:
+    -   LaTeX/PDF: [**kableExtra**](https://haozhu233.github.io/kableExtra/)
+    -   Word: [**flextable**](https://davidgohel.github.io/flextable/)
+-   gtsummary: For summarizing statistical output with **gt**
+-   Interactivity: We will work with these when we learn Shiny! - [**DT**](https://rstudio.github.io/DT/) - [**reactable**](https://glin.github.io/reactable/)
+
+## Table inspiration
+
+-   Storytelling with data: [storytellingwithdata.com/blog/2020/9/1/swdchallenge-build-a-table](https://www.storytellingwithdata.com/blog/2020/9/1/swdchallenge-build-a-table) - [#23SWDchallenge on Twitter](https://twitter.com/search?q=%23SWDchallenge&src=typed_query&f=top)
+
+-   2022 Posit table contest: [Winners of the 2022 Table Contest](https://posit.co/blog/winners-of-the-2022-table-contest/)
+
+    -   Look out for 2023 table contest anouncement!
