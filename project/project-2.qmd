@@ -40,11 +40,11 @@ Most importantly, be prepared to brainstorm a bunch of ideas and discard them un
 
 -   Week 5 of project (week of April 3): Continue working on your project.
 
--   Week 6 of project (week of April 10): Conduct another round of peer review.
+-   Week 6 of project (week of April 10): Continue working on your project, incorporating feedback from proposals.
 
 -   Week 7 of project (week of April 17): Continue working on your project.
 
--   Week 8 of project (week of April 24): Conduct code review.
+-   Week 8 of project (week of April 24): Conduct peer code review.
 
 -   Week 9 of project (week of May 1 - finals week): Present projects and turn in final write-up.
 
