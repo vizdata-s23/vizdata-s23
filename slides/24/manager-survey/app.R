@@ -1,4 +1,4 @@
-# Load packages -----------------------------------------------------
+# Load packages ----------------------------------------------------------------
 
 library(shiny)
 library(tidyverse)
@@ -6,47 +6,28 @@ library(ggthemes)
 library(scales)
 library(countrycode)
 
-# Load data ---------------------------------------------------------
-manager_survey <- read_csv("data/survey.csv",
-  na = c("", "NA"),
-  show_col_types = FALSE
-)
+# Load data --------------------------------------------------------------------
 
-manager_survey <- manager_survey %>%
-  filter(
-    !is.na(industry),
-    !is.na(highest_level_of_education_completed),
-    currency == "USD"
-  ) %>%
-  mutate(
-    industry_other = fct_lump_min(industry, min = 100),
-    country = countrycode(country, origin = "country.name", destination = "cldr.name.en"),
-    highest_level_of_education_completed = fct_relevel(
-      highest_level_of_education_completed,
-      "High School",
-      "Some college",
-      "College degree",
-      "Master's degree",
-      "Professional degree (MD, JD, etc.)",
-      "PhD"
-    ),
-    highest_level_of_education_completed = fct_recode(
-      highest_level_of_education_completed,
-      "Professional degree" = "Professional degree (MD, JD, etc.)"
-    )
-  )
+manager_survey <- read_rds("data/manager-survey.rds")
 
-industry_choices <- manager_survey %>%
-  distinct(industry_other) %>%
-  arrange(industry_other) %>%
+# Find all industries ----------------------------------------------------------
+
+industry_choices <- manager_survey |>
+  distinct(industry_other) |>
+  arrange(industry_other) |>
   pull(industry_other)
+
+# Randomly select 3 industries to start with -----------------------------------
 
 selected_industry_choices <- sample(industry_choices, 3)
 
-# Define UI ---------------------------------------------------------
+# Define UI --------------------------------------------------------------------
+
 ui <- fluidPage(
   titlePanel(title = "Ask a Manager"),
   sidebarLayout(
+    
+    # Sidebar panel
     sidebarPanel(
       checkboxGroupInput(
         inputId = "industry",
@@ -55,6 +36,8 @@ ui <- fluidPage(
         selected = selected_industry_choices
       ),
     ),
+    
+    # Main panel
     mainPanel(
       hr(),
       "Showing only results for those with salaries in USD who have provided information on their industry and highest level of education completed.",
@@ -84,22 +67,28 @@ ui <- fluidPage(
         tabPanel("Data", DT::dataTableOutput(outputId = "data"))
       )
     )
+    
   )
 )
 
-# Define server function --------------------------------------------
+# Define server function -------------------------------------------------------
+
 server <- function(input, output, session) {
+  
+  # Print number of selected industries
   output$selected_industries <- reactive({
     paste("You've selected", length(input$industry), "industries.")
   })
-
+  
+  # Filter data for selected industries
   manager_survey_filtered <- reactive({
-    manager_survey %>%
+    manager_survey |>
       filter(industry_other %in% input$industry)
   })
-
+  
+  # Make a table of filtered data
   output$data <- DT::renderDataTable({
-    manager_survey_filtered() %>%
+    manager_survey_filtered() |>
       select(
         industry,
         job_title,
@@ -113,7 +102,8 @@ server <- function(input, output, session) {
         race
       )
   })
-
+  
+  # Futher filter for salary range
   observeEvent(input$industry, {
     updateSliderInput(
       inputId = "ylim",
@@ -125,13 +115,14 @@ server <- function(input, output, session) {
       )
     )
   })
-
+  
+  # Plot of jittered salaries from filtered data
   output$indiv_salary_plot <- renderPlot({
-
+    
     validate(
       need(length(input$industry) <= 8, "Please select a maxiumum of 8 industries.")
     )
-
+    
     ggplot(
       manager_survey_filtered(),
       aes(
@@ -156,30 +147,32 @@ server <- function(input, output, session) {
         title = "Individual salaries"
       )
   })
-
+  
+  # Linked brushing
   output$indiv_salary_table <- renderTable({
     brushedPoints(manager_survey_filtered(), input$indiv_salary_brush)
   })
-
+  
+  # Plot of average salaries from filtered data
   output$avg_salary_plot <- renderPlot({
-
+    
     validate(
       need(length(input$industry) <= 8, "Please select a maxiumum of 8 industries.")
     )
-
-    manager_survey_filtered() %>%
-      group_by(industry, highest_level_of_education_completed) %>%
+    
+    manager_survey_filtered() |>
+      group_by(industry, highest_level_of_education_completed) |>
       summarise(
         mean_annual_salary = mean(annual_salary, na.rm = TRUE),
         .groups = "drop"
-      ) %>%
+      ) |>
       ggplot(aes(
         x = highest_level_of_education_completed,
         y = mean_annual_salary,
         group = industry,
         color = industry
       )) +
-      geom_line(size = 1) +
+      geom_line(linewidth = 1) +
       theme_minimal(base_size = 16) +
       theme(legend.position = "top") +
       scale_color_colorblind() +
@@ -195,5 +188,6 @@ server <- function(input, output, session) {
 }
 
 
-# Create the Shiny app object ---------------------------------------
+# Create the Shiny app object --------------------------------------------------
+
 shinyApp(ui = ui, server = server)
