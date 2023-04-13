@@ -1,0 +1,195 @@
+---
+title: Animation
+subtitle: Lecture 23
+title-slide-attributes:
+  data-background-image: ../vizdata-bg.png
+  data-background-size: stretch
+  data-slide-number: none
+format: revealjs
+highlight-style: a11y
+execute:
+  code-link: true
+  warning: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# Warm up
+
+## Announcements
+
+**Remainder of the semester:**
+
+-   Peer evals due Friday at 5pm
+-   Meet with your mentor / TAs
+
+## Setup {.smaller}
+
+```{r}
+#| label: setup
+#| message: false
+
+# load packages
+library(countdown)
+library(tidyverse)
+
+# set theme for ggplot2
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14))
+
+# set width of code output
+options(width = 65)
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 7, # 7" width
+  fig.asp = 0.618, # the golden ratio
+  fig.retina = 3, # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300 # higher dpi, sharper image
+)
+```
+
+# From last time
+
+## Making of the racing bar chart
+
+# Shiny: High level view
+
+## Shiny {.center}
+
+
+Every Shiny app has a webpage that the user visits, <br> and behind this webpage there is a computer that serves this webpage by running R.
+
+```{r echo = FALSE, out.width = "80%"}
+knitr::include_graphics("images/high-level-1.png")
+```
+
+## Shiny {.center}
+
+When running your app locally, the computer serving your app is your computer.
+
+```{r echo = FALSE, out.width = "100%"}
+knitr::include_graphics("images/high-level-2.png")
+```
+
+## Shiny {.center}
+
+When your app is deployed, the computer serving your app is a web server.
+
+```{r echo = FALSE, out.width = "100%"}
+knitr::include_graphics("images/high-level-3.png")
+```
+
+## Shiny {.center}
+
+
+```{r echo = FALSE, out.width = "100%"}
+knitr::include_graphics("images/high-level-4.png")
+```
+
+## Demo
+
+:::: {.columns}
+
+::: {.column width="50%"}
+::: .task
+- Clone the `ae-21` repo.
+- Navigate to the `goog-index` folder, and launch the app by opening the `app.R` file and clicking on *Run App*.
+- Close the app by clicking the stop icon
+- Select view mode in the drop down menu next to Run App
+:::
+:::
+
+::: {.column width="50%"}
+```{r echo = FALSE, fig.align = "center", out.width = "100%"}
+knitr::include_app("https://gallery.shinyapps.io/goog-trend-index/", height = "650px")
+```
+:::
+
+::::
+
+# Anatomy of a Shiny app
+
+## What's in an app?
+
+:::: {.columns}
+
+::: {.column width="50%"}
+```{r eval = FALSE}
+library(shiny)
+ui <- fluidPage()
+
+
+server <- function(
+    input, 
+    output, 
+    session) {
+  ...
+}
+
+
+shinyApp(
+  ui = ui, 
+  server = server
+  )
+```
+:::
+
+::: {.column width="50%"}
+- **User interface** controls the layout and appearance of app
+
+- **Server function** contains instructions needed to build app
+:::
+
+::::
+
+## Data: Ask a manager
+
+Source: Ask a Manager Survey via [TidyTuesday](https://github.com/rfordatascience/tidytuesday/tree/master/data/2021/2021-05-18)
+
+> This data does not reflect the general population; it reflects Ask a Manager readers who self-selected to respond, which is a very different group (as you can see just from the demographic breakdown below, which is very white and very female).
+
+Some findings [here](https://www.askamanager.org/2021/05/some-findings-from-24000-peoples-salaries.html).
+
+## Data: `manager`
+
+```{r message = FALSE}
+manager <- read_csv(here::here("slides/24", "data/survey.csv"))
+manager
+```
+
+## Livecoding
+
+::: .task
+Go to the `ae-21` project and code along in `manager-survey/app.R`.
+:::
+
+# Interactive visualizations with Shiny
+
+## Highlights
+
+We will build an app with
+
+- Data pre-processing
+- Dynamic UI elements
+- Linked brushing
+
+##  {#manager-survey-app data-menu-title="Manager Survey App" .center}
+
+::: {.medium .center-align}
+[https://minecr.shinyapps.io/manager-survey](https://minecr.shinyapps.io/manager-survey/)
+:::
+
+```{r echo = FALSE}
+knitr::include_app("https://minecr.shinyapps.io/manager-survey/", height ="550px")
+```
+
+## Livecoding
+
+::: .task
+Go to the `ae-21` project and code along in `manager-survey/app.R`.
+:::
+
+## Livecoding
+
+The code for the app can be found [here](https://github.com/vizdata-f23/slides/blob/main/20-interactive-visualization/manager-survey/app.R).

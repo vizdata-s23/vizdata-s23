@@ -1,0 +1,931 @@
+---
+title: Animation
+subtitle: Lecture 23
+title-slide-attributes:
+  data-background-image: ../vizdata-bg.png
+  data-background-size: stretch
+  data-slide-number: none
+format: revealjs
+highlight-style: a11y
+execute:
+  code-link: true
+  warning: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# Warm up
+
+## Announcements
+
+**Remainder of the semester:**
+
+-   Labs:
+
+    -   This week: Work on projects + fill out peer evals
+    -   Next week: Project peer code review
+    -   Following week (LDOC): Work on HW 6
+
+-   HW: HW 6 is optional, you'll need to explicitly indicate if you're opting out
+
+-   Project: Presentations Thu, May 4, 2-5pm (all team members must be there!)
+
+## Setup {.smaller}
+
+```{r}
+#| label: setup
+#| message: false
+
+# load packages
+library(countdown)
+library(tidyverse)
+library(gt)
+library(readxl)
+library(gganimate)
+library(gifski)
+library(knitr)
+library(kableExtra)
+library(palmerpenguins)
+library(transformr)
+library(datasauRus)
+
+# set theme for ggplot2
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14))
+
+# set width of code output
+options(width = 65)
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 7, # 7" width
+  fig.asp = 0.618, # the golden ratio
+  fig.retina = 3, # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300 # higher dpi, sharper image
+)
+```
+
+# From last time...
+
+## 
+
+::: task
+Your turn: Add **color** to the previous table.
+:::
+
+<br>
+
+```{r}
+#| echo: false
+#| message: false
+
+BA_degrees <- read_csv(here::here("slides/22", "data/BA_degrees.csv"))
+
+BA_degrees_other <- BA_degrees |>
+  mutate(
+    field = if_else(field == "Health professions and related programs", "Health professions", field),
+    field = fct_other(field,
+      keep = c(
+        "Business",
+        "Health professions",
+        "Social sciences and history"
+      )
+    ),
+  ) |>
+  group_by(year, field) |>
+  summarize(perc = sum(perc), .groups = "drop")
+
+plot_spark_color <- function(df){
+  ggplot(df, aes(x = year, y = perc, color = line_color)) +
+    geom_line(linewidth = 20) +
+    theme_void() +
+    scale_color_identity()
+}
+
+BA_degrees_other_plots_color <- BA_degrees_other |>
+  mutate(line_color = case_when(
+    field == "Business" ~ "#9D6C06",
+    field == "Health professions" ~ "#077DAA",
+    field == "Social sciences and history" ~ "#026D4E",
+    field == "Other" ~ "#A39A09"
+  )) |>
+  nest(field_df = c(year, perc, line_color)) |>
+  mutate(plot = map(field_df, plot_spark_color))
+
+BA_degrees_other |> 
+  pivot_wider(names_from = year, values_from = perc) |>
+  mutate(ggplot = NA, .after = field) |> 
+  gt() |> 
+  text_transform(
+    locations = cells_body(columns = ggplot),
+    fn = function(x){
+      map(BA_degrees_other_plots_color$plot, ggplot_image, height = px(15), aspect_ratio = 4)
+    }
+  ) |> 
+  cols_width(
+    ggplot ~ px(1000)
+    ) |> 
+  cols_align(
+    align = "left",
+    columns = field
+  ) |>
+  fmt_percent(
+    columns = where(is.numeric),
+    decimals = 0
+  ) |>
+  tab_style(
+    style = cell_text(color = "#9D6C06"),
+    locations = cells_body(rows = 1, columns = field)
+  ) |>
+  tab_style(
+    style = cell_text(color = "#077DAA"),
+    locations = cells_body(rows = 2, columns = field)
+  ) |>
+  tab_style(
+    style = cell_text(color = "#026D4E"),
+    locations = cells_body(rows = 3, columns = field)
+  ) |>
+  tab_style(
+    style = cell_text(color = "#A39A09"),
+    locations = cells_body(rows = 4, columns = field)
+  ) |> 
+  cols_label(
+    field  = "Field",
+    ggplot = "Trend"
+  ) |>
+  tab_spanner(
+    label = "Popular Bachelor's degrees over the years",
+    columns = everything()
+  ) |>
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_column_spanners()
+  )
+```
+
+```{r}
+#| echo: false
+
+countdown(minutes = 10)
+```
+
+## 10 guidelines for better tables {.smaller}
+
+::: incremental
+1.  Offset the heads from the body
+2.  Use subtle dividers rather than heavy gridlines
+3.  Right-align numbers and heads
+4.  Left-align text and heads
+5.  Select the appropriate level of precision
+6.  Guide your reader with space between rows and columns
+7.  Remove unit repetition
+8.  Highlight outliers
+9.  Group similar data and increase white space
+10. Add visualizations when appropriate
+:::
+
+::: aside
+Source: Schwabish, Jonathan A. "Ten Guidelines for Better Tables." Journal of Benefit-Cost Analysis 11.2 (2020): 151-178.
+:::
+
+## Other packages
+
+-   `knitr::kable()`: "Cheapest" pretty tables in R Markdown
+-   Other (than HTML) outputs:
+    -   LaTeX/PDF: [**kableExtra**](https://haozhu233.github.io/kableExtra/)
+    -   Word: [**flextable**](https://davidgohel.github.io/flextable/)
+-   gtsummary: For summarizing statistical output with **gt**
+-   Interactivity: We will work with these when we learn Shiny! - [**DT**](https://rstudio.github.io/DT/) - [**reactable**](https://glin.github.io/reactable/)
+
+## Table inspiration
+
+-   Storytelling with data: [storytellingwithdata.com/blog/2020/9/1/swdchallenge-build-a-table](https://www.storytellingwithdata.com/blog/2020/9/1/swdchallenge-build-a-table) - [#23SWDchallenge on Twitter](https://twitter.com/search?q=%23SWDchallenge&src=typed_query&f=top)
+
+-   2022 Posit table contest: [Winners of the 2022 Table Contest](https://posit.co/blog/winners-of-the-2022-table-contest/)
+
+    -   Look out for 2023 table contest anouncement!
+
+# Animation
+
+## Philosophy
+
+-   The purpose of interactivity is to display more than can be achieved with persistent plot elements, and to invite the reader to engage with the plot.
+
+-   Animation allows more information to be displayed, but developer keeps control
+
+-   Beware that it is easy to forget what was just displayed, so keeping some elements persistent, maybe faint, can be useful for the reader
+
+## **gganimate**
+
+::: columns
+::: {.column width="60%"}
+-   **gganimate** extends the grammar of graphics as implemented by ggplot2 to include the description of animation
+
+-   It provides a range of new grammar classes that can be added to the plot object in order to customize how it should change with time
+:::
+
+::: {.column width="40%"}
+![](images/gganimate.png){fig-align="center" width="250"}
+:::
+:::
+
+## Animation example
+
+```{r}
+#| label: freedom-race
+#| cache: true
+#| echo: false
+#| message: false
+#| warning: false
+#| out-width: "80%"
+
+freedom <- read_csv(here::here("slides/23", "data/freedom.csv"), na = "-")
+
+countries_to_plot <- freedom %>%
+  rowwise() %>%
+  mutate(sd = sd(c_across(contains("cl_")), na.rm = TRUE)) %>%
+  ungroup() %>%
+  arrange(desc(sd)) %>%
+  relocate(country, sd) %>%
+  slice_head(n = 15) %>%
+  pull(country)
+
+freedom_to_plot <- freedom %>%
+  filter(country %in% countries_to_plot) %>%
+  drop_na()
+
+freedom_ranked <- freedom_to_plot %>%
+  select(country, contains("cl_")) %>%
+  pivot_longer(
+    cols = -country,
+    names_to = "year",
+    values_to = "civil_liberty",
+    names_prefix = "cl_",
+    names_transform = list(year = as.numeric)
+  ) %>%
+  group_by(year) %>%
+  mutate(rank_in_year = rank(civil_liberty, ties.method = "first")) %>%
+  ungroup() %>%
+  mutate(is_turkey = if_else(country == "Turkey", TRUE, FALSE))
+
+freedom_faceted_plot <- freedom_ranked %>%
+  ggplot(aes(x = civil_liberty, y = factor(rank_in_year))) +
+  geom_col(aes(fill = is_turkey), show.legend = FALSE) +
+  scale_fill_manual(values = c("gray", "red")) +
+  facet_wrap(~year) +
+  scale_x_continuous(
+    limits = c(-5, 7),
+    breaks = 1:7
+  ) +
+  geom_text(
+    hjust = "right",
+    aes(label = country),
+    x = -1
+  ) +
+  theme(
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor.y = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    axis.text.y = element_blank()
+  ) +
+  labs(x = NULL, y = NULL)
+
+freedom_bar_race <- freedom_faceted_plot +
+  facet_null() +
+  geom_text(
+    x = 5, y = 1,
+    hjust = "left",
+    aes(label = as.character(year)),
+    size = 10
+  ) +
+  aes(group = country) +
+  transition_time(as.integer(year)) +
+  labs(
+    title = "Civil liberties rating, {frame_time}",
+    subtitle = "1: Highest degree of freedom - 7: Lowest degree of freedom"
+  )
+
+animate(
+  freedom_bar_race,
+  fps      = 2,
+  nframes  = 30,
+  width    = 900,
+  height   = 560,
+  renderer = gifski_renderer()
+  )
+anim_save("gifs/freedom_bar_race.gif")
+```
+
+## How does gganimate work?
+
+-   Start with a ggplot2 specification
+
+-   Add layers with graphical primitives (geoms)
+
+-   Add formatting specification
+
+-   Add animation specification
+
+## A simple example
+
+```{r}
+#| label: anim-1
+#| output-location: column
+#| code-line-numbers: "|1-2|3"
+
+freedom_ranked |>
+  filter(country == "Turkey") |>
+  ggplot()
+```
+
+## A simple example
+
+```{r}
+#| label: anim-2
+#| output-location: column
+#| code-line-numbers: "4-7"
+
+freedom_ranked |>
+  filter(country == "Turkey") |>
+  ggplot(
+    aes(
+      x = year, 
+      y = civil_liberty
+    )
+  )
+```
+
+## A simple example
+
+```{r}
+#| label: anim-3
+#| output-location: column
+#| code-line-numbers: "9"
+
+freedom_ranked |>
+  filter(country == "Turkey") |>
+  ggplot(
+    aes(
+      x = year, 
+      y = civil_liberty
+    )
+  ) +
+  geom_line(linewidth = 2)
+```
+
+## A simple example
+
+```{r}
+#| label: anim-4
+#| output-location: column
+#| code-line-numbers: "10-14"
+
+freedom_ranked |>
+  filter(country == "Turkey") |>
+  ggplot(
+    aes(
+      x = year, 
+      y = civil_liberty
+    )
+  ) +
+  geom_line(linewidth = 2) +
+  labs(
+    x = "Year", 
+    y = "Civil liberty score",
+    title = "Turkey's civil liberty score"
+  )
+```
+
+## A simple example
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| label: anim-5
+#| code-line-numbers: "15"
+#| cache: true
+
+turkey_cl <- freedom_ranked |>
+  filter(country == "Turkey") |>
+  ggplot(
+    aes(
+      x = year, 
+      y = civil_liberty
+    )
+  ) +
+  geom_line(linewidth = 2) +
+  labs(
+    x = "Year", 
+    y = "Civil liberty score",
+    title = "Turkey's civil liberty score"
+  ) +
+  transition_reveal(year)
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+#| echo: false
+#| message: false
+
+animate(
+  turkey_cl,
+  fps      = 2,
+  nframes  = 20,
+  width    = 900,
+  height   = 560,
+  renderer = gifski_renderer()
+  )
+anim_save("gifs/turkey_cl.gif")
+```
+:::
+:::
+
+# Grammar of animation
+
+## Grammar of animation
+
+::: incremental
+-   Transitions: `transition_*()` defines how the data should be spread out and how it relates to itself across time
+
+-   Views: `view_*()` defines how the positional scales should change along the animation
+
+-   Shadows: `shadow_*()` defines how data from other points in time should be presented in the given point in time
+
+-   Entrances/Exits: `enter_*()`/`exit_*()` defines how new data should appear and how old data should disappear during the course of the animation
+
+-   Easing: `ease_aes()` defines how different aesthetics should be eased during transitions
+:::
+
+## Transitions
+
+How the data changes through the animation.
+
+```{r}
+#| label: transition-tbl
+#| echo: false
+
+tribble(
+  ~ Function, ~ Description,
+  "transition_manual", "Build an animation frame by frame (no tweening applied).",
+  "transition_states", "Transition between frames of a plot (like moving between facets).",
+  "transition_time", "Like transition_states, except animation pacing respects time.",
+  "transition_components", "Independent animation of plot elements (by group).",
+  "transition_reveal", "Gradually extends the data used to reveal more information.",
+  "transition_layers", "Animate the addition of layers to the plot. Can also remove layers.",
+  "transition_filter", "Transition between a collection of subsets from the data.",
+  "transition_events", "Define entrance and exit times of each visual element (row of data)."
+) |> 
+  gt() |>
+  tab_style(
+    style = cell_text(font = "monospace"),
+    locations = cells_body(
+      columns = Function
+    )
+  ) |>
+  tab_style(
+    style = cell_text(size = px(24)),
+    locations = cells_body(
+      columns = everything()
+    )
+  )
+```
+
+## Transitions
+
+::: task
+Which transition was used in the following animations?
+:::
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| label: transition-layers
+#| warning: false
+#| echo: false
+#| out-width: "100%"
+#| message: false
+
+transition_layers <- penguins |>
+  drop_na() |>
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point(fill = NA_character_) +
+  geom_smooth(color = "grey", se = FALSE, method = 'loess', formula = y ~ x) +
+  geom_smooth(aes(color = species)) +
+  transition_layers(
+    layer_length = 1, transition_length = 2,
+    from_blank = FALSE, keep_layers = c(Inf, 0, 0)
+  ) +
+  enter_fade() +
+  exit_fade()
+
+animate(
+  transition_layers,
+  fps      = 2,
+  nframes  = 20,
+  width    = 900,
+  height   = 560,
+  renderer = gifski_renderer()
+  )
+anim_save("gifs/transition_layers.gif")
+```
+:::
+
+::: {.column width="50%"}
+::: {.fragment fragment-index="1"}
+`transition_layers()`
+
+New layers are being added (and removed) over the dots.
+:::
+:::
+:::
+
+## Views
+
+How the plot window changes through the animation.
+
+```{r}
+#| label: views-tbl
+#| echo: false
+
+tribble(
+  ~ Function, ~ Description,
+  "view_follow", "Change the view to follow the range of current data.",
+  "view_step", "Similar to view_follow, except the view is static between transitions.",
+  "view_step_manual", "Same as view_step, except view ranges are manually defined.",
+  "view_zoom", "Similar to view_step, but appears smoother by zooming out then in.",
+  "view_zoom_manual", "Same as view_zoom, except view ranges are manually defined."
+) |> 
+  gt() |>
+  tab_style(
+    style = cell_text(font = "monospace"),
+    locations = cells_body(
+      columns = Function
+    )
+  ) |>
+  tab_style(
+    style = cell_text(size = px(24)),
+    locations = cells_body(
+      columns = everything()
+    )
+  )
+```
+
+## Views
+
+::: task
+Which view was used in the following animations?
+:::
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| label: view-follow
+#| echo: false
+#| gganimate: list(nframes = 20)
+#| cache: true
+#| out.width: "100%"
+
+view_follow <- penguins |>
+  drop_na() |>
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point() +
+  labs(title = "{closest_state}") +
+  transition_states(species, 
+                    transition_length = 4, 
+                    state_length = 1) +
+  view_follow()
+
+animate(
+  view_follow,
+  fps      = 2,
+  nframes  = 20,
+  width    = 900,
+  height   = 560,
+  renderer = gifski_renderer()
+  )
+anim_save("gifs/view_follow.gif")
+```
+:::
+
+::: {.column width="50%"}
+::: {.fragment fragment-index="1"}
+`view_follow()`
+
+Plot axis follows the range of the data.
+:::
+:::
+:::
+
+## Shadows
+
+How the history of the animation is shown. Useful to indicate speed of changes.
+
+```{r}
+#| label: shadows-tbl
+#| echo: false
+
+tribble(
+  ~ Function, ~ Description,
+  "shadow_mark", "Previous (and/or future) frames leave permananent background marks.",
+  "shadow_trail", "Similar to shadow_mark, except marks are from tweened data.",
+  "shadow_wake", "Shows a shadow which diminishes in size and/or opacity over time."
+) |> 
+  gt() |>
+  tab_style(
+    style = cell_text(font = "monospace"),
+    locations = cells_body(
+      columns = Function
+    )
+  ) |>
+  tab_style(
+    style = cell_text(size = px(24)),
+    locations = cells_body(
+      columns = everything()
+    )
+  )
+```
+
+## Shadows
+
+::: task
+Which shadow was used in the following animations?
+:::
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| label: shadow-wake
+#| echo: false
+#| gganimate: list(nframes = 50)
+#| warning: false
+#| out.width: "100%"
+
+shadow_wake <- penguins |>
+  drop_na() |>
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point(size = 2) +
+  labs(title = "{closest_state}") +
+  transition_states(species, 
+                    transition_length = 4, 
+                    state_length = 1) +
+  shadow_wake(wake_length = 0.1)
+
+animate(
+  shadow_wake,
+  fps      = 2,
+  nframes  = 20,
+  width    = 900,
+  height   = 560,
+  renderer = gifski_renderer()
+  )
+anim_save("gifs/shadow_wake.gif")
+```
+:::
+
+::: {.column width="50%"}
+::: {.fragment fragment-index="1"}
+`shadow_wake()`
+
+The older tails of the points shrink in size, leaving a "wake" behind it.
+:::
+:::
+:::
+
+## Shadows
+
+::: task
+Which shadow was used in the following animations?
+:::
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| label: shadow-mark
+#| echo: false
+#| gganimate: list(nframes = 20)
+#| cache: true
+#| out.width: "100%"
+
+shadow_mark <- ggplot(airquality, aes(Day, Temp)) +
+  geom_line(color = "red", linewidth = 1) +
+  transition_time(Month) +
+  shadow_mark(color = "black", linewidth = 0.75)
+
+animate(
+  shadow_mark,
+  fps      = 2,
+  nframes  = 20,
+  width    = 900,
+  height   = 560,
+  renderer = gifski_renderer()
+  )
+anim_save("gifs/shadow_mark.gif")
+```
+:::
+
+::: {.column width="50%"}
+::: {.fragment fragment-index="1"}
+`shadow_mark()`
+
+Permanent marks are left by previous points in the animation.
+:::
+:::
+:::
+
+## Entrances and exits
+
+How elements of the plot appear and disappear.
+
+```{r}
+#| label: enter-exit-tbl
+#| echo: false
+
+tribble(
+  ~ Function, ~ Description,
+  "enter_appear/exit_disappear", "Poof! Instantly appears or disappears.",
+  "enter_fade/exit_fade", "Opacity is used to fade in or out the elements.",
+  "enter_grow/exit_shrink", "Element size will grow from or shrink to zero.",
+  "enter_recolor/exit_recolor", "Change element colors to blend into the background.",
+  "enter_fly/exit_fly", "Elements will move from/to a specific x,y position.",
+  "enter_drift/exit_drift", "Elements will shift relative from/to their x,y position.",
+  "enter_reset/exit_reset", "Clear all previously added entrace/exits."
+) |> 
+  gt() |>
+  tab_style(
+    style = cell_text(font = "monospace"),
+    locations = cells_body(
+      columns = Function
+    )
+  ) |>
+  tab_style(
+    style = cell_text(size = px(24)),
+    locations = cells_body(
+      columns = everything()
+    )
+  )
+```
+
+## Animation controls
+
+How data moves from one position to another.
+
+``` r
+p + ease_aes({aesthetic} = {ease})
+p + ease_aes(x = "cubic")
+```
+
+[![ease examples](images/ease.png)](https://easings.net/)
+
+::: aside
+Source: https://easings.net/
+:::
+
+# Deeper dive
+
+## A not-so-simple example {.smaller}
+
+Pass in the dataset to ggplot
+
+```{r}
+#| label: dino-1
+#| output-location: column
+
+ggplot(datasaurus_dozen)
+```
+
+## A not-so-simple example {.smaller}
+
+For each dataset we have x and y values, in addition we can map dataset to color
+
+```{r}
+#| label: dino-2
+#| output-location: column
+#| code-line-numbers: "3"
+
+ggplot(
+  datasaurus_dozen,
+  aes(x, y, color = dataset)
+)
+```
+
+## A not-so-simple example {.smaller}
+
+Trying a simple scatter plot first, but there is too much information
+
+```{r}
+#| label: dino-3
+#| output-location: column
+#| code-line-numbers: "5"
+
+ggplot(
+  datasaurus_dozen,
+  aes(x, y, color = dataset)
+) +
+  geom_point(show.legend = FALSE)
+```
+
+## A not-so-simple example {.smaller}
+
+We can use facets to split up by dataset, revealing the different distributions
+
+```{r}
+#| label: dino-4
+#| output-location: column
+#| code-line-numbers: "6"
+
+ggplot(
+  datasaurus_dozen,
+  aes(x, y, color = dataset)
+) +
+  geom_point(show.legend = FALSE) +
+  facet_wrap(~dataset)
+```
+
+## A not-so-simple example {.smaller}
+
+We can just as easily turn it into an animation, transitioning between dataset states!
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| label: dino-5
+#| output-location: column
+#| code-line-numbers: "6-13"
+#| cache: true
+
+datasaurus_dozen <- ggplot(
+  datasaurus_dozen,
+  aes(x, y, color = dataset)
+) +
+  geom_point(size = 2, show.legend = FALSE) +
+  transition_states(
+    dataset, 
+    transition_length = 3, 
+    state_length = 1
+  ) +
+  labs(
+    title = "Dataset: {closest_state}"
+  )
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+#| echo: false
+
+animate(
+  datasaurus_dozen,
+  fps      = 2,
+  nframes  = 50,
+  width    = 600,
+  height   = 600,
+  renderer = gifski_renderer()
+  )
+anim_save("gifs/datasaurus_dozen.gif")
+```
+:::
+:::
+
+# Tips
+
+## Animation options {.smaller}
+
+Sometimes you need more frames, sometimes fewer
+
+-   Save plot object, and use `animate()` with arguments like
+    -   `nframes`: number of frames to render (default 100)
+    -   `fps`: framerate of the animation in frames/sec (default 10)
+    -   `duration`: length of the animation in seconds (unset by default)
+    -   etc.
+
+. . .
+
+-   In Quarto, save the plot and animate it with `animate()`.
+
+. . .
+
+-   Learn more at <https://gganimate.com/reference/animate.html>
+
+## Considerations in making effective animations
+
+-   Pace: speed of animation Quick animations may be hard to follow. Slow animations are boring and tedious.
+
+. . .
+
+-   Perplex: amount of information It is easy for animations to be overwhelming and confusing. Multiple simple animations can be easier to digest.
+
+. . .
+
+-   Purpose: Usefulness of using animation Is animation needed? Does it provide additional value?
+
+## Racing bar chart, the making of
+
+::: task
+Go to `ae-20`. We'll live-code tasks 1 and 2. You'll work on Task 3.
+:::
+
+## Acknowledgements
+
+-   [Getting your plots to talk back by Di Cook](http://emitanaka.org/datavis-workshop-ssavic/slides/day2-session3.pdf)
+-   [gganimate workshop by Mitchell O'Hara-Wild](https://github.com/numbats/gganimate-workshop)
