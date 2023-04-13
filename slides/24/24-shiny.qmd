@@ -31,6 +31,7 @@ editor_options:
 # load packages
 library(countdown)
 library(tidyverse)
+library(gganimate)
 
 # set theme for ggplot2
 ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14))
@@ -50,7 +51,102 @@ knitr::opts_chunk$set(
 
 # From last time
 
+## The racing bar chart
+
+```{r}
+#| label: freedom-race
+#| cache: true
+#| echo: false
+#| message: false
+#| warning: false
+#| out-width: "80%"
+
+freedom <- read_csv(here::here("slides/24", "data/freedom.csv"), na = "-")
+
+countries_to_plot <- freedom %>%
+  rowwise() %>%
+  mutate(sd = sd(c_across(contains("cl_")), na.rm = TRUE)) %>%
+  ungroup() %>%
+  arrange(desc(sd)) %>%
+  relocate(country, sd) %>%
+  slice_head(n = 15) %>%
+  pull(country)
+
+freedom_to_plot <- freedom %>%
+  filter(country %in% countries_to_plot) %>%
+  drop_na()
+
+freedom_ranked <- freedom_to_plot %>%
+  select(country, contains("cl_")) %>%
+  pivot_longer(
+    cols = -country,
+    names_to = "year",
+    values_to = "civil_liberty",
+    names_prefix = "cl_",
+    names_transform = list(year = as.numeric)
+  ) %>%
+  group_by(year) %>%
+  mutate(rank_in_year = rank(civil_liberty, ties.method = "first")) %>%
+  ungroup() %>%
+  mutate(is_turkey = if_else(country == "Turkey", TRUE, FALSE))
+
+freedom_faceted_plot <- freedom_ranked %>%
+  ggplot(aes(x = civil_liberty, y = factor(rank_in_year))) +
+  geom_col(aes(fill = is_turkey), show.legend = FALSE) +
+  scale_fill_manual(values = c("gray", "red")) +
+  facet_wrap(~year) +
+  scale_x_continuous(
+    limits = c(-5, 7),
+    breaks = 1:7
+  ) +
+  geom_text(
+    hjust = "right",
+    aes(label = country),
+    x = -1
+  ) +
+  theme(
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor.y = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    axis.text.y = element_blank()
+  ) +
+  labs(x = NULL, y = NULL)
+
+freedom_bar_race <- freedom_faceted_plot +
+  facet_null() +
+  geom_text(
+    x = 5, y = 1,
+    hjust = "left",
+    aes(label = as.character(year)),
+    size = 10
+  ) +
+  aes(group = country) +
+  transition_time(as.integer(year)) +
+  labs(
+    title = "Civil liberties rating, {frame_time}",
+    subtitle = "1: Highest degree of freedom - 7: Lowest degree of freedom"
+  )
+
+animate(
+  freedom_bar_race,
+  fps      = 2,
+  nframes  = 30,
+  width    = 900,
+  height   = 560,
+  renderer = gifski_renderer()
+  )
+anim_save("gifs/freedom_bar_race.gif")
+```
+
 ## Making of the racing bar chart
+
+```{r}
+#| ref.label: "freedom-race"
+#| message: false
+#| warning: false
+#| eval: false
+#| code-line-numbers: "|30-50|53|54-59|61|63|67-74|75"
+```
 
 # Shiny: High level view
 
