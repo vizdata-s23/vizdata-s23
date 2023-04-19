@@ -1,0 +1,68 @@
+---
+title: Interactive reporting + visualization with Shiny II
+subtitle: Lecture 26
+title-slide-attributes:
+  data-background-image: ../vizdata-bg.png
+  data-background-size: stretch
+  data-slide-number: none
+format: revealjs
+highlight-style: a11y
+execute:
+  code-link: true
+  warning: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# Warm up
+
+## Announcements
+
+-   ...
+
+# From last time
+
+## Ultimate goal
+
+::: {.medium .center-align}
+[https://minecr.shinyapps.io/manager-survey](https://minecr.shinyapps.io/manager-survey/)
+:::
+
+```{r echo = FALSE}
+knitr::include_app("https://minecr.shinyapps.io/manager-survey/", height ="550px")
+```
+
+# Interactive reporting with Shiny
+
+## Livecoding
+
+::: task
+Go to the `ae-21` project and code along in `manager-survey/app-2.R`.
+:::
+
+<br>
+
+Highlights:
+
+-   Data pre-processing outside of the app
+-   Tabsets
+-   Validation
+
+# Interactive visualizations with Shiny
+
+## Livecoding
+
+::: task
+Go to the `ae-21` project and code along in `manager-survey/app-3.R`.
+:::
+
+<br>
+
+Highlights:
+
+-   Conditional panels
+-   Linked brushing
+
+## Reference
+
+The code for the app can be found [here](https://github.com/vizdata-s23/vizdata-s23/blob/main/slides/26/manager-survey/app.R).

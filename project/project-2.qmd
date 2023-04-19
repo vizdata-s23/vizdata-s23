@@ -2,6 +2,14 @@
 title: "Project 2"
 ---
 
+```{r}
+#| message: false
+#| echo: false
+
+library(tidyverse)
+library(gt)
+```
+
 Your task for this project is to create *something* related to data visualization.
 
 This is intentionally vague -- part of the challenge is to design a project that showcases best your interests and strengths.
@@ -53,9 +61,8 @@ Most importantly, be prepared to brainstorm a bunch of ideas and discard them un
 -   Proposals for peer review: due Tue, March 28 at 5pm.
 -   Peer review of proposals: Wed, March 29 in lab
 -   Revised proposals for instructor review: due Tue, March 31 at 5pm.
--   Peer review of project progress: Wed, April 12 in lab
--   Code review of projects: Wed, April 26 in lab
--   Write-up and presentation: due Thu, May 4 (scheduled final date).
+-   Peer review of code: Wed, April 18 in lab
+-   Write-up and presentation: due Thu, May 4 (scheduled final date)
 
 ## Deliverables
 
@@ -77,20 +84,11 @@ Your proposal should include:
 
 ### Peer review
 
+The peer reviews will be completed during the lab sessions as indicated above. On those days teams will have access to the project repos of the teams whose work they're reviewing. The first peer review will be of proposals and the second peer review will be of code and organization.
+
 #### Reviewer tasks
 
-Each team will review the proposals of two other teams twice during the project. The peer reviews will be completed during the lab sessions as indicated above. On those days teams will have access to the project repos of the two teams whose work they're reviewing. The peer review assignments are as follows:
-
-```{r}
-#| message: false
-#| echo: false
-library(tidyverse)
-library(gt)
-p2_pr <- read_csv("project-2-peer-review.csv")
-gt(p2_pr)
-```
-
-Teams will develop the review together, with discussion among all team members, but only one team member will submit it as an issue on the project repo. To do so, go to the *Issues* tab, click on the green *New issue* button on the top right, and then click on the green *Get started* button for the issue template titled *Peer review*.
+Teams will develop the review together, with discussion among all team members, but only one team member will submit it as an issue on the project repo. To do so, go to the *Issues* tab, click on the green *New issue* button on the top right, and then click on the green *Get started* button for the issue template titled *Proposal peer review* or *Code peer review*.
 
 This will start a new issue with a peer review form that you can fill out. Make sure to update the introductory paragraph with your team name and the names of the team members participating in the review. Then, answer each of the questions in the spaces provided underneath them. You're expected to be thorough in your review, but this doesn't necessarily require lengthy responses.
 
@@ -99,6 +97,28 @@ Remember, your goal is to help the team whose project you're reviewing. The team
 #### Reviewee tasks
 
 Once you receive feedback from your peers, you should address them. You should do this by directly updating your proposal or making any other updates to your repo as needed. You can do these updates all in one commit or you can spread it across multiple commits. Regardless, in the last commit that addresses the peer review comments, you should use a keyword in your commit message that will close the peer review issues. These words are close, closes, closed, fix, fixes, fixed, resolve, resolves, and resolved and they need to be followed by the issue number (which you can find next to the issue title). So, your commit message can say something like *"Finished updates based on peer review, fixes #1"*.
+
+#### Peer review assignments
+
+The peer review assignments for **proposal peer reviews** are as follows:
+
+```{r}
+#| echo: false
+#| message: false
+
+p2_pr <- read_csv("project-2-peer-review.csv")
+gt(p2_pr)
+```
+
+The peer review assignments for **code peer reviews** are as follows:
+
+```{r}
+#| echo: false
+
+p2_pr |>
+  select(-reviewee_2) |>
+  gt()
+```
 
 ### Write-up
 
