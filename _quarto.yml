@@ -86,9 +86,11 @@ website:
             text: HW 04
       - section: "Student work"
         contents:
-          - href: thank-you.qmd
+          - href: student-work/thank-you.qmd
             text: Thank you cards
-            
+          - href: student-work/ugly-plots.qmd
+            text: Ugly plots
+
   page-footer:
     right: "This page is built with 💛 and [Quarto](https://quarto.org/)."
     left: "&copy; Copyright 2023, Mine Çetinkaya-Rundel"
