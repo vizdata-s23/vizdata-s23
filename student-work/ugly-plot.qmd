@@ -7,6 +7,6 @@ Mirror mirror on the wall, who is the ugliest of them all?
 Each of these ugly plots are made in R with ggplot2 by students in STA/ISS 313.
 
 ```{r out.width = "80%", echo = FALSE, fig.alt = "Ugly plots created with ggplot2."}
-thank_you_paths <- fs::dir_ls("../images/ugly-plots", regexp = "*md", invert = TRUE)
+thank_you_paths <- fs::dir_ls("images/ugly-plots", regexp = "*md", invert = TRUE)
 knitr::include_graphics(thank_you_paths)
 ```

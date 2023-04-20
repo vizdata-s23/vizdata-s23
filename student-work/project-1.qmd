@@ -1,0 +1,202 @@
+---
+title: "Project 1 outputs"
+---
+
+The assignment for Project 1 can be found [here](/project/project-1.html).
+
+Below are projects the teams produced.
+
+::: project
+[**What makes a good chocolate bar?**](https://vizdata-s23.github.io/project-01-blue_team/) by The Blue Team
+
+------------------------------------------------------------------------
+
+[![Chocolate bar ratings over time.](images/project-1/blue_team.png){width="640"}](https://vizdata-s23.github.io/project-01-blue_team/)
+
+------------------------------------------------------------------------
+
+Answer two key questions: where the highest-reviewed chocolate is produced and what ingredients comprise the chocolate with highest reviews.
+[*Read more.*](https://vizdata-s23.github.io/project-01-blue_team/)
+:::
+
+
+::: project
+[**The Hypocrisy of US Corporate Pride and Anti-LGBTQ+ Donations**](https://vizdata-s23.github.io/project-01-co_medians/) by Co-Medians
+
+------------------------------------------------------------------------
+
+[![Top 20 companies in donations to anti-LGBTQ+ campaigns.](images/project-1/co_medians.png){width="640"}](https://vizdata-s23.github.io/project-01-co_medians/)
+
+------------------------------------------------------------------------
+
+Delve into two key players in the Pride and anti-LGBTQ+ movements– companies and politicians– to understand how both stakeholders are associated with anti-LGBTQ+ campaigns that undermine progress to empower the U.S. LGBTQ+ community.
+[*Read more.*](https://vizdata-s23.github.io/project-01-co_medians/)
+:::
+
+
+::: project
+[**Collegiate Sports Budget Analysis**](https://vizdata-s23.github.io/project-01-ggplot_lessthan_3/) by ggplot <3
+
+------------------------------------------------------------------------
+
+[![Bidirectional Bar Chart of Difference in Mean Expenditure for Public and Private D1-FBS Schools.](images/project-1/ggplot_lessthan_3.png){width="640"}](https://vizdata-s23.github.io/project-01-ggplot_lessthan_3/)
+
+------------------------------------------------------------------------
+
+Highlight various trends and disparities in college sports funding, and provide opportunities for further investigation.
+[*Read more.*](https://vizdata-s23.github.io/project-01-ggplot_lessthan_3/)
+:::
+
+
+::: project
+[**Are You Board Yet?**](https://vizdata-s23.github.io/project-01-marvel_cinematic_tidyverse/) by Marvel Cinematic Tidyverse
+
+------------------------------------------------------------------------
+
+[![Games' ratings and total expansions have both increased over time.](images/project-1/marvel_cinematic_tidyverse.png){width="640"}](https://vizdata-s23.github.io/project-01-marvel_cinematic_tidyverse/)
+
+------------------------------------------------------------------------
+
+Explore if games with higher differences between the minimum number and the maximum number of players tend to be more highly rated as well as how the number of expansions for board games changed over time, and whether or not they have had an impact on game ownership.
+[*Read more.*](https://vizdata-s23.github.io/project-01-marvel_cinematic_tidyverse/)
+:::
+
+
+::: project
+[**The Evolution of the World Cup**](https://vizdata-s23.github.io/project-01-messi/) by Team Messi
+
+------------------------------------------------------------------------
+
+[![Goals per game have decreased over time.](images/project-1/messi.png){width="640"}](https://vizdata-s23.github.io/project-01-messi/)
+
+------------------------------------------------------------------------
+
+Explore goal scoring trends and representation of teams from non-European countries in the FIFA World Cup.
+[*Read more.*](https://vizdata-s23.github.io/project-01-messi/)
+:::
+
+
+::: project
+[**A Student’s Review of Expert Reviews of Chocolate Bars**](https://vizdata-s23.github.io/project-01-o_ggs/) by The O_GGS
+
+------------------------------------------------------------------------
+
+[![Chocolate bar ratings over time.](images/project-1/o_ggs.png){width="640"}](https://vizdata-s23.github.io/project-01-o_ggs/)
+
+------------------------------------------------------------------------
+
+Explore what characteristics (as identified by experts) of chocolate bars lead to the most successful chocolate bars and how expert opinions of these characteristics have changed over time.
+[*Read more.*](https://vizdata-s23.github.io/project-01-o_ggs/)
+:::
+
+
+::: project
+[**Visualizing Factors Leading to Success in Eurovision Competitions**](https://vizdata-s23.github.io/project-01-phans_of_statistics/) by PHANs of Statistics
+
+------------------------------------------------------------------------
+
+[![Distribution of proportion of total available points.](images/project-1/phans_of_statistics.png){width="640"}](https://vizdata-s23.github.io/project-01-phans_of_statistics/)
+
+------------------------------------------------------------------------
+
+Visualize and understand what factors lead to success in the competition, while also studying voter bias and inconsistency within the voter ranks.
+[*Read more.*](https://vizdata-s23.github.io/project-01-phans_of_statistics/)
+:::
+
+
+::: project
+[**Visualizing the relationship between dog traits and breed popularity**](https://vizdata-s23.github.io/project-01-pipe_it_up/) by Pipe it Up
+
+------------------------------------------------------------------------
+
+[![Trait Category Scores for 5 Most/Least Popular Breeds.](images/project-1/pipe_it_up.png){width="640"}](https://vizdata-s23.github.io/project-01-pipe_it_up/)
+
+------------------------------------------------------------------------
+
+Create four visualizations pertaining to the popularity of American Kennel Club-registered purebred dog breeds.
+[*Read more.*](https://vizdata-s23.github.io/project-01-pipe_it_up/)
+:::
+
+
+::: project
+[**World Cup Scoring Trends**](https://vizdata-s23.github.io/project-01-rgodz/) by RGodz
+
+------------------------------------------------------------------------
+
+[![Strong positive correlation between goal differential and winning percentage.](images/project-1/rgodz.png){width="640"}](https://vizdata-s23.github.io/project-01-rgodz/)
+
+------------------------------------------------------------------------
+
+Explore goals per match by tournament stage over time and country Success over time.
+[*Read more.*](https://vizdata-s23.github.io/project-01-rgodz/)
+:::
+
+
+::: project
+[**The Great British Visualization**](https://vizdata-s23.github.io/project-01-skaz/) by SKAZ
+
+------------------------------------------------------------------------
+
+[![Number of Viewers across Series.](images/project-1/skaz.png){width="640"}](https://vizdata-s23.github.io/project-01-skaz/)
+
+------------------------------------------------------------------------
+
+Analyze how changes in the show’s network and presenters/judges correlate to the show’s popularity as well as how viewership varies between different points in each season (which episode numbers consistently get more viewership than others).
+[*Read more.*](https://vizdata-s23.github.io/project-01-skaz/)
+:::
+
+
+::: project
+[**Exploring the Distribution of Radio Stations Across the U.S.**](https://vizdata-s23.github.io/project-01-stats_fm/) by Stats FM
+
+------------------------------------------------------------------------
+
+[![Population vs. Number of Radio Stations in the US.](images/project-1/stats_fm.png){width="640"}](https://vizdata-s23.github.io/project-01-stats_fm/)
+
+------------------------------------------------------------------------
+
+Explore if there are regional trends in the genre of radio stations in each state and also studies the relationship between population density and the number of radio stations in each state. 
+[*Read more.*](https://vizdata-s23.github.io/project-01-stats_fm/)
+:::
+
+
+::: project
+[**Investigating America’s Most Reputable Companies**](https://vizdata-s23.github.io/project-01-team_six/) by Team Six
+
+------------------------------------------------------------------------
+
+[![Correlation Matrix of Company Attributes.](images/project-1/team_six.png){width="640"}](https://vizdata-s23.github.io/project-01-team_six/)
+
+------------------------------------------------------------------------
+
+Investigate the different factors that contribute to customer perceptions of notable company reputations.
+[*Read more.*](https://vizdata-s23.github.io/project-01-team_six/)
+:::
+
+
+::: project
+[**Statsquatch: A Data Expedition into Bigfoot Sightings**](https://vizdata-s23.github.io/project-01-the_tibbles/) by The Tibbles
+
+------------------------------------------------------------------------
+
+[![Bigfoot Sightings in the Mainland United States, 1869-present.](images/project-1/the_tibbles.png){width="640"}](https://vizdata-s23.github.io/project-01-the_tibbles/)
+
+------------------------------------------------------------------------
+
+Analyze and highlights trends in some of the geographic and weather conditions most commonly associated with Bigfoot sightings.
+[*Read more.*](https://vizdata-s23.github.io/project-01-the_tibbles/)
+:::
+
+
+::: project
+[**Financing College: Exploring Pell Grant Awards**](https://vizdata-s23.github.io/project-01-visualization_warriors/) by Visualization Warriors
+
+------------------------------------------------------------------------
+
+[![Proportion of Students Receiving a Pell Grant in Each State.](images/project-1/visualization_warriors.png){width="640"}](https://vizdata-s23.github.io/project-01-visualization_warriors/)
+
+------------------------------------------------------------------------
+
+Explore how the average Pell grant award has changed over time across regions and which states have seen the greatest change in the percentage of awarded Pell grants to total students enrolled in university over time. 
+[*Read more.*](https://vizdata-s23.github.io/project-01-visualization_warriors/)
+:::
