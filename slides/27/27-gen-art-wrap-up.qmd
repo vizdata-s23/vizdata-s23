@@ -1,0 +1,438 @@
+---
+title: Generative art
+subtitle: Lecture 27
+title-slide-attributes:
+  data-background-image: ../vizdata-bg.png
+  data-background-size: stretch
+  data-slide-number: none
+format: revealjs
+highlight-style: a11y
+execute:
+  code-link: true
+  warning: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# Warm up
+
+## Announcements
+
+-   Peer eval 2 is due today at 5pm.
+
+-   HW 06 is due Thursday at noon.
+
+-   Course + TA evaluations are due on Thursday.
+
+-   Don't
+
+## Projects presentations
+
+Show up at the beginning (or, better yet, 10 mins before) the time period you're assigned to:
+
+![](images/project_presentations.png){fig-alt="Project presentation time periods" fig-align="center" width="400"}
+
+::: task
+Any questions / things I can clarify about the projects or anything else we have covered so far?
+:::
+
+## Setup
+
+```{r}
+#| label: setup
+#| message: false
+
+# load packages
+library(tidyverse)
+library(scico)
+
+# set theme for ggplot2
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14))
+
+# set width of code output
+options(width = 65)
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 7, # 7" width
+  fig.asp = 0.618, # the golden ratio
+  fig.retina = 3, # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300 # higher dpi, sharper image
+)
+```
+
+# Generative art
+
+## Genesis 338
+
+by Thomas Lin Pedersen
+
+![](images/genesis338.png){fig-align="center"}
+
+[More from Thomas Lin Pedersen](https://www.data-imaginist.com/art)
+
+## Flametree
+
+by Danielle Navarro
+
+![](images/flametree.png){fig-align="center"}
+
+[More from Danielle Navarro](https://art.djnavarro.net/)
+
+## Permutations
+
+by Georgios Karamanis
+
+![](images/permutations.png){fig-align="center"}
+
+[More from Georgios Karamanis](https://karaman.is/)
+
+## Abstractions
+
+by Antonio Sánchez Chinchón
+
+![](images/abstractions.png){fig-align="center"}
+
+[More from Antonio Sánchez Chinchón](https://fronkonstin.com/)
+
+## Generative art: what
+
+> One overly simple but useful definition is that generative art is art programmed using a computer that intentionally introduces randomness as part of its creation process.
+>
+> [Jason Bailey](https://www.artnome.com/news/2018/8/8/why-love-generative-art)
+
+-   There is randomness to the art, introduced by the computer (the code)
+-   The artist has control over the randomness, as contradictory as that may sound
+
+## Generative art: why {.smaller}
+
+-   Why people create generative art pieces?
+    -   Artistic expression
+    -   Leveraging computers to generate randomness
+    -   ...
+
+. . .
+
+-   Why are we learning about generative art?
+    -   A different look at data visualization: not for the meaning in the data, but for the visual itself
+    -   Great way to practice programming, particularly if you're into creating art
+    -   Opportunity to practice problem solving skills, particularly if you're sketching first, then creating or reproducing an existing piece
+
+## Generative art in use: Book covers
+
+Just one of many examples of generative art as a practical solution by the New York Public Library:
+
+To fill in missing book covers in an ebook-borrowing and reading app
+
+![](images/Generative-book-covers.png){fig-align="center"}
+
+::: aside
+New York Public Library, [Generative eBook Covers](https://www.nypl.org/blog/2014/09/03/generative-ebook-covers). September 3, 2014.
+:::
+
+# I can plot myself flowers
+
+![](images/flowers.png){fig-alt="9 abstract shapes that look like flowers organized in a 3x3 grid" fig-align="center" width="1200"}
+
+## Let's make a circle
+
+```{r}
+#| label: circle-points
+#| output-location: column
+
+# make a circle of points
+t <- seq(0, 2 * pi, length.out = 50)
+x <- sin(t)
+y <- cos(t)
+df <- tibble(t, x, y)
+
+# plot a circle of points
+ggplot(df, aes(x, y)) +
+  geom_point() +
+  coord_equal()
+```
+
+## The Golden Angle
+
+::: columns
+::: {.column width="50%" fragment-index="1"}
+The golden angle is the angle subtended by the smaller (red) arc when two arcs that make up a circle are in the golden ratio.
+
+$$ \pi(3 − \sqrt{5}) $$
+
+![](images/Golden_Angle.png){fig-align="center" width="200"}
+:::
+
+::: {.column width="50%" fragment-index="2"}
+The golden angle is the angle separating successive florets on a sunflower.
+
+![](images/Goldener_Schnitt_Blattstand.png){fig-align="center"}
+:::
+:::
+
+::: aside
+Wikipedia. [Golden angle](https://en.wikipedia.org/wiki/Golden_angle).
+:::
+
+## Petals with the golden angle {.smaller}
+
+```{r}
+#| label: golden-paths
+#| output-location: column
+#| code-line-numbers: "|1-2|4-5|7-13|15-19"
+
+# set golden angle
+angle <- pi * (3 - sqrt(5))
+
+# set number of points
+points <- 50
+
+# make data frame
+df <- tibble(
+  i = 1:points,
+  t = (1:points) * angle,
+  x = sin(t),
+  y = cos(t)
+)
+
+# plot points in a spiral
+ggplot(df, aes(x = x * t, y = y * t)) +
+  geom_path(color = "gray") +
+  geom_text(aes(label = i)) +
+  coord_equal()
+```
+
+## Paths to points {.smaller}
+
+```{r}
+#| label: golden-points
+#| output-location: column
+#| code-line-numbers: "|17"
+
+# set golden angle
+angle <- pi * (3 - sqrt(5))
+
+# set number of points
+points <- 50
+
+# make data frame
+df <- tibble(
+  i = 1:points,
+  t = (1:points) * angle,
+  x = sin(t),
+  y = cos(t)
+)
+
+# plot points in a spiral
+ggplot(df, aes(x = x * t, y = y * t)) +
+  geom_point() +
+  coord_equal()
+```
+
+## Without the background
+
+```{r}
+#| label: golden-points-void
+#| output-location: column
+#| code-line-numbers: "|19"
+
+# set golden angle
+angle <- pi * (3 - sqrt(5))
+
+# set number of points
+points <- 50
+
+# make data frame
+df <- tibble(
+  i = 1:points,
+  t = (1:points) * angle,
+  x = sin(t),
+  y = cos(t)
+)
+
+# plot points in a spiral
+ggplot(df, aes(x = x * t, y = y * t)) +
+  geom_point() +
+  coord_equal() +
+  theme_void()
+```
+
+## More points {.smaller}
+
+```{r}
+#| label: golden-points-more-void
+#| output-location: column
+#| code-line-numbers: "|5"
+
+# set golden angle
+angle <- pi * (3 - sqrt(5))
+
+# set number of points
+points <- 100
+
+# make data frame
+df <- tibble(
+  i = 1:points,
+  t = (1:points) * angle,
+  x = sin(t),
+  y = cos(t)
+)
+
+# plot points in a spiral
+ggplot(df, aes(x = x * t, y = y * t)) +
+  geom_point() +
+  coord_equal() +
+  theme_void()
+```
+
+## Adjust points {.smaller}
+
+```{r}
+#| label: golden-points-more-void-adjust
+#| output-location: column
+#| code-line-numbers: "|10"
+
+# set golden angle
+angle <- pi * (3 - sqrt(5))
+
+# set number of points
+points <- 100
+
+# make data frame
+df <- tibble(
+  i = 1:points,
+  t = (1:points) * angle + 20,
+  x = sin(t),
+  y = cos(t)
+)
+
+# plot points in a spiral
+ggplot(df, aes(x = x * t, y = y * t)) +
+  geom_point() +
+  coord_equal() +
+  theme_void()
+```
+
+# Formalize a system
+
+## Write a function: `build_art()`
+
+```{r}
+build_art <- function() {
+
+  # set golden angle
+  angle <- pi * (3 - sqrt(5))
+
+  # set number of points
+  points <- 100
+
+  # make data frame
+  tibble(
+    i = 1:points,
+    t = (1:points) * angle + 20,
+    x = sin(t),
+    y = cos(t)
+  )
+}
+```
+
+## Add arguments to `build_art()` {.smaller}
+
+```{r}
+build_art <- function(points, angle, adjustment) {
+  tibble(
+    i = 1:points,
+    t = (1:points) * angle + adjustment,
+    x = sin(t),
+    y = cos(t)
+  )
+}
+```
+
+. . .
+
+```{r}
+build_art(
+  angle = pi * (3 - sqrt(5)),
+  points = 100,
+  adjustment = 20
+)
+```
+
+## Use the function {.smaller}
+
+```{r}
+#| label: points-100
+#| output-location: column
+
+build_art(
+  angle = pi * (3 - sqrt(5)),
+  points = 100,
+  adjustment = 20
+) |>
+  ggplot(aes(x = x * t, y = y * t)) +
+  geom_point() +
+  coord_equal() +
+  theme_void()
+```
+
+## Change parameters {.smaller}
+
+```{r}
+#| label: points-500
+#| output-location: column
+#| code-line-numbers: "|2-4"
+
+build_art(
+  angle = 3,
+  points = 500,
+  adjustment = 0
+) |>
+  ggplot(aes(x = x * t, y = y * t)) +
+  geom_point() +
+  coord_equal() +
+  theme_void()
+```
+
+## Next steps...
+
+-   Add random noise
+-   Add more customization options
+    -   Size
+    -   Color
+    -   Shape
+    -   ...
+
+## Livecoding
+
+::: task
+Go to `ae-22` and let's make some flowers!
+:::
+
+# Wrap up
+
+## Acknowledgements
+
+-   [Unpredictable paintings](https://blog.djnavarro.net/posts/2021-11-01_unpredictable-paintings/) by Danielle Navarro
+
+-   [Drawing Flowers with R and ggplot2](https://roweyerboat.github.io/drawing_flowers_with_r_and_ggplot2) by Amanda Rowe
+
+-   [Generative Art and R](https://generative.substack.com/p/generative-art-and-r) by the Generative Arts Collective
+
+-   [Getting Started with Generative Art in R](https://towardsdatascience.com/getting-started-with-generative-art-in-r-3bc50067d34b)
+
+-   [Why Love Generative Art?](https://www.artnome.com/news/2018/8/8/why-love-generative-art) by Jason Bailey
+
+## Learn/do more
+
+-   R packages:
+
+    -   [aRtsy](https://koenderks.github.io/aRtsy/) by Koen Derks
+    -   [generativeart](https://github.com/cutterkom/generativeart) by Katharina Brunner
+    -   [flametree](https://flametree.djnavarro.net/) and [jasmines](https://jasmines.djnavarro.net/) bu Danielle Navarro
+    -   [ambient](https://ambient.data-imaginist.com/) and [particles](https://github.com/thomasp85/particles) by Thomas Lin Pedersen
+
+-   More aRtists: [rtistry art gallery](https://ijeamaka-a.shinyapps.io/rtistry_gallery/) by Ijeamaka Anyene
+
+-   A whole course on Generative Art by Danielle Navarro: [https://art-from-code.netlify.app](https://art-from-code.netlify.app/)

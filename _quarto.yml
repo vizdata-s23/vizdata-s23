@@ -84,6 +84,10 @@ website:
             text: HW 03
           - href: https://github.com/vizdata-s23/hw-04#homework-04
             text: HW 04
+          - href: https://github.com/vizdata-s23/hw-04#homework-05
+            text: HW 05
+          - href: https://github.com/vizdata-s23/hw-04#homework-06
+            text: HW 06
       - section: "Student work"
         contents:
           - href: student-work/thank-you.qmd
