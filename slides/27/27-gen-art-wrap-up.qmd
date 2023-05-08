@@ -36,6 +36,36 @@ Show up at the beginning (or, better yet, 10 mins before) the time period you're
 Any questions / things I can clarify about the projects or anything else we have covered so far?
 :::
 
+# Awards
+
+## Best thank you card
+
+::: columns
+::: {.column width="33%"}
+![](/student-work/images/thank-you-cards/thank-you-alyssashi.png)
+:::
+
+::: {.column width="33%"}
+![](/student-work/images/thank-you-cards/thank-you-matt-mohn.png)
+:::
+
+::: {.column width="33%"}
+![](/student-work/images/thank-you-cards/thank-you-konn1ehuang.png)
+:::
+:::
+
+## Best ugly plot
+
+![](/student-work/images/ugly-plots/ugly-plot-a21potter.png){width="1000"}
+
+## Best team name
+
+<br><br>
+
+Marvel Cinematic Tidyverse
+
+# Generative art
+
 ## Setup
 
 ```{r}
@@ -61,8 +91,6 @@ knitr::opts_chunk$set(
   dpi = 300 # higher dpi, sharper image
 )
 ```
-
-# Generative art
 
 ## Genesis 338
 
