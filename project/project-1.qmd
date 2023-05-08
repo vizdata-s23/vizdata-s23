@@ -232,6 +232,6 @@ All results presented must have corresponding code. If you do calculations by ha
 
     -   Even though your code is hidden, it should still confirm to good coding practice, style, etc. You will be evaluated on code quality as well, which we will check by explicitly reviewing your Quarto documents (not just the rendered output).
 
--   Teamwork: You are to complete the assignment as a team. All team members are expected to contribute equally to the completion of this assignment and team evaluations will be given at its completion - anyone judged to not have sufficient contributed to the final product will have their grade penalized. While different teams members may have different backgrounds and abilities, it is the responsibility of every team member to understand how and why all code and approaches in the assignment works.
+-   Teamwork: You are to complete the assignment as a team. All team members are expected to contribute equally to the completion of this assignment and team evaluations will be given at its completion - anyone judged to not have sufficiently contributed to the final product will have their grade penalized. While different team members may have different backgrounds and abilities, it is the responsibility of every team member to understand how and why all code and approaches in the assignment work.
 
 -   When you're done, review the documents on GitHub to make sure you're happy with the final state of your work. Then go get some rest!
