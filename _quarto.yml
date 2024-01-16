@@ -8,7 +8,7 @@ website:
   page-navigation: true
   title: "STA 313"
   description: "Homepage for STA 313 - Advanced Data Visualization at Duke University, Spring 2023."
-  site-url: "http://vizdata.org/"
+  site-url: "https://vizdata-s23.netlify.app"
 
   repo-url: https://github.com/vizdata-s23/vizdata-s23
   repo-actions: [edit, issue]

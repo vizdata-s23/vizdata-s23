@@ -4,7 +4,7 @@
 
 Course website for STA 313 - Advanced Data Visualization at Duke University, taught by Dr. Mine Çetinkaya-Rundel.
 
-The website is live at [vizdata.org](http://www.vizdata.org/).
+The website is live at [vizdata-s23.netlify.app](https://vizdata-s23.netlify.app).
 
 ## Colors
 

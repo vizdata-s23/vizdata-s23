@@ -87,7 +87,7 @@ Old Chem 213
 ## Course website
 
 ::: {.large style="text-align: center;"}
-[vizdata.org](https://www.vizdata.org/)
+[vizdata-s23.netlify.app](https://vizdata-s23.netlify.app/)
 :::
 
 ::: {.hand style="text-align: center;"}
@@ -96,7 +96,7 @@ aka "the one link to rule them all"
 
 ::: {style="text-align: center;"}
 ```{=html}
-<iframe width="1000" height="400" src="https://www.vizdata.org/" frameborder="1" style="background:white;"></iframe>
+<iframe width="1000" height="400" src="https://vizdata-s23.netlify.app/" frameborder="1" style="background:white;"></iframe>
 ```
 :::
 
@@ -405,7 +405,7 @@ Demo on Tuesday for asking good questions with proper code formatting.
 
 1.  Create a GitHub account if you don't have one
 
-2.  Read the [syllabus](https://www.vizdata.org/syllabus.html)
+2.  Read the [syllabus](/syllabus.html)
 
 3.  Make sure you can login in to RStudio and reserve a container for STA 313: [cmgr.oit.duke.edu/containers](https://cmgr.oit.duke.edu/containers)
 

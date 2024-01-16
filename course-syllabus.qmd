@@ -73,7 +73,7 @@ The [Student Disability Access Office (SDAO)](https://access.duke.edu/students) 
 
 ### Communication
 
-All lecture notes, assignment instructions, an up-to-date schedule, and other course materials may be found on the course website: [vizdata.org](https://vizdata.org/ "STA 313 - Spring 2023 - Course website").
+All lecture notes, assignment instructions, an up-to-date schedule, and other course materials may be found on the course website: [vizdata-s23.netlify.app](https://vizdata-s23.netlify.app "STA 313 - Spring 2023 - Course website").
 
 I will regularly send course announcements via email and Sakai, make sure to check one or the other of these regularly. If an announcement is sent Monday through Thursday, I will assume that you have read the announcement by the next day. If an announcement is sent on a Friday or over the weekend, I will assume that you have read it by Monday.
 
@@ -105,11 +105,11 @@ Assessment for the course is comprised of four components: attendance and partic
 
 -   **Reading quizzes** (6), due every other week (roughly), completed individually. Each quiz is worth 2% of the grade. Lowest quiz score is dropped.
 
-    Reading quizzes will be linked from the [course schedule](https://www.vizdata.org/schedule.html). They always cover reading that is due since the previous quiz and up to and including the deadline for the given quiz. They're due by 12pm ET (beginning of class) on the indicated day on the [course schedule](https://www.vizdata.org/schedule.html).
+    Reading quizzes will be linked from the [course schedule](/schedule.html). They always cover reading that is due since the previous quiz and up to and including the deadline for the given quiz. They're due by 12pm ET (beginning of class) on the indicated day on the [course schedule](/schedule.html).
 
 -   **Homework assignments** (6), due every other week (roughly), completed individually. Each homework assignment is worth 8% of the course grade. Lowest homework assignment score is dropped.
 
-    Homework assignments are due by 12pm ET (beginning of class) on the indicated day on the [course schedule](https://www.vizdata.org/schedule.html).
+    Homework assignments are due by 12pm ET (beginning of class) on the indicated day on the [course schedule](/schedule.html).
 
 -   **Projects** (2), mid-semester and end of semester, completed in teams.
 
